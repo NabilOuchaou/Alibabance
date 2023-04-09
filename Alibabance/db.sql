@@ -7,7 +7,9 @@ drop table if exists Livraisons;
 DROP TABLE if exists Commandes;
 DROP TABLE if exists Paniers;
 DROP TABLE if exists Produits;
-drop table if exists Inventaire;
+drop table if exists Inventaire
+
+# salut tout le monde
 
 CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone integer(10),age integer(2));
 CREATE TABLE if not exists Inventaire (id_produit integer PRIMARY KEY, nom char(20),stock integer,taille double, cout_produit double);
