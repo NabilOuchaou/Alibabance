@@ -8,17 +8,22 @@
 
 <p class="centre">Bonjour. Vous devez vous identifier.</p>
 <form action="login" method="post">
-<p>Votre courriel: <input type="text" name="courriel"><br>
-Votre mot de passe: <input type="password" name="motpasse">
-</p><br>
-<input type="submit" value="Identification" name="soumettre"> 
+<p>Votre courriel: <input type="text" id="email"><br>
+Votre mot de passe: <input type="password" id="password">
 </form>
-
-{% if message %}
-<div id="cadre">{{ message }}"</div>
-{% endif %}
+<button onclick="login(email,password)">identification</button>
 
 </body>
 </html>
+
+<script>
+    let email = document.getElementById("email").value
+    let password = document.getElementById("password").value
+
+
+
+
+
+</script>
 
 

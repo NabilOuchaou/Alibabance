@@ -20,6 +20,38 @@ function Fonction3()
 
 function SupprimerContenu()
 {
-	document.getElementsByName("courriel")[0].value="";
-	document.getElementsByName("motpasse")[0].value="";
+	document.getElementById("email").value="";
+	document.getElementById("password").value="";
+}
+
+async function login() {
+    console.log("wesh")
+    let email = document.getElementById("email").value
+    let password = document.getElementById("password").value
+
+    try {
+        const res = await fetch("http://127.0.0.1:5000/connection", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                motDePasse: password
+            })
+        })
+
+        response = await res.json()
+
+        if (response.status === 200){
+            window.location.href = "http://127.0.0.1:5000/home"
+        } else {
+            document.createElement('div').innerText("mot de passe ou email incorrect")
+        }
+    } catch (err){
+        console.log("erreur")
+    }
+
+
+
 }

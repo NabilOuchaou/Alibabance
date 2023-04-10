@@ -10,9 +10,8 @@ DROP TABLE if exists Produits;
 drop table if exists Inventaire;
 
 
-# salut tout le monde
 
-CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone integer(10),age integer(2));
+CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone integer(11),age integer(2));
 CREATE TABLE if not exists Inventaire (id_produit integer PRIMARY KEY, nom char(60),stock integer,taille double, cout_produit double);
 CREATE TABLE IF NOT EXISTS Produits(id_produit integer PRIMARY KEY, nom_produit varchar (45),couleur varchar(10), taille varchar(45), prix_produit double, en_stock integer (1), FOREIGN KEY (id_produit) REFERENCES Inventaire (id_produit) ON UPDATE CASCADE ON DELETE CASCADE);
 create table if not exists Passwords(email varchar (40),mot_de_passe varchar (50), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
@@ -38,3 +37,10 @@ INSERT INTO Produits VALUES (29,"Yeezy slides", "noir", 12.0, 20.0,1), (30,"Yeez
 INSERT INTO Produits VALUES (40,"Yeezy slides", "noir",8.0, 23.0,1),(41,"Yeezy slides", "turquoise", 8.5, 24.0,1),(42,"Yeezy slides", "noir",11.5, 25.0,1),(43,"Yeezy slides", "vert pâle",7.0, 28.0,1),(44,"Yeezy slides", "brun foncé",7.0, 32.0,1), (45,"Yeezy slides", "vert pâle",7.5, 32.0,1),(46,"Yeezy slides", "jaune",7.5, 32.0,1),(47,"Yeezy slides", "jaune",7.0, 20.0,1),(48, "Yeezy slides", "mauve",7.0, 20.0,1),(49,"Yeezy slides", "brun foncé", 7.5, 20.0,1);
 INSERT INTO Produits VALUES(50,"Yeezy slides", "turquoise", 7.5, 20.0,1),(51, "Yeezy slides", "turquoise", 8.0, 20.0,1),(52,"Yeezy slides", "mauve",8.0, 20.0,1),(53,"Yeezy slides", "mauve",8.5, 20.0,1),(54,"Yeezy slides", "vert pâle", 8.5, 20.0,1),(55,"Yeezy slides", "brun",9.0, 20.0,1),(56,"Yeezy slides", "brun",10.0, 20.0,1),(57,"Yeezy slides", "brun",10.5, 20.0,1),(58,"Yeezy slides", "brun",9.5, 20.0,1),(59,"Yeezy slides", "brun", 8.0, 20.0,1),(60,"Yeezy slides", "brun foncé", 9.0, 20.0,1);
 INSERT INTO Produits VALUES (61,"Yeezy slides", "gris",6.0, 23.0,1),(62,"Yeezy slides", "gris",6.5, 25.0,1),(63,"Yeezy slides", "gris",7.0, 27.0,1),(64,"Yeezy slides", "gris", 7.0, 21.0,1),(65, "Yeezy slides", "gris", 7.5, 28.0,1),(66,"Yeezy slides", "gris clair",7.5, 26.0,1),(67,"Yeezy slides", "gris", 8.0, 23.0,1),(68,"Yeezy slides", "gris clair", 8.0, 25.0,1),(69,"Yeezy slides", "gris",8.5, 20.0,1),(70,"Yeezy slides", "gris clair",8.5, 22.0,1),(71,"Yeezy slides", "vert",9.0, 23.0,1),(72,"Yeezy slides", "vert", 9.5, 25.0,1),(73,"Yeezy slides", "vert", 10.0, 27.0,1),(74,"Yeezy slides", "vert", 10.0, 21.0,1),(75,"Yeezy slides", "vert", 10.5, 28.0,1),(76,"Yeezy slides", "vert pâle",10.5, 26.0,1),(77,"Yeezy slides", "vert", 11.0, 23.0,1),(78,"Yeezy slides", "vert pâle",11.0, 25.0,1),(79,"Yeezy slides", "vert",11.5, 20.0,1),(80,"Yeezy slides", "orange",11.5, 22.0,1),(81,"Yeezy slides", "orange", 12.0, 23.0,1),(82,"Yeezy slides", "orange", 6.0, 25.0,1),(83,"Yeezy slides", "orange", 7.5, 27.0,1),(84,"Yeezy slides", "gris clair", 7.5, 21.0,1),(85,"Yeezy slides", "orange", 9.0, 28.0,1),(86,"Yeezy slides", "blanc",9.0, 26.0,1),(87,"Yeezy slides", "blanc",10.5, 23.0,1),(88,"Yeezy slides", "turquoise", 10.5, 25.0,1),(89,"Yeezy slides", "blanc", 6.5, 20.0,1),(90,"Yeezy slides", "gris clair", 6.5, 22.0,1),(91,"Yeezy slides", "blanc", 7.0, 23.0,1),(92,"Yeezy slides", "blanc", 7.5, 25.0,1),(93,"Yeezy slides", "blanc", 8.0, 27.0,1),(94,"Yeezy slides", "jaune",8.0, 21.0,1),(95,"Yeezy slides", "blanc",8.5, 28.0,1),(96,"Yeezy slides", "blanc", 8.5, 26.0,1),(97,"Yeezy slides", "blanc",9.0, 23.0,1),(98,"Yeezy slides", "jaune", 9.0, 25.0,1),(99,"Yeezy slides", "brun foncé", 9.5, 20.0,1),(100,"Yeezy slides", "gris clair", 9.5, 22.0,1);
+
+
+insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
+insert into Passwords value ("hamid@gmail.com","String123")
+
+
+SELECT mot_de_passe FROM Passwords P WHERE P.mot_de_passe = 'String123' and P.email = 'hamid@gmail.com'
