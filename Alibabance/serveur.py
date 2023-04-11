@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from database import isItInDb
+from database import isItInDb, getProductsFromDataBase
 
 app = Flask(__name__)
 
@@ -11,7 +11,7 @@ def main():
 
 @app.route("/home", methods=["GET"])
 def home():
-    return render_template("bienvenu.html")
+    return render_template("bienvenu.html", )
 
 @app.route("/connection", methods=["POST"])
 def connection():
@@ -36,8 +36,11 @@ def connection():
 
 
 
-# @app.route("/products", methods=["GET"])
-# def getProducts():
+@app.route("/products", methods=["GET"])
+def getProducts():
+    products = getProductsFromDataBase()
+
+    return products
 
 
 @app.route("/test", methods=["GET"])

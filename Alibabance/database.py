@@ -1,4 +1,5 @@
 import pymysql
+from flask import jsonify
 
 connection = pymysql.connect(
     host="localhost",
@@ -37,6 +38,22 @@ def isItInDb(Vemail, Vpassword):
         return False
 
 
+def getProductsFromDataBase():
+    request = f""" SELECT * FROM Inventaire"""
+
+    cursor.execute(request)
+    element = cursor.fetchall()
+    tableOfTodos =[]
+
+    for i in element:
+        tableOfTodos.append(i)
+
+    response = {
+        "status": 200,
+        "products": tableOfTodos
+    }
+
+    return jsonify(response)
 
 if __name__ == '__main__':
     print("we")

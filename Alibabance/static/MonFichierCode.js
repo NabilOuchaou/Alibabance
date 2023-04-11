@@ -51,7 +51,64 @@ async function login() {
     } catch (err){
         console.log("erreur")
     }
+}
+
+async function getProducts() {
+    let url = "http://127.0.0.1:5000/"
+
+    const res = await fetch("http://127.0.0.1:5000/products")
+    response = await res.json()
+
+    const products = response.products
+    products.forEach( product => {
+        displayProduct(product)
+    })
+}
+
+function displayProduct(product){
+    let productContainer = document.getElementById("ProductContainer")
+
+    let name = product[1]
+    let color = product[2]
+    let taille = product[3]
+    let price = product[4]
+
+    let productDiv = document.createElement("div")
+    productDiv.classList.add("card")
+
+    let img =  document.createElement('img')
+    img.setAttribute('src', "https://cdn.shopify.com/s/files/1/0257/5305/9400/products/adidas-Yeezy-Slide-Bone-2022-Product.webp?v=1679272266")
+    // card-body
+    let div = document.createElement('div')
+    div.classList.add("card-body")
+    // card-title
+    let h5 = document.createElement('h5')
+    h5.classList.add("card-title")
+    h5.innerText = name;
+    div.appendChild(h5)
+
+    //price
+    let p1 = document.createElement('h5')
+    h5.classList.add("card-text")
+    p1.innerText = "Prix : " + price;
+    div.appendChild(p1)
+    // color
+    let p2 = document.createElement('h5')
+    p2.innerText = "Couleur : " + color;
+    div.appendChild(p2)
+
+    //taille
+    let p3 = document.createElement('h5')
+    p3.innerText = "Taille : " + taille;
+    div.appendChild(p3)
+
+    let button = document.createElement('button')
+    button.innerText = "ajouter au panier";
+    div.appendChild(button)
+
+    productDiv.appendChild(img)
+    productDiv.appendChild(div)
 
 
-
+    productContainer.appendChild(productDiv)
 }

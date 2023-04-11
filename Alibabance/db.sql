@@ -44,3 +44,6 @@ insert into Passwords value ("hamid@gmail.com","String123")
 
 
 SELECT mot_de_passe FROM Passwords P WHERE P.mot_de_passe = 'String123' and P.email = 'hamid@gmail.com'
+
+
+select * from Inventaire;
