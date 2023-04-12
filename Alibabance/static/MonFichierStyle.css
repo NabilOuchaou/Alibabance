@@ -74,7 +74,13 @@ header li a:hover{
     display: flex;
 	background: brown;
     flex-direction: column;
+    cursor: pointer;
 }
+#ProductContainer div:hover{
+	background: gray;
+
+}
+
 #ProductContainer div .p{
     display: flex;
 	background: brown;
@@ -105,4 +111,10 @@ header li a:hover{
 
 .card button:hover {
   opacity: 0.7;
+}
+
+/*login page*/
+
+#container{
+    color: purple;
 }

@@ -21,20 +21,35 @@ def Panier():
 
 @app.route("/productPage", methods=["GET"])
 def ProductPage():
-    data = request.json
-    id = data['id']
+    id = request.args.get('id')
     infos = getInfoOfProduct(id)
     return render_template("productPage.html", infos=infos)
 
+@app.route("/getProduct", methods=["GET"])
+def ProductInfo():
+    data = request.json
+    id = data['id']
+    infos = []
+    for i in getInfoOfProduct(id):
+        infos.append(i)
+
+    response = {
+        "infos": infos
+    }
+    return jsonify(infos)
+
+
 @app.route("/inscription", methods=["GET"])
 def takeEmail():
-
+    return
 def takePassword():
+    return
 
 @app.route("/ajoutUser", methods=["POST"])
 def addUserEmail():
-
+    return
 def addUserPassword():
+    return
 
 
 @app.route("/connection", methods=["POST"])

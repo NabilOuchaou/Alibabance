@@ -27,10 +27,10 @@ function SupprimerContenu()
 }
 
 async function login() {
-    debugger
     let email = document.getElementById("email").value
     let password = document.getElementById("password").value
 
+    debugger
     try {
         const res = await fetch("http://127.0.0.1:5000/connection", {
             method: "POST",
@@ -52,7 +52,10 @@ async function login() {
             window.location.href = "http://127.0.0.1:5000/home"
 
         } else {
-            document.createElement('div').innerText("mot de passe ou email incorrect")
+            let erreurConnexion = document.createElement('div')
+            erreurConnexion.innerText = "mot de passe ou email incorrect"
+            let container = document.getElementById("container")
+            container.appendChild(erreurConnexion)
         }
     } catch (err){
         console.log("erreur")
@@ -68,11 +71,13 @@ async function getProducts() {
     const products = response.products
     products.forEach( product => {
         displayProduct(product);
+        document.getElementsByName("wesh")
     })
-    products.forEach(product => {
-         document.getElementsByName("carte").forEach( carte => {
-        carte.addEventListener('click', goProductPage(product[0]))})
-    })
+
+    document.getElementsByName("carte").forEach( carte => {
+        carte.addEventListener('click', () => {goProductPage(carte.id)} )})
+
+
 }
 
 async function displayProduct(product) {
@@ -87,7 +92,7 @@ async function displayProduct(product) {
     let productDiv = document.createElement("div")
     productDiv.classList.add("card")
     productDiv.setAttribute('name','carte')
-    productDiv.setAttribute('id','wesh')
+    productDiv.setAttribute('id',`${id}`)
 
     let img = document.createElement('img')
     img.setAttribute('src', "https://cdn.shopify.com/s/files/1/0257/5305/9400/products/adidas-Yeezy-Slide-Bone-2022-Product.webp?v=1679272266")
@@ -115,10 +120,10 @@ async function displayProduct(product) {
     p3.innerText = "Taille : " + taille;
     div.appendChild(p3)
 
-    // let button = document.createElement('button')
-    // button.innerText = "ajouter au panier";
-    // button.addEventListener('click', ajouterProduitAuPanier(id))
-    // div.appendChild(button)
+    let button = document.createElement('button')
+    button.innerText = "ajouter au panier";
+    button.addEventListener('click', ()=>{ajouterProduitAuPanier(id)})
+    div.appendChild(button)
 
     productDiv.appendChild(img)
     productDiv.appendChild(div)
@@ -130,14 +135,18 @@ async function displayProduct(product) {
 
 
 
+
 }
 function goPanier(){
-    window.location.href = "http://127.0.0.1:5000/Panier"
+    window.location.href = "http://127.0.0.1:5000/panier"
 }
 
 async function goProductPage(id) {
+    window.location.href = `http://127.0.0.1:5000/productPage?id=${id}`
+}
 
-    const res = await fetch("http://127.0.0.1:5000/productPage", {
+async function getProduct(id){
+    const res = await fetch("http://127.0.0.1:5000/getProduct", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -146,6 +155,7 @@ async function goProductPage(id) {
             id: id,
         })
     })
+    return (await res.json())
 }
 
 
@@ -168,11 +178,12 @@ async function ajouterProduitAuPanier(id){
     } catch (e){
         console.log(e.message)
     }
-
-function inscriptionButton(){
-    var newNom= document.getElementById("newClientNom-input")
-    var newPrenom = document.getElementById("newClientPrenom-input").value
-    var newAge = document.getElementById("newClientAge-input").value
-    var newTelephone = document.getElementById()
-
 }
+//
+// function inscriptionButton(){
+//     var newNom= document.getElementById("newClientNom-input")
+//     var newPrenom = document.getElementById("newClientPrenom-input").value
+//     var newAge = document.getElementById("newClientAge-input").value
+//     var newTelephone = document.getElementById()
+//
+// }
