@@ -23,6 +23,36 @@ function SupprimerContenu()
 	document.getElementById("email").value="";
 	document.getElementById("password").value="";
 }
+async function inscriptionButton(){
+    var newClientNom = document.getElementById("newClientNom-input")
+    var newClientPrenom = document.getElementById("newClientPrenom-input").value
+    var newClientAge = document.getElementById("newClientAge-input").value
+    var newClientTelephone = document.getElementById("newClientTelephone-input").value
+    var newClientMail = document.getElementById("newClientMail-input").value
+    var newClientPassword = document.getElementById("newClientPassword-input").value
+    var newClientPassword2 = document.getElementById("newClientPassword2-input").value
+
+    try {
+        const res = await fetch("http://127.0.0.1:5000/inscription"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                newClientEmail: newClientEmail,
+                newClientPassword: newClientPassword
+            })
+        })
+
+        response = await.res.json()
+
+        if(response.status === 200){
+            window.location.href = "http://127.0.0.1:5000/home"
+        } else{
+            document.createElement("div".innetText())
+        }
+    }
+}
 
 async function login() {
     console.log("wesh")
@@ -114,8 +144,25 @@ function displayProduct(product){
 }
 
 function inscriptionButton(){
-    var newNom= document.getElementById("newClientNom-input")
-    var newPrenom = document.getElementById("newClientPrenom-input").value
-    var newAge = document.getElementById("newClientAge-input").value
-    var newTelephone = document.getElementById()
+    var newClientNom = document.getElementById("newClientNom-input")
+    var newClientPrenom = document.getElementById("newClientPrenom-input").value
+    var newClientAge = document.getElementById("newClientAge-input").value
+    var newClientTelephone = document.getElementById("newClientTelephone-input").value
+    var newClientMail = document.getElementById("newClientMail-input").value
+    var newClientPassword = document.getElementById("newClientPassword-input").value
+    var newClientPassword2 = document.getElementById("newClientPassword2-input").value
+
+    try {
+        const res = await fetch("http://127.0.0.1:5000/connection", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                motDePasse: password
+            })
+        })
+
+    window.location.href = "http://127.0.0.1:5000/home"
 }

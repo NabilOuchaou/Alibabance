@@ -43,22 +43,24 @@ def getProductsFromDataBase():
 
     cursor.execute(request)
     element = cursor.fetchall()
-    tableOfTodos =[]
+    tableOfProducts =[]
 
     for i in element:
-        tableOfTodos.append(i)
+        tableOfProducts.append(i)
 
     response = {
         "status": 200,
-        "products": tableOfTodos
+        "products": tableOfProducts
     }
 
     return jsonify(response)
 
 def addNewClientToDB():
-    request = f'''INSERT INTO Utilisateurs VALUES ()'''
+
+
+    request = f'''INSERT INTO Utilisateurs VALUES (newClientEmail, newClientNom, newClientPrenom, newClientTelephone, newClientAge)'''
 
     cursor.execute(request)
 
 if __name__ == '__main__':
-    print("we")
+    print("Welcome")

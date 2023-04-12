@@ -11,7 +11,7 @@ DROP TABLE if exists Inventaire;
 
 
 
-CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone integer(11),age integer(2)); #peut-on use un id comme primary key a la place?#
+CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone varchar(11),age integer(2));
 CREATE TABLE if not exists Inventaire (id_produit integer PRIMARY KEY, nom char(60),stock integer,taille double, cout_produit double);
 CREATE TABLE IF NOT EXISTS Produits(id_produit integer PRIMARY KEY, nom_produit varchar (45),couleur varchar(10), taille varchar(45), prix_produit double, en_stock integer (1), FOREIGN KEY (id_produit) REFERENCES Inventaire (id_produit) ON UPDATE CASCADE ON DELETE CASCADE);
 create table if not exists Passwords(email varchar (40),mot_de_passe varchar (50), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
@@ -38,12 +38,33 @@ INSERT INTO Produits VALUES (40,"Yeezy slides", "noir",8.0, 23.0,1),(41,"Yeezy s
 INSERT INTO Produits VALUES(50,"Yeezy slides", "turquoise", 7.5, 20.0,1),(51, "Yeezy slides", "turquoise", 8.0, 20.0,1),(52,"Yeezy slides", "mauve",8.0, 20.0,1),(53,"Yeezy slides", "mauve",8.5, 20.0,1),(54,"Yeezy slides", "vert pâle", 8.5, 20.0,1),(55,"Yeezy slides", "brun",9.0, 20.0,1),(56,"Yeezy slides", "brun",10.0, 20.0,1),(57,"Yeezy slides", "brun",10.5, 20.0,1),(58,"Yeezy slides", "brun",9.5, 20.0,1),(59,"Yeezy slides", "brun", 8.0, 20.0,1),(60,"Yeezy slides", "brun foncé", 9.0, 20.0,1);
 INSERT INTO Produits VALUES (61,"Yeezy slides", "gris",6.0, 23.0,1),(62,"Yeezy slides", "gris",6.5, 25.0,1),(63,"Yeezy slides", "gris",7.0, 27.0,1),(64,"Yeezy slides", "gris", 7.0, 21.0,1),(65, "Yeezy slides", "gris", 7.5, 28.0,1),(66,"Yeezy slides", "gris clair",7.5, 26.0,1),(67,"Yeezy slides", "gris", 8.0, 23.0,1),(68,"Yeezy slides", "gris clair", 8.0, 25.0,1),(69,"Yeezy slides", "gris",8.5, 20.0,1),(70,"Yeezy slides", "gris clair",8.5, 22.0,1),(71,"Yeezy slides", "vert",9.0, 23.0,1),(72,"Yeezy slides", "vert", 9.5, 25.0,1),(73,"Yeezy slides", "vert", 10.0, 27.0,1),(74,"Yeezy slides", "vert", 10.0, 21.0,1),(75,"Yeezy slides", "vert", 10.5, 28.0,1),(76,"Yeezy slides", "vert pâle",10.5, 26.0,1),(77,"Yeezy slides", "vert", 11.0, 23.0,1),(78,"Yeezy slides", "vert pâle",11.0, 25.0,1),(79,"Yeezy slides", "vert",11.5, 20.0,1),(80,"Yeezy slides", "orange",11.5, 22.0,1),(81,"Yeezy slides", "orange", 12.0, 23.0,1),(82,"Yeezy slides", "orange", 6.0, 25.0,1),(83,"Yeezy slides", "orange", 7.5, 27.0,1),(84,"Yeezy slides", "gris clair", 7.5, 21.0,1),(85,"Yeezy slides", "orange", 9.0, 28.0,1),(86,"Yeezy slides", "blanc",9.0, 26.0,1),(87,"Yeezy slides", "blanc",10.5, 23.0,1),(88,"Yeezy slides", "turquoise", 10.5, 25.0,1),(89,"Yeezy slides", "blanc", 6.5, 20.0,1),(90,"Yeezy slides", "gris clair", 6.5, 22.0,1),(91,"Yeezy slides", "blanc", 7.0, 23.0,1),(92,"Yeezy slides", "blanc", 7.5, 25.0,1),(93,"Yeezy slides", "blanc", 8.0, 27.0,1),(94,"Yeezy slides", "jaune",8.0, 21.0,1),(95,"Yeezy slides", "blanc",8.5, 28.0,1),(96,"Yeezy slides", "blanc", 8.5, 26.0,1),(97,"Yeezy slides", "blanc",9.0, 23.0,1),(98,"Yeezy slides", "jaune", 9.0, 25.0,1),(99,"Yeezy slides", "brun foncé", 9.5, 20.0,1),(100,"Yeezy slides", "gris clair", 9.5, 22.0,1);
 
+INSERT INTO Utilisateurs (email, nom, prenom, telephone, age)
+VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
+       ("janesmith2@email.com", "Smith", "Jane", "234567890", 25),
+       ("davidbrown3@email.com", "Brown", "David", "345678901", 28),
+       ("emma4johnson@email.com", "Johnson", "Emma", "456789012", 22),
+       ("oliviaw5@email.com", "Williams", "Olivia", "567890123", 35),
+       ("michaelj6@email.com", "Jackson", "Michael", "678901234", 40),
+       ("sophieturner7@email.com", "Turner", "Sophie", "789012345", 29),
+       ("williamd8@email.com", "Davis", "William", "890123456", 55),
+       ("emilyt9@email.com", "Taylor", "Emily", "901234567", 24),
+       ("jamesw10@email.com", "Wilson", "James", "012345678", 37),
+       ("elizabethl11@email.com", "Lee", "Elizabeth", "123450987", 46),
+       ("benjaminm12@email.com", "Martin", "Benjamin", "234561098", 31),
+       ("victoriag13@email.com", "Garcia", "Victoria", "345672109", 28),
+       ("josephr14@email.com", "Rodriguez", "Joseph", "456783210", 50),
+       ("sarahp15@email.com", "Perez", "Sarah", "567894321", 19),
+       ("samuelh16@email.com", "Hernandez", "Samuel", "678905432", 33),
+       ("gracec17@email.com", "Clark", "Grace", "789016543", 41),
+       ("zacharyl18@email.com", "Lewis", "Zachary", "890127654", 38),
+       ("madisone19@email.com", "Edwards", "Madison", "901238765", 26),
+       ("noahp20@email.com", "Phillips", "Noah", "012349876", 29);
 
-insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
-insert into Passwords value ("hamid@gmail.com","String123")
+Insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
+Insert into Passwords value ("hamid@gmail.com","String123")
 
 
-SELECT mot_de_passe FROM Passwords P WHERE P.mot_de_passe = 'String123' and P.email = 'hamid@gmail.com'
+SELECT mot_de_passe FROM Passwords P WHERE P.mot_de_passe = 'String123' and P.email = 'hamid@gmail.com';
 
 
 select * from Inventaire;

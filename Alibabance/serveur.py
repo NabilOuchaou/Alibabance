@@ -13,16 +13,11 @@ def main():
 def home():
     return render_template("bienvenu.html", )
 
-@app.route("/inscription", methods=["GET"])
-def takeEmail():
-
-def takePassword():
-
 @app.route("/ajoutUser", methods=["POST"])
 def addUserEmail():
-
+    pass
 def addUserPassword():
-
+    pass
 
 @app.route("/connection", methods=["POST"])
 def connection():
@@ -52,6 +47,36 @@ def getProducts():
     products = getProductsFromDataBase()
 
     return products
+
+@app.route("/inscription", methods=["GET"])
+def inscription():
+    newClientNom = request.form.get("newClientNom-input")
+    newClientPrenom = request.form.get("newClientPrenom-input")
+    newClientAge = request.form.get("newClientAge-input")
+    newClientTelephone = request.form.get("newClientTelephone-input")
+    newClientEmail = request.form.get("newClientEmail-input")
+    newClientPassword = request.form.get("newClientPassword-input")
+    newClientPassword2 = request.form.get("newClientPassword2-input")
+
+    data = request.json
+
+    email = data["email"]
+    password = data["motDePasse"]
+    alreadyInDb = isItInDb(newClientEmail, newClientPassword)
+
+    if (alreadyInDb):
+        response = {
+            "status": 404,
+            "reason": "Cet email est déjà associé à un compte, essayez de récupérer votre mot de passe."
+        }
+    else:
+        response = {
+            "status": 200
+        }
+    return jsonify(response)
+
+def takePassword():
+    pass
 
 
 @app.route("/test", methods=["GET"])
