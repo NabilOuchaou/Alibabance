@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Alibabance</title>
+    <link rel="stylesheet" type="text/css" href="../static/MonFichierStyle.css">
     <script type="text/javascript" src="../static/MonFichierCode.js"></script>
 </head>
-<body>
+<body onload = SupprimerContenu()>
     <h1>
         Inscription
     </h1>
 
     <div id="newUserAccount">
-        <input type="text" id="email-input" place holder="Entrez votre mail"/>
-        <input type="text" id="newPassword-input" placeholder="Mot de passe"/>
-        <button type="button" onclick="onButtonInscription()">Créez votre compte</button>
+        <input type="text" id="newClientNom-input" placeholder="Entrez votre nom"/>
+        <input type="text" id="newClientPrenom-input" placeholder="Entrez votre prenom"/>
+        <input type="text" id="newClientAge-input" placeholder="Entrez votre age"/>
+        <input type="integer" id="newClientTelephone-input" placeholder="Entrez votre telephone"/>
+        <input type="text" id="newClientEmail-input" placeholder="Entrez votre mail"/>
+        <input type="text" id="newClientPassword-input" placeholder="Entrez votre mot de passe"/>
+        <button type="button" onclick="inscriptionButton()">Créez votre compte</button>
     </div>
 
     <div id="addUser-container">

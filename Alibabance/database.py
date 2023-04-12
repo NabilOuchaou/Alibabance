@@ -55,5 +55,10 @@ def getProductsFromDataBase():
 
     return jsonify(response)
 
+def addNewClientToDB():
+    request = f'''INSERT INTO Utilisateurs VALUES ()'''
+
+    cursor.execute(request)
+
 if __name__ == '__main__':
     print("we")

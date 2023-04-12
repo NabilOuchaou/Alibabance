@@ -113,6 +113,9 @@ function displayProduct(product){
     productContainer.appendChild(productDiv)
 }
 
-function onButtonInscription(){
-    var newUserEmail = document.getElementById()
+function inscriptionButton(){
+    var newNom= document.getElementById("newClientNom-input")
+    var newPrenom = document.getElementById("newClientPrenom-input").value
+    var newAge = document.getElementById("newClientAge-input").value
+    var newTelephone = document.getElementById()
 }

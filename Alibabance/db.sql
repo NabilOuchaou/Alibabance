@@ -7,11 +7,11 @@ drop table if exists Livraisons;
 DROP TABLE if exists Commandes;
 DROP TABLE if exists Paniers;
 DROP TABLE if exists Produits;
-drop table if exists Inventaire;
+DROP TABLE if exists Inventaire;
 
 
 
-CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone integer(11),age integer(2));
+CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone integer(11),age integer(2)); #peut-on use un id comme primary key a la place?#
 CREATE TABLE if not exists Inventaire (id_produit integer PRIMARY KEY, nom char(60),stock integer,taille double, cout_produit double);
 CREATE TABLE IF NOT EXISTS Produits(id_produit integer PRIMARY KEY, nom_produit varchar (45),couleur varchar(10), taille varchar(45), prix_produit double, en_stock integer (1), FOREIGN KEY (id_produit) REFERENCES Inventaire (id_produit) ON UPDATE CASCADE ON DELETE CASCADE);
 create table if not exists Passwords(email varchar (40),mot_de_passe varchar (50), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
