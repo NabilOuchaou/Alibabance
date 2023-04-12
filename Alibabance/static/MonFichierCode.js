@@ -27,10 +27,10 @@ function SupprimerContenu()
 }
 
 async function login() {
-    debugger
     let email = document.getElementById("email").value
     let password = document.getElementById("password").value
 
+    debugger
     try {
         const res = await fetch("http://127.0.0.1:5000/connection", {
             method: "POST",
@@ -52,7 +52,10 @@ async function login() {
             window.location.href = "http://127.0.0.1:5000/home"
 
         } else {
-            document.createElement('div').innerText("mot de passe ou email incorrect")
+            let erreurConnexion = document.createElement('div')
+            erreurConnexion.innerText = "mot de passe ou email incorrect"
+            let container = document.getElementById("container")
+            container.appendChild(erreurConnexion)
         }
     } catch (err){
         console.log("erreur")
@@ -117,10 +120,10 @@ async function displayProduct(product) {
     p3.innerText = "Taille : " + taille;
     div.appendChild(p3)
 
-    // let button = document.createElement('button')
-    // button.innerText = "ajouter au panier";
-    // button.addEventListener('click', ajouterProduitAuPanier(id))
-    // div.appendChild(button)
+    let button = document.createElement('button')
+    button.innerText = "ajouter au panier";
+    button.addEventListener('click', ()=>{ajouterProduitAuPanier(id)})
+    div.appendChild(button)
 
     productDiv.appendChild(img)
     productDiv.appendChild(div)

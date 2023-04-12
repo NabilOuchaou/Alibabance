@@ -10,8 +10,9 @@
 <form action="login" method="post">
 <p>Votre courriel: <input type="text" id="email"><br>
 Votre mot de passe: <input type="password" id="password">
+    <div id="container"></div>
 </form>
-<button onclick="login(email,password)">Identification</button>
+<button onclick="login()">Identification</button>
 <a href="inscription.html">
     <button type="button"> Vous n'avez pas de compte?</button>
 </a>
@@ -20,9 +21,6 @@ Votre mot de passe: <input type="password" id="password">
 </html>
 
 <script>
-    let email = document.getElementById("email").value
-    let password = document.getElementById("password").value
-
 
 
 
