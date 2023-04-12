@@ -13,6 +13,7 @@ def main():
 def home():
     return render_template("bienvenu.html", )
 
+
 @app.route("/panier", methods=["GET"])
 def Panier():
     return render_template("Panier.html")
@@ -24,6 +25,17 @@ def ProductPage():
     id = data['id']
     infos = getInfoOfProduct(id)
     return render_template("productPage.html", infos=infos)
+
+@app.route("/inscription", methods=["GET"])
+def takeEmail():
+
+def takePassword():
+
+@app.route("/ajoutUser", methods=["POST"])
+def addUserEmail():
+
+def addUserPassword():
+
 
 @app.route("/connection", methods=["POST"])
 def connection():

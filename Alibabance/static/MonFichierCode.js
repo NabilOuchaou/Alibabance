@@ -168,4 +168,11 @@ async function ajouterProduitAuPanier(id){
     } catch (e){
         console.log(e.message)
     }
+
+function inscriptionButton(){
+    var newNom= document.getElementById("newClientNom-input")
+    var newPrenom = document.getElementById("newClientPrenom-input").value
+    var newAge = document.getElementById("newClientAge-input").value
+    var newTelephone = document.getElementById()
+
 }

@@ -4,7 +4,7 @@ from flask import jsonify
 connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="Na2352001",
+    password="passworddatabases",
     db="glo_2005_webapp_2023",
     autocommit=True
 )
@@ -63,6 +63,11 @@ def getProductsFromDataBase():
     }
 
     return jsonify(response)
+
+def addNewClientToDB():
+    request = f'''INSERT INTO Utilisateurs VALUES ()'''
+
+    cursor.execute(request)
 
 if __name__ == '__main__':
     print("we")
