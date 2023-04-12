@@ -4,7 +4,7 @@ from flask import jsonify
 connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="String123",
+    password="hj5043wv",
     db="glo_2005_webapp_2023",
     autocommit=True
 )

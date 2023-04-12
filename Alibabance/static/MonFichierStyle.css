@@ -118,3 +118,74 @@ header li a:hover{
 #container{
     color: purple;
 }
+
+/*productpage*/
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+header {
+   color: white;
+   padding: 20px;
+}
+
+nav ul {
+   list-style: none;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+nav li {
+   margin: 0 10px;
+}
+
+nav a {
+   color: white;
+   text-decoration: none;
+}
+
+main {
+   max-width: 800px;
+   margin: 0 auto;
+   padding: 20px;
+}
+
+.product {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.product-info {
+   flex: 1;
+}
+
+.product-info h1 {
+   font-size: 32px;
+   margin-bottom: 10px;
+}
+
+.product-info p {
+   font-size: 18px;
+   margin-bottom: 5px;
+}
+
+.product-info button {
+   background-color: #222;
+   color: white;
+   padding: 10px 20px;
+   border: none;
+   border-radius: 5px;
+   font-size: 18px;
+   margin-top: 20px;
+   cursor: pointer;
+}
+
+.product-info button:hover {
+   background-color: #444;
+}
