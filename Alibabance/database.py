@@ -38,6 +38,15 @@ def isItInDb(Vemail, Vpassword):
         return False
 
 
+def addProductToCartInDataBase(id, email):
+    request = f""" INSERT into Paniers value ('{id}','{email}')"""
+    cursor.execute(request)
+
+def getInfoOfProduct(id):
+    request = f""" SELECT * FROM Inventaire where id_produit= '{id}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    return element
 def getProductsFromDataBase():
     request = f""" SELECT * FROM Inventaire"""
 
