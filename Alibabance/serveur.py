@@ -13,6 +13,17 @@ def main():
 def home():
     return render_template("bienvenu.html", )
 
+@app.route("/inscription", methods=["GET"])
+def takeEmail():
+
+def takePassword():
+
+@app.route("/ajoutUser", methods=["POST"])
+def addUserEmail():
+
+def addUserPassword():
+
+
 @app.route("/connection", methods=["POST"])
 def connection():
     data = request.json

@@ -112,3 +112,7 @@ function displayProduct(product){
 
     productContainer.appendChild(productDiv)
 }
+
+function onButtonInscription(){
+    var newUserEmail = document.getElementById()
+}
