@@ -17,10 +17,11 @@ CREATE TABLE IF NOT EXISTS Produits(id_produit integer PRIMARY KEY, nom_produit 
 create table if not exists Passwords(email varchar (40),mot_de_passe varchar (50), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
 
 
-CREATE TABLE IF NOT EXISTS Paniers (id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Produits(id_produit));
+CREATE TABLE IF NOT EXISTS Paniers (id_panier integer PRIMARY KEY, quantite integer, id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Produits(id_produit));
 CREATE TABLE IF NOT EXISTS Commandes(id_commande integer PRIMARY KEY NOT NULL AUTO_INCREMENT,adresse CHAR(20), email varchar (40), prix_totalCommande double, FOREIGN KEY (email) REFERENCES utilisateurs (email));
 CREATE TABLE IF NOT EXISTS Livraisons(id_commande integer, adresse CHAR(30), jour char(20), FOREIGN KEY (id_commande) REFERENCES Commandes(id_commande));
 create table if not exists Favoris(id_Produit integer, id_utilisateur integer);
+
 
 INSERT INTO Inventaire VALUES (1, "Yeezy Slides Rouge",50, 5.0, 20.0), (2,"Yeezy Slides Rouge", 75, 5.5, 22.0), (3,"Yeezy Slides Rouge", 100, 6.0, 25.0), (4,"Yeezy slides noir", 120, 6.0, 21.0), (5,"Yeezy slides rouge", 80, 6.5, 30.0),(6,"Yeezy slides mauve", 60, 6.5, 28.0),(7,"Yeezy slides rouge", 45, 7.0, 25.0),(8,"Yeezy slides noir", 30, 7.0, 27.0),(9,"Yeezy slides rouge", 20, 7.5, 20.0),(10,"Yeezy slides jaune", 10, 7.5, 22.0);
 INSERT INTO Inventaire VALUES (11,"Yeezy Slides Beige", 5, 8.0, 20.0),(12,"Yeezy Slides Rouge", 2, 8.0, 27.0),(13,"Yeezy Slides Rouge", 1, 8.5, 25.0),(14,"Yeezy Slides beige", 30, 8.5, 22.0),(15,"Yeezy Slides beige", 40, 9.0, 25.0),(16,"Yeezy Slides rouge", 50, 9.0, 27.0),(17, "Yeezy Slides beige",10, 9.5, 20.0),(18,"Yeezy Slides noir", 8, 9.5, 28.0),(19,"Yeezy Slides beige", 88, 10.0, 29.0),(20,"Yeezy Slides gris", 72, 10.0, 37.0);
@@ -38,7 +39,7 @@ INSERT INTO Produits VALUES (40,"Yeezy slides", "noir",8.0, 23.0,1),(41,"Yeezy s
 INSERT INTO Produits VALUES(50,"Yeezy slides", "turquoise", 7.5, 20.0,1),(51, "Yeezy slides", "turquoise", 8.0, 20.0,1),(52,"Yeezy slides", "mauve",8.0, 20.0,1),(53,"Yeezy slides", "mauve",8.5, 20.0,1),(54,"Yeezy slides", "vert pâle", 8.5, 20.0,1),(55,"Yeezy slides", "brun",9.0, 20.0,1),(56,"Yeezy slides", "brun",10.0, 20.0,1),(57,"Yeezy slides", "brun",10.5, 20.0,1),(58,"Yeezy slides", "brun",9.5, 20.0,1),(59,"Yeezy slides", "brun", 8.0, 20.0,1),(60,"Yeezy slides", "brun foncé", 9.0, 20.0,1);
 INSERT INTO Produits VALUES (61,"Yeezy slides", "gris",6.0, 23.0,1),(62,"Yeezy slides", "gris",6.5, 25.0,1),(63,"Yeezy slides", "gris",7.0, 27.0,1),(64,"Yeezy slides", "gris", 7.0, 21.0,1),(65, "Yeezy slides", "gris", 7.5, 28.0,1),(66,"Yeezy slides", "gris clair",7.5, 26.0,1),(67,"Yeezy slides", "gris", 8.0, 23.0,1),(68,"Yeezy slides", "gris clair", 8.0, 25.0,1),(69,"Yeezy slides", "gris",8.5, 20.0,1),(70,"Yeezy slides", "gris clair",8.5, 22.0,1),(71,"Yeezy slides", "vert",9.0, 23.0,1),(72,"Yeezy slides", "vert", 9.5, 25.0,1),(73,"Yeezy slides", "vert", 10.0, 27.0,1),(74,"Yeezy slides", "vert", 10.0, 21.0,1),(75,"Yeezy slides", "vert", 10.5, 28.0,1),(76,"Yeezy slides", "vert pâle",10.5, 26.0,1),(77,"Yeezy slides", "vert", 11.0, 23.0,1),(78,"Yeezy slides", "vert pâle",11.0, 25.0,1),(79,"Yeezy slides", "vert",11.5, 20.0,1),(80,"Yeezy slides", "orange",11.5, 22.0,1),(81,"Yeezy slides", "orange", 12.0, 23.0,1),(82,"Yeezy slides", "orange", 6.0, 25.0,1),(83,"Yeezy slides", "orange", 7.5, 27.0,1),(84,"Yeezy slides", "gris clair", 7.5, 21.0,1),(85,"Yeezy slides", "orange", 9.0, 28.0,1),(86,"Yeezy slides", "blanc",9.0, 26.0,1),(87,"Yeezy slides", "blanc",10.5, 23.0,1),(88,"Yeezy slides", "turquoise", 10.5, 25.0,1),(89,"Yeezy slides", "blanc", 6.5, 20.0,1),(90,"Yeezy slides", "gris clair", 6.5, 22.0,1),(91,"Yeezy slides", "blanc", 7.0, 23.0,1),(92,"Yeezy slides", "blanc", 7.5, 25.0,1),(93,"Yeezy slides", "blanc", 8.0, 27.0,1),(94,"Yeezy slides", "jaune",8.0, 21.0,1),(95,"Yeezy slides", "blanc",8.5, 28.0,1),(96,"Yeezy slides", "blanc", 8.5, 26.0,1),(97,"Yeezy slides", "blanc",9.0, 23.0,1),(98,"Yeezy slides", "jaune", 9.0, 25.0,1),(99,"Yeezy slides", "brun foncé", 9.5, 20.0,1),(100,"Yeezy slides", "gris clair", 9.5, 22.0,1);
 
-
+Drop trigger if exists IsUserAlreadyInDb;
 DELIMITER //
 CREATE TRIGGER IsUserAlreadyInDb BEFORE INSERT ON Utilisateurs
 FOR EACH ROW
@@ -53,6 +54,7 @@ BEGIN
 END;
 DELIMITER ;
 
+
 drop trigger IF EXISTS IsItemAvailable;
 DELIMITER //
 CREATE TRIGGER IsItemAvailable BEFORE INSERT ON Paniers
@@ -63,7 +65,39 @@ BEGIN
 
     IF QUANTITE_EN_STOCK <= 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Ce produit n'est malheureusement plus en stock";
+    end if;
+end;
+DELIMITER ;
 
+DROP TRIGGER IF EXISTS autoIncrement;
+DELIMITER //
+CREATE TRIGGER autoIncrement BEFORE INSERT ON Paniers
+FOR EACH ROW
+BEGIN
+    DECLARE PRODUIT_ID INT;
+    SELECT id_Produit INTO PRODUIT_ID FROM Paniers WHERE id_produit = NEW.id_Produit;
+
+    IF COUNT(PRODUIT_ID) > 0 THEN
+            UPDATE Paniers SET quantite =  quantite + 1 WHERE id_produit = New.id_Produit;
+        #SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Ce produit n'est malheureusement plus en stock";
+    end if;
+end;
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE TRIGGER groupInCommande BEFORE INSERT ON Commandes
+FOR EACH ROW
+BEGIN
+    DECLARE QUANTITE_ITEM INT;
+    DECLARE ITEM_PRICE DOUBLE;
+    SELECT stock INTO QUANTITE_EN_STOCK FROM Inventaire WHERE id_produit = NEW.id_Produit;
+
+    IF QUANTITE_EN_STOCK > 0 THEN
+        UPDATE Inventaire SET stock = QUANTITE_EN_STOCK - 1 WHERE id_produit = New.id_Produit;
+        UPDATE Inventaire SET stock = QUANTITE_EN_STOCK - 1 WHERE id_produit = New.id_Produit;
+        #SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Ce produit n'est malheureusement plus en stock";
     ELSE
         UPDATE Inventaire SET stock = QUANTITE_EN_STOCK - 1 WHERE id_produit = New.id_Produit;
     end if;
@@ -98,7 +132,6 @@ VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
 Insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
 Insert into Passwords value ("hamid@gmail.com","String123")
 
-INSERT INTO Paniers VALUE (13, "hamid@gmail.com");
-Data truncation: Out of range value for column
+INSERT INTO Paniers VALUE (1);
 
 select * from Inventaire;
