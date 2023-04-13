@@ -24,13 +24,13 @@ function SupprimerContenu()
 	document.getElementById("password").value="";
 }
 async function inscriptionButton(){
-    var newClientNom = document.getElementById("newClientNom-input")
-    var newClientPrenom = document.getElementById("newClientPrenom-input").value
-    var newClientAge = document.getElementById("newClientAge-input").value
-    var newClientTelephone = document.getElementById("newClientTelephone-input").value
-    var newClientMail = document.getElementById("newClientMail-input").value
-    var newClientPassword = document.getElementById("newClientPassword-input").value
-    var newClientPassword2 = document.getElementById("newClientPassword2-input").value
+    let newClientNom = document.getElementById("newClientNom-input")
+    let newClientPrenom = document.getElementById("newClientPrenom-input").value
+    let newClientAge = document.getElementById("newClientAge-input").value
+    let newClientTelephone = document.getElementById("newClientTelephone-input").value
+    let newClientMail = document.getElementById("newClientMail-input").value
+    let newClientPassword = document.getElementById("newClientPassword-input").value
+    let newClientPassword2 = document.getElementById("newClientPassword2-input").value
 
     console.log(newClientNom, newClientPrenom, newClientAge, newClientEmail, newClientPassword);
     try {
@@ -46,14 +46,14 @@ async function inscriptionButton(){
             })
         })
 
-        response = await.res.json()
+        response = await res.json()
 
         if(response.status === 200){
             window.location.href = "http://127.0.0.1:5000/home"
         } else{
-            document.createElement("div".innetText())
+            document.createElement("div".innerText())
         }
-    }
+    }//add catch or finally
 }
 
 async function login() {
