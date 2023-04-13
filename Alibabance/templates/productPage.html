@@ -22,12 +22,10 @@
 <main>
       <section class="product">
          <div class="product-info">
-            <h1>Yeezy Slides</h1>
-            <p>Couleur: Rouge</p>
-            <p>Taille: 9.5</p>
-            <p>Condition: En stock</p>
-            <p>Prix: Valeur</p>
-            <button>Ajouter au panier</button>
+            <h1>{{ infos[0][1] }}</h1>
+            <p>Couleur: {{ infos[0][3] }}</p>
+            <p>Prix: {{ infos[0][5] }}</p>
+            <button onclick="ajouterProduitAuPanier({{ infos[0][0] }})">Ajouter au panier</button>
          </div>
       </section>
    </main>

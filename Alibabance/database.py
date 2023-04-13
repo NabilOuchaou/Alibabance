@@ -4,7 +4,7 @@ from flask import jsonify
 connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="hj5043wv",
+    password="String123",
     db="glo_2005_webapp_2023",
     autocommit=True
 )
@@ -48,7 +48,7 @@ def getInfoOfProduct(id):
     element = cursor.fetchall()
     return element
 def getProductsFromDataBase():
-    request = f""" SELECT * FROM Inventaire"""
+    request = f""" SELECT * FROM Produits"""
 
     cursor.execute(request)
     element = cursor.fetchall()
@@ -63,6 +63,28 @@ def getProductsFromDataBase():
     }
 
     return jsonify(response)
+
+
+def getProductsInPanierFromDataBase(email):
+    request = f""" SELECT * FROM Paniers where email= '{email}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    tableOfTodos = []
+
+
+    for i in element:
+        produit = getInfoOfProduct(i[0])
+        tableOfTodos.append(produit)
+
+    response = {
+        "products": tableOfTodos
+    }
+
+    return jsonify(response)
+
+
+
+
 
 def addNewClientToDB():
     request = f'''INSERT INTO Utilisateurs VALUES ()'''

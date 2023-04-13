@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct
+from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, getProductsInPanierFromDataBase
 
 app = Flask(__name__)
 
@@ -67,7 +67,7 @@ def connection():
         }
     else:
         response = {
-            "status": 404,
+            "status": 403,
             "reason": "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte"
         }
 
@@ -82,6 +82,13 @@ def getProducts():
     return products
 
 
+@app.route("/produitsDuPanier", methods=["POST"])
+def getProductsFromPanier():
+    data = request.json
+    email = data["email"]
+    products = getProductsInPanierFromDataBase(email)
+
+    return products
 
 
 @app.route("/test", methods=["GET"])
