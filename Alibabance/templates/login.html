@@ -7,12 +7,15 @@
 <body onload="SupprimerContenu()"> 
 
 <p class="centre">Bonjour. Vous devez vous identifier.</p>
+
 <form action="login" method="post">
-<p>Votre courriel: <input type="text" id="email"><br>
-Votre mot de passe: <input type="password" id="password">
+<p>
+    Votre courriel: <input type="text" id="email"><br>
+    Votre mot de passe: <input type="password" id="password">
 </form>
-<button onclick="login(email,password)">Identification</button>
-<a href="inscription.html">
+<button onclick="login()">Identification</button>
+
+<a href="inscription">
     <button type="button">Vous n'avez pas de compte?</button>
 </a>
 

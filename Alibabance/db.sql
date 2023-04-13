@@ -38,6 +38,40 @@ INSERT INTO Produits VALUES (40,"Yeezy slides", "noir",8.0, 23.0,1),(41,"Yeezy s
 INSERT INTO Produits VALUES(50,"Yeezy slides", "turquoise", 7.5, 20.0,1),(51, "Yeezy slides", "turquoise", 8.0, 20.0,1),(52,"Yeezy slides", "mauve",8.0, 20.0,1),(53,"Yeezy slides", "mauve",8.5, 20.0,1),(54,"Yeezy slides", "vert pâle", 8.5, 20.0,1),(55,"Yeezy slides", "brun",9.0, 20.0,1),(56,"Yeezy slides", "brun",10.0, 20.0,1),(57,"Yeezy slides", "brun",10.5, 20.0,1),(58,"Yeezy slides", "brun",9.5, 20.0,1),(59,"Yeezy slides", "brun", 8.0, 20.0,1),(60,"Yeezy slides", "brun foncé", 9.0, 20.0,1);
 INSERT INTO Produits VALUES (61,"Yeezy slides", "gris",6.0, 23.0,1),(62,"Yeezy slides", "gris",6.5, 25.0,1),(63,"Yeezy slides", "gris",7.0, 27.0,1),(64,"Yeezy slides", "gris", 7.0, 21.0,1),(65, "Yeezy slides", "gris", 7.5, 28.0,1),(66,"Yeezy slides", "gris clair",7.5, 26.0,1),(67,"Yeezy slides", "gris", 8.0, 23.0,1),(68,"Yeezy slides", "gris clair", 8.0, 25.0,1),(69,"Yeezy slides", "gris",8.5, 20.0,1),(70,"Yeezy slides", "gris clair",8.5, 22.0,1),(71,"Yeezy slides", "vert",9.0, 23.0,1),(72,"Yeezy slides", "vert", 9.5, 25.0,1),(73,"Yeezy slides", "vert", 10.0, 27.0,1),(74,"Yeezy slides", "vert", 10.0, 21.0,1),(75,"Yeezy slides", "vert", 10.5, 28.0,1),(76,"Yeezy slides", "vert pâle",10.5, 26.0,1),(77,"Yeezy slides", "vert", 11.0, 23.0,1),(78,"Yeezy slides", "vert pâle",11.0, 25.0,1),(79,"Yeezy slides", "vert",11.5, 20.0,1),(80,"Yeezy slides", "orange",11.5, 22.0,1),(81,"Yeezy slides", "orange", 12.0, 23.0,1),(82,"Yeezy slides", "orange", 6.0, 25.0,1),(83,"Yeezy slides", "orange", 7.5, 27.0,1),(84,"Yeezy slides", "gris clair", 7.5, 21.0,1),(85,"Yeezy slides", "orange", 9.0, 28.0,1),(86,"Yeezy slides", "blanc",9.0, 26.0,1),(87,"Yeezy slides", "blanc",10.5, 23.0,1),(88,"Yeezy slides", "turquoise", 10.5, 25.0,1),(89,"Yeezy slides", "blanc", 6.5, 20.0,1),(90,"Yeezy slides", "gris clair", 6.5, 22.0,1),(91,"Yeezy slides", "blanc", 7.0, 23.0,1),(92,"Yeezy slides", "blanc", 7.5, 25.0,1),(93,"Yeezy slides", "blanc", 8.0, 27.0,1),(94,"Yeezy slides", "jaune",8.0, 21.0,1),(95,"Yeezy slides", "blanc",8.5, 28.0,1),(96,"Yeezy slides", "blanc", 8.5, 26.0,1),(97,"Yeezy slides", "blanc",9.0, 23.0,1),(98,"Yeezy slides", "jaune", 9.0, 25.0,1),(99,"Yeezy slides", "brun foncé", 9.5, 20.0,1),(100,"Yeezy slides", "gris clair", 9.5, 22.0,1);
 
+
+DELIMITER //
+CREATE TRIGGER IsUserAlreadyInDb BEFORE INSERT ON Utilisateurs
+FOR EACH ROW
+BEGIN
+    DECLARE email_exists INT;
+
+    SELECT COUNT(*) INTO email_exists FROM Utilisateurs WHERE email = NEW.email;
+
+    IF email_exists >= 1 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Un utilisateur existe deja avec cet email';
+    END IF;
+END;
+DELIMITER ;
+
+drop trigger IF EXISTS IsItemAvailable;
+DELIMITER //
+CREATE TRIGGER IsItemAvailable BEFORE INSERT ON Paniers
+FOR EACH ROW
+BEGIN
+    DECLARE QUANTITE_EN_STOCK INT;
+    SELECT stock INTO QUANTITE_EN_STOCK FROM Inventaire WHERE id_produit = NEW.id_Produit;
+
+    IF QUANTITE_EN_STOCK <= 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Ce produit n'est malheureusement plus en stock";
+
+    ELSE
+        UPDATE Inventaire SET stock = QUANTITE_EN_STOCK - 1 WHERE id_produit = New.id_Produit;
+    end if;
+end;
+DELIMITER ;
+
+
+
 INSERT INTO Utilisateurs (email, nom, prenom, telephone, age)
 VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
        ("janesmith2@email.com", "Smith", "Jane", "234567890", 25),
@@ -45,7 +79,6 @@ VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
        ("emma4johnson@email.com", "Johnson", "Emma", "456789012", 22),
        ("oliviaw5@email.com", "Williams", "Olivia", "567890123", 35),
        ("michaelj6@email.com", "Jackson", "Michael", "678901234", 40),
-       ("sophieturner7@email.com", "Turner", "Sophie", "789012345", 29),
        ("williamd8@email.com", "Davis", "William", "890123456", 55),
        ("emilyt9@email.com", "Taylor", "Emily", "901234567", 24),
        ("jamesw10@email.com", "Wilson", "James", "012345678", 37),
@@ -60,11 +93,12 @@ VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
        ("madisone19@email.com", "Edwards", "Madison", "901238765", 26),
        ("noahp20@email.com", "Phillips", "Noah", "012349876", 29);
 
+
+
 Insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
 Insert into Passwords value ("hamid@gmail.com","String123")
 
-
-SELECT mot_de_passe FROM Passwords P WHERE P.mot_de_passe = 'String123' and P.email = 'hamid@gmail.com';
-
+INSERT INTO Paniers VALUE (13, "hamid@gmail.com");
+Data truncation: Out of range value for column
 
 select * from Inventaire;

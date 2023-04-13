@@ -32,15 +32,17 @@ async function inscriptionButton(){
     var newClientPassword = document.getElementById("newClientPassword-input").value
     var newClientPassword2 = document.getElementById("newClientPassword2-input").value
 
+    console.log(newClientNom, newClientPrenom, newClientAge, newClientEmail, newClientPassword);
     try {
-        const res = await fetch("http://127.0.0.1:5000/inscription"), {
+        const res = await fetch("http://127.0.0.1:5000/inscription", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                newClientEmail: newClientEmail,
-                newClientPassword: newClientPassword
+                nom : newClientNom,
+                email: newClientMail,
+                password: newClientPassword
             })
         })
 
@@ -143,26 +145,26 @@ function displayProduct(product){
     productContainer.appendChild(productDiv)
 }
 
-function inscriptionButton(){
-    var newClientNom = document.getElementById("newClientNom-input")
-    var newClientPrenom = document.getElementById("newClientPrenom-input").value
-    var newClientAge = document.getElementById("newClientAge-input").value
-    var newClientTelephone = document.getElementById("newClientTelephone-input").value
-    var newClientMail = document.getElementById("newClientMail-input").value
-    var newClientPassword = document.getElementById("newClientPassword-input").value
-    var newClientPassword2 = document.getElementById("newClientPassword2-input").value
-
-    try {
-        const res = await fetch("http://127.0.0.1:5000/connection", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email,
-                motDePasse: password
-            })
-        })
-
-    window.location.href = "http://127.0.0.1:5000/home"
-}
+// function inscriptionButton(){
+//     var newClientNom = document.getElementById("newClientNom-input")
+//     var newClientPrenom = document.getElementById("newClientPrenom-input").value
+//     var newClientAge = document.getElementById("newClientAge-input").value
+//     var newClientTelephone = document.getElementById("newClientTelephone-input").value
+//     var newClientMail = document.getElementById("newClientMail-input").value
+//     var newClientPassword = document.getElementById("newClientPassword-input").value
+//     var newClientPassword2 = document.getElementById("newClientPassword2-input").value
+//
+//     try {
+//         const res = await fetch("http://127.0.0.1:5000/connection", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//                 email: email,
+//                 motDePasse: password
+//             })
+//         })
+//
+//     window.location.href = "http://127.0.0.1:5000/home"
+// }

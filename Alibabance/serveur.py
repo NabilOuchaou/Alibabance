@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from database import isItInDb, getProductsFromDataBase
+from database import isItInDb, getProductsFromDataBase, addNewClientToDB
 
 app = Flask(__name__)
 
@@ -50,33 +50,52 @@ def getProducts():
 
 @app.route("/inscription", methods=["GET"])
 def inscription():
-    newClientNom = request.form.get("newClientNom-input")
-    newClientPrenom = request.form.get("newClientPrenom-input")
-    newClientAge = request.form.get("newClientAge-input")
-    newClientTelephone = request.form.get("newClientTelephone-input")
-    newClientEmail = request.form.get("newClientEmail-input")
-    newClientPassword = request.form.get("newClientPassword-input")
-    newClientPassword2 = request.form.get("newClientPassword2-input")
-
     data = request.json
 
+    nom = data["nom"]
     email = data["email"]
-    password = data["motDePasse"]
-    alreadyInDb = isItInDb(newClientEmail, newClientPassword)
+    password = data["password"]
+    age = data["age"]
+    telephone = data["telephone"]
+    prenom = data["prenom"]
 
-    if (alreadyInDb):
-        response = {
-            "status": 404,
-            "reason": "Cet email est déjà associé à un compte, essayez de récupérer votre mot de passe."
-        }
-    else:
-        response = {
-            "status": 200
+
+
+    # newClientNom = request.form.get("newClientNom-input")
+    # newClientPrenom = request.form.get("newClientPrenom-input")
+    # newClientAge = request.form.get("newClientAge-input")
+    # newClientTelephone = request.form.get("newClientTelephone-input")
+    # newClientEmail = request.form.get("newClientEmail-input")
+    # newClientPassword = request.form.get("newClientPassword-input")
+    # newClientPassword2 = request.form.get("newClientPassword2-input")
+
+# get    data = request.json
+#
+#     email = data["email"]
+#     password = data["motDePasse"]
+#     alreadyInDb = isItInDb(newClientEmail, newClientPassword)
+#
+#     if (alreadyInDb):
+#         response = {
+#             "status": 404,
+#             "reason": "Cet email est déjà associé à un compte, essayez de récupérer votre mot de passe."
+#         }
+#     else:
+
+
+    addNewClientToDB(email, nom, prenom, telephone, age)
+
+
+
+    response = {
+            "status": 200,
+            "nom": nom,
+        "email" : email,
+        "password" : password
+
         }
     return jsonify(response)
 
-def takePassword():
-    pass
 
 
 @app.route("/test", methods=["GET"])
