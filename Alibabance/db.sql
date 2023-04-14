@@ -17,11 +17,31 @@ CREATE TABLE IF NOT EXISTS Produits(id_produit integer PRIMARY KEY, nom_produit 
 create table if not exists Passwords(email varchar (40),mot_de_passe varchar (50), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
 
 
-CREATE TABLE IF NOT EXISTS Paniers (id_panier integer PRIMARY KEY NOT NULL AUTO_INCREMENT, quantite integer DEFAULT 1, id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Produits(id_produit));
+CREATE TABLE IF NOT EXISTS Paniers(id_panier integer PRIMARY KEY NOT NULL AUTO_INCREMENT, quantite integer DEFAULT 1, id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Produits(id_produit));
 CREATE TABLE IF NOT EXISTS Commandes(id_commande integer PRIMARY KEY NOT NULL AUTO_INCREMENT,adresse CHAR(20), email varchar (40), prix_totalCommande double, FOREIGN KEY (email) REFERENCES utilisateurs (email));
 CREATE TABLE IF NOT EXISTS Livraisons(id_commande integer, adresse CHAR(30), jour char(20), FOREIGN KEY (id_commande) REFERENCES Commandes(id_commande));
 create table if not exists Favoris(id_Produit integer, id_utilisateur integer);
 
+
+INSERT INTO Utilisateurs VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
+       ("janesmith2@email.com", "Smith", "Jane", "234567890", 25),
+       ("davidbrown3@email.com", "Brown", "David", "345678901", 28),
+       ("emma4johnson@email.com", "Johnson", "Emma", "456789012", 22),
+       ("oliviaw5@email.com", "Williams", "Olivia", "567890123", 35),
+       ("michaelj6@email.com", "Jackson", "Michael", "678901234", 40),
+       ("williamd8@email.com", "Davis", "William", "890123456", 55),
+       ("emilyt9@email.com", "Taylor", "Emily", "901234567", 24),
+       ("jamesw10@email.com", "Wilson", "James", "012345678", 37),
+       ("elizabethl11@email.com", "Lee", "Elizabeth", "123450987", 46),
+       ("benjaminm12@email.com", "Martin", "Benjamin", "234561098", 31),
+       ("victoriag13@email.com", "Garcia", "Victoria", "345672109", 28),
+       ("josephr14@email.com", "Rodriguez", "Joseph", "456783210", 50),
+       ("sarahp15@email.com", "Perez", "Sarah", "567894321", 19),
+       ("samuelh16@email.com", "Hernandez", "Samuel", "678905432", 33),
+       ("gracec17@email.com", "Clark", "Grace", "789016543", 41),
+       ("zacharyl18@email.com", "Lewis", "Zachary", "890127654", 38),
+       ("madisone19@email.com", "Edwards", "Madison", "901238765", 26),
+       ("noahp20@email.com", "Phillips", "Noah", "012349876", 29);
 
 INSERT INTO Inventaire VALUES (1, "Yeezy Slides Rouge",50, 5.0, 20.0), (2,"Yeezy Slides Rouge", 75, 5.5, 22.0), (3,"Yeezy Slides Rouge", 100, 6.0, 25.0), (4,"Yeezy slides noir", 120, 6.0, 21.0), (5,"Yeezy slides rouge", 80, 6.5, 30.0),(6,"Yeezy slides mauve", 60, 6.5, 28.0),(7,"Yeezy slides rouge", 45, 7.0, 25.0),(8,"Yeezy slides noir", 30, 7.0, 27.0),(9,"Yeezy slides rouge", 20, 7.5, 20.0),(10,"Yeezy slides jaune", 10, 7.5, 22.0);
 INSERT INTO Inventaire VALUES (11,"Yeezy Slides Beige", 5, 8.0, 20.0),(12,"Yeezy Slides Rouge", 2, 8.0, 27.0),(13,"Yeezy Slides Rouge", 1, 8.5, 25.0),(14,"Yeezy Slides beige", 30, 8.5, 22.0),(15,"Yeezy Slides beige", 40, 9.0, 25.0),(16,"Yeezy Slides rouge", 50, 9.0, 27.0),(17, "Yeezy Slides beige",10, 9.5, 20.0),(18,"Yeezy Slides noir", 8, 9.5, 28.0),(19,"Yeezy Slides beige", 88, 10.0, 29.0),(20,"Yeezy Slides gris", 72, 10.0, 37.0);
@@ -61,6 +81,8 @@ BEGIN
 END;
 DELIMITER ;
 
+
+
 #s'assure que le stock de l'item qu'on met dans le panier est > 0 avant de mettre l'article dans le panier, sinon message d'erreur#
 
 DELIMITER //
@@ -77,6 +99,26 @@ BEGIN
 
 #     ELSE
 #         UPDATE Paniers SET
+    end if;
+end;
+DELIMITER ;
+
+
+DELIMITER //
+DROP TRIGGER IF EXISTS verficationExistenceUserInPanier;
+//
+CREATE TRIGGER verficationExistenceUserInPanier BEFORE INSERT ON Paniers
+FOR EACH ROW
+BEGIN
+    DECLARE emailDuClient VARCHAR(255);
+    DECLARE emailCorrespondantDsUtilisateurs VARCHAR(255);
+
+    SELECT email INTO emailDuClient FROM Paniers;
+    SELECT email INTO emailCorrespondantDsUtilisateurs FROM Utilisateurs;
+
+    IF emailDuClient NOT IN (SELECT emailCorrespondantDsUtilisateurs FROM Utilisateurs) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Vou devez vous creer un compte avant de rajouter un produit dans votre panier.';
     end if;
 end;
 DELIMITER ;
@@ -149,52 +191,26 @@ DELIMITER ;
 
 
 
-
-
-
-
-
-
-# DELIMITER //
-# CREATE TRIGGER groupInCommande BEFORE INSERT ON Commandes
-# FOR EACH ROW
-# BEGIN
-#     DECLARE QUANTITE_ITEM INT;
-#     DECLARE ITEM_PRICE DOUBLE;
-#     SELECT stock INTO QUANTITE_EN_STOCK FROM Inventaire WHERE id_produit = NEW.id_Produit;
-#
-#     IF QUANTITE_EN_STOCK > 0 THEN
-#         UPDATE Inventaire SET stock = QUANTITE_EN_STOCK - 1 WHERE id_produit = New.id_Produit;
-#         UPDATE Inventaire SET stock = QUANTITE_EN_STOCK - 1 WHERE id_produit = New.id_Produit;
-#         #SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Ce produit n'est malheureusement plus en stock";
-#     ELSE
-#         UPDATE Inventaire SET stock = QUANTITE_EN_STOCK - 1 WHERE id_produit = New.id_Produit;
-#     end if;
-# end;
-# DELIMITER ;
-
-
-
-# INSERT INTO Utilisateurs (email, nom, prenom, telephone, age)
-# VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
-#        ("janesmith2@email.com", "Smith", "Jane", "234567890", 25),
-#        ("davidbrown3@email.com", "Brown", "David", "345678901", 28),
-#        ("emma4johnson@email.com", "Johnson", "Emma", "456789012", 22),
-#        ("oliviaw5@email.com", "Williams", "Olivia", "567890123", 35),
-#        ("michaelj6@email.com", "Jackson", "Michael", "678901234", 40),
-#        ("williamd8@email.com", "Davis", "William", "890123456", 55),
-#        ("emilyt9@email.com", "Taylor", "Emily", "901234567", 24),
-#        ("jamesw10@email.com", "Wilson", "James", "012345678", 37),
-#        ("elizabethl11@email.com", "Lee", "Elizabeth", "123450987", 46),
-#        ("benjaminm12@email.com", "Martin", "Benjamin", "234561098", 31),
-#        ("victoriag13@email.com", "Garcia", "Victoria", "345672109", 28),
-#        ("josephr14@email.com", "Rodriguez", "Joseph", "456783210", 50),
-#        ("sarahp15@email.com", "Perez", "Sarah", "567894321", 19),
-#        ("samuelh16@email.com", "Hernandez", "Samuel", "678905432", 33),
-#        ("gracec17@email.com", "Clark", "Grace", "789016543", 41),
-#        ("zacharyl18@email.com", "Lewis", "Zachary", "890127654", 38),
-#        ("madisone19@email.com", "Edwards", "Madison", "901238765", 26),
-#        ("noahp20@email.com", "Phillips", "Noah", "012349876", 29);
+INSERT INTO Utilisateurs (email, nom, prenom, telephone, age)
+VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
+       ("janesmith2@email.com", "Smith", "Jane", "234567890", 25),
+       ("davidbrown3@email.com", "Brown", "David", "345678901", 28),
+       ("emma4johnson@email.com", "Johnson", "Emma", "456789012", 22),
+       ("oliviaw5@email.com", "Williams", "Olivia", "567890123", 35),
+       ("michaelj6@email.com", "Jackson", "Michael", "678901234", 40),
+       ("williamd8@email.com", "Davis", "William", "890123456", 55),
+       ("emilyt9@email.com", "Taylor", "Emily", "901234567", 24),
+       ("jamesw10@email.com", "Wilson", "James", "012345678", 37),
+       ("elizabethl11@email.com", "Lee", "Elizabeth", "123450987", 46),
+       ("benjaminm12@email.com", "Martin", "Benjamin", "234561098", 31),
+       ("victoriag13@email.com", "Garcia", "Victoria", "345672109", 28),
+       ("josephr14@email.com", "Rodriguez", "Joseph", "456783210", 50),
+       ("sarahp15@email.com", "Perez", "Sarah", "567894321", 19),
+       ("samuelh16@email.com", "Hernandez", "Samuel", "678905432", 33),
+       ("gracec17@email.com", "Clark", "Grace", "789016543", 41),
+       ("zacharyl18@email.com", "Lewis", "Zachary", "890127654", 38),
+       ("madisone19@email.com", "Edwards", "Madison", "901238765", 26),
+       ("noahp20@email.com", "Phillips", "Noah", "012349876", 29);
 
 
 
