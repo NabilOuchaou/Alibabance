@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, getProductsInPanierFromDataBase
+from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
+    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ def Panier():
 @app.route("/productPage", methods=["GET"])
 def ProductPage():
     id = request.args.get('id')
-    infos = getInfoOfProduct(id)
+    infos = getInfoOfModel(id)
     return render_template("productPage.html", infos=infos)
 
 @app.route("/getProduct", methods=["GET"])
@@ -74,6 +75,10 @@ def connection():
     return jsonify(response)
 
 
+@app.route("/product", methods=["GET"])
+def getProduct():
+    id = request.args.get('id')
+    return jsonify(getAvailableTailleOfSepeceficModel(id))
 
 @app.route("/products", methods=["GET"])
 def getProducts():

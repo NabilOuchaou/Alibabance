@@ -6,7 +6,7 @@
     <title>Product Page</title>
 </head>
 <script type="text/javascript" src="../static/MonFichierCode.js"></script>
-<body >
+<body onload="getTailleOfModel({{ infos[0][0] }})">
 
 <div>
     <header>
@@ -22,12 +22,21 @@
 <main>
       <section class="product">
          <div class="product-info">
-            <h1>{{ infos[0][1] }}</h1>
+            <h1>{{ infos[0][2] }}</h1>
+             <img src="{{ infos[0][1] }}">
             <p>Couleur: {{ infos[0][3] }}</p>
-            <p>Prix: {{ infos[0][5] }}</p>
-            <button onclick="ajouterProduitAuPanier({{ infos[0][0] }})">Ajouter au panier</button>
+            <p>Prix: {{ infos[0][4] }}</p>
+             <form action="/action_page.php">
+                 <p >Taille :</p>
+                <select name="tailles" id="tailles">
+              </select>
+</form>
+             <div id="message"></div>
+            <button onclick="ajouterProduitAuPanier()">Ajouter au panier</button>
          </div>
       </section>
+
+
    </main>
    <footer>
       <p>Copyright © 2023 Alibabance.</p>

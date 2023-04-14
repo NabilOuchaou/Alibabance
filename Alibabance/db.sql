@@ -134,9 +134,6 @@ INSERT INTO Produits VALUES (83,'https://lp2.hm.com/hmgoepprod?set=quality%5B79%
 
 
 
-insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
-insert into Passwords value ("hamid@gmail.com","String123");
-
 
 SELECT mot_de_passe FROM Passwords P WHERE P.mot_de_passe = 'String123' and P.email = 'hamid@gmail.com';
 

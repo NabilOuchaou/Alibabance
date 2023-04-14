@@ -79,7 +79,6 @@ async function getProducts() {
 }
 
 async function chargerPanier() {
-
     debugger
     try {
         const res = await fetch("http://127.0.0.1:5000/produitsDuPanier", {
@@ -109,13 +108,29 @@ function displayProductInPanier(product){
     let id = product[0]
     let image = product[1]
     let nom = product[2]
-    let couleur = product[3]
-    let price = product[4]
+    let price = product[5]
     let en_stock = product[5]
 
-     let productDiv = document.createElement("div")
-    productDiv.innerText= product
-    productContainer.appendChild(productDiv)
+    let productDiv = document.createElement("div")
+    productDiv.setAttribute('id', 'productContainerInCart')
+
+    let infosDiv = document.createElement("div")
+    infosDiv.setAttribute('id', 'infoDiv')
+
+
+
+    let title = document.createElement("h1")
+    title.innerText=nom
+
+
+    let prix = document.createElement("h3")
+    prix.innerText= "prix : " + price
+
+    infosDiv.appendChild(title);
+    infosDiv.appendChild(prix);
+
+
+    productContainer.appendChild(infosDiv)
 }
 
 async function displayProduct(product) {
@@ -139,9 +154,9 @@ async function displayProduct(product) {
     let div = document.createElement('div')
     div.classList.add("card-body")
     // card-title
-    let h5 = document.createElement('h5')
+    let h5 = document.createElement('h1')
     h5.classList.add("card-title")
-    h5.innerText = name;
+    h5.innerText = nom;
     div.appendChild(h5)
 
     //price
@@ -198,9 +213,10 @@ async function getProduct(id){
 }
 
 
-async function ajouterProduitAuPanier(id){
+async function ajouterProduitAuPanier(){
     debugger
-    console.log(user)
+    let selectionMenu = document.getElementById('tailles')
+    const id = selectionMenu.value
     try {
         const res = await fetch("http://127.0.0.1:5000/addProductToCart", {
             method: "POST",
@@ -213,16 +229,26 @@ async function ajouterProduitAuPanier(id){
             })
         })
 
-        response = await res.json()
+        const div = document.getElementById('message')
+        const infosDajout = document.createElement('div')
+        infosDajout.innerText = "produit ajouté"
+        div.appendChild(infosDajout)
     } catch (e){
         console.log(e.message)
     }
 }
-//
-// function inscriptionButton(){
-//     var newNom= document.getElementById("newClientNom-input")
-//     var newPrenom = document.getElementById("newClientPrenom-input").value
-//     var newAge = document.getElementById("newClientAge-input").value
-//     var newTelephone = document.getElementById()
-//
-// }
+
+async function getTailleOfModel(id) {
+    const res = await fetch(`http://127.0.0.1:5000/product?id=${id}`)
+    response = await res.json()
+
+    debugger;
+    let div = document.getElementById('tailles')
+    response.forEach(product => {
+        let option = document.createElement('option')
+        option.setAttribute('value',product[0])
+        option.innerText = product[1]
+        div.appendChild(option)
+    })
+    return response;
+}

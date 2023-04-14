@@ -47,6 +47,19 @@ def getInfoOfProduct(id):
     cursor.execute(request)
     element = cursor.fetchall()
     return element
+
+def getAvailableTailleOfSepeceficModel(id):
+    request = f""" SELECT id_produit, taille FROM Inventaire where id_modele= '{id}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    return element
+
+def getInfoOfModel(id):
+    request = f""" SELECT * FROM Produits where id_modele = '{id}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    return element
+
 def getProductsFromDataBase():
     request = f""" SELECT * FROM Produits"""
 
