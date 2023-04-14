@@ -19,6 +19,9 @@ def home():
 def Panier():
     return render_template("Panier.html")
 
+@app.route("/inscription", methods=["GET"])
+def inscription():
+    return render_template("inscription.html")
 
 @app.route("/productPage", methods=["GET"])
 def ProductPage():
