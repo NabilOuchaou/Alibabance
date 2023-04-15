@@ -25,6 +25,38 @@ function SupprimerContenu()
 	document.getElementById("password").value="";
 }
 
+async function inscriptionButton(){
+    debugger
+    let name = document.getElementById("Nom").value;
+    let prenom = document.getElementById("Prenom").value;
+    let email = document.getElementById("Email").value;
+    let password = document.getElementById("Password").value;
+    let age = document.getElementById("Age").value;
+    let telephone = document.getElementById("Telephone").value;
+
+    try {
+        const res = await fetch("http://127.0.0.1:5000/inscription", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: name,
+                prenom: prenom,
+                email: email,
+                telephone: telephone,
+                age: age,
+                password: password
+            })
+
+        })
+
+
+    } catch(err){
+        console.log("error");
+    }
+}
+
 async function login() {
     let email = document.getElementById("email").value
     let password = document.getElementById("password").value
@@ -252,7 +284,4 @@ async function getTailleOfModel(id) {
     })
     return response;
 }
-
-function inscription(){
-    document.getElementById("")
 }

@@ -148,5 +148,7 @@ def addUser():
     addNewClientToDB(prenom,nom,age,telephone,email,hashedPassword)
 
 
+
+
 if __name__ == '__main__':
     app.run()
