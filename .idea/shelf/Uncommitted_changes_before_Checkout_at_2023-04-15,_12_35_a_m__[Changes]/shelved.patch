@@ -1,0 +1,126 @@
+Index: Alibabance/templates/inscription.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Alibabance</title>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"../static/MonFichierStyle.css\">\n    <script type=\"text/javascript\" src=\"../static/MonFichierCode.js\"></script>\n</head>\n<body onload = SupprimerContenu()>\n    <h1>\n        Inscription\n    </h1>\n\n    <div id=\"newUserAccount\">\n        <input type=\"text\" id=\"Nom\" placeholder=\"Entrez votre nom\"/>\n        <input type=\"text\" id=\"Prenom\" placeholder=\"Entrez votre prenom\"/>\n        <input type=\"text\" id=\"Age\" placeholder=\"Entrez votre age\"/>\n        <input type=\"integer\" id=\"Telephone\" placeholder=\"Entrez votre telephone\"/>\n        <input type=\"text\" id=\"Email\" placeholder=\"Entrez votre mail\"/>\n        <input type=\"text\" id=\"Password\" placeholder=\"Entrez votre mot de passe\"/>\n        <button type=\"button\" onclick=\"inscriptionButton()\">Créez votre compte</button>\n    </div>\n\n    <div id=\"addUser-container\">\n\n\n    </div>\n\n</body>\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Alibabance/templates/inscription.html b/Alibabance/templates/inscription.html
+--- a/Alibabance/templates/inscription.html	(revision 6d08057cbdecea7ebc355c8f31e8d83c4341fad0)
++++ b/Alibabance/templates/inscription.html	(date 1681532007100)
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html>
+-<html lang="en">
++<html lang="en" xmlns="http://www.w3.org/1999/html">
+ <head>
+     <meta charset="UTF-8">
+     <title>Alibabance</title>
+@@ -13,11 +13,11 @@
+ 
+     <div id="newUserAccount">
+         <input type="text" id="Nom" placeholder="Entrez votre nom"/>
+-        <input type="text" id="Prenom" placeholder="Entrez votre prenom"/>
++        <input type="text" id="Prenom" placeholder="Entrez votre prenom"/></br>
+         <input type="text" id="Age" placeholder="Entrez votre age"/>
+-        <input type="integer" id="Telephone" placeholder="Entrez votre telephone"/>
++        <input type="integer" id="Telephone" placeholder="Entrez votre telephone"/></br>
+         <input type="text" id="Email" placeholder="Entrez votre mail"/>
+-        <input type="text" id="Password" placeholder="Entrez votre mot de passe"/>
++        <input type="text" id="Password" placeholder="Entrez votre mot de passe"/></br>
+         <button type="button" onclick="inscriptionButton()">Créez votre compte</button>
+     </div>
+ 
+Index: Alibabance/static/MonFichierCode.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\nlet user = {email:\"\"}\r\nfunction updateUser(email)\r\n{\r\n\tuser.email = email\r\n}\r\n\r\nfunction Fonction2()\r\n{\r\n\tdocument.getElementsByName(\"ligne1\")[1].style.background=\"lightgreen\"\r\n\tdocument.getElementsByName(\"ligne1\")[1].style.border=\"10px solid green\"\r\n\tdocument.getElementsByName(\"ligne1\")[1].innerHTML=\"Ligne ind&eacute;pendante.\"\r\n}\r\n\r\nfunction Fonction3()\r\n{\r\n\tdocument.getElementById(\"ligne2\").style.color=\"blue\";\r\n\tdocument.getElementById(\"ligne2\").innerHTML=\"Plus de contenu ici!\";\r\n\tdocument.getElementById(\"ligne2\").align=\"right\";\r\n}\r\n\r\nfunction SupprimerContenu()\r\n{\r\n\tdocument.getElementById(\"email\").value=\"\";\r\n\tdocument.getElementById(\"password\").value=\"\";\r\n}\r\nasync function inscriptionButton(){\r\n    let newClientNom = document.getElementById(\"newClientNom-input\")\r\n    let newClientPrenom = document.getElementById(\"newClientPrenom-input\").value\r\n    let newClientAge = document.getElementById(\"newClientAge-input\").value\r\n    let newClientTelephone = document.getElementById(\"newClientTelephone-input\").value\r\n    let newClientMail = document.getElementById(\"newClientMail-input\").value\r\n    let newClientPassword = document.getElementById(\"newClientPassword-input\").value\r\n    let newClientPassword2 = document.getElementById(\"newClientPassword2-input\").value\r\n\r\n    console.log(newClientNom, newClientPrenom, newClientAge, newClientEmail, newClientPassword);\r\n    try {\r\n        const res = await fetch(\"http://127.0.0.1:5000/inscription\", {\r\n            method: \"POST\",\r\n            headers: {\r\n                \"Content-Type\": \"application/json\",\r\n            },\r\n            body: JSON.stringify({\r\n                nom : newClientNom,\r\n                email: newClientMail,\r\n                password: newClientPassword\r\n            })\r\n        })\r\n\r\n        response = await res.json()\r\n\r\n        if(response.status === 200){\r\n            window.location.href = \"http://127.0.0.1:5000/home\"\r\n        } else{\r\n            document.createElement(\"div\".innerText())\r\n        }\r\n    }//add catch or finally\r\n}\r\n\r\nasync function login() {\r\n    debugger\r\n    let email = document.getElementById(\"email\").value\r\n    let password = document.getElementById(\"password\").value\r\n\r\n    try {\r\n        const res = await fetch(\"http://127.0.0.1:5000/connection\", {\r\n            method: \"POST\",\r\n            headers: {\r\n                \"Content-Type\": \"application/json\",\r\n            },\r\n            body: JSON.stringify({\r\n                email: email,\r\n                motDePasse: password\r\n            })\r\n        })\r\n\r\n        response = await res.json()\r\n\r\n\r\n        if (response.status === 200){\r\n            debugger\r\n            localStorage.setItem(\"email\", `${email}`)\r\n            window.location.href = \"http://127.0.0.1:5000/home\"\r\n\r\n        } else {\r\n            let erreurConnexion = document.createElement('div')\r\n            erreurConnexion.innerText = \"L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte\"\r\n            let container = document.getElementById(\"container\")\r\n            container.appendChild(erreurConnexion)\r\n        }\r\n    } catch (err){\r\n        console.log(\"erreur\")\r\n    }\r\n}\r\n\r\nasync function getProducts() {\r\n    let url = \"http://127.0.0.1:5000/\"\r\n\r\n    const res = await fetch(\"http://127.0.0.1:5000/products\")\r\n    response = await res.json()\r\n\r\n    const products = response.products\r\n    products.forEach( product => {\r\n        displayProduct(product);\r\n        document.getElementsByName(\"wesh\")\r\n    })\r\n\r\n    document.getElementsByName(\"carte\").forEach( carte => {\r\n        carte.addEventListener('click', () => {goProductPage(carte.id)} )})\r\n\r\n\r\n}\r\n\r\nasync function chargerPanier() {\r\n    debugger\r\n    try {\r\n        const res = await fetch(\"http://127.0.0.1:5000/produitsDuPanier\", {\r\n            method: \"POST\",\r\n            headers: {\r\n                \"Content-Type\": \"application/json\",\r\n            },\r\n            body: JSON.stringify({\r\n                email: localStorage.getItem(\"email\"),\r\n            })\r\n        })\r\n         let response =  (await res.json())\r\n\r\n        const products = response.products\r\n\r\n        products.forEach(product => {\r\n            displayProductInPanier(product[0])\r\n        })\r\n    } catch (e) {\r\n        console.log(e.message)\r\n    }\r\n}\r\n\r\nfunction displayProductInPanier(product){\r\n    let productContainer = document.getElementById(\"containerInPanier\")\r\n\r\n    let id = product[0]\r\n    let image = product[1]\r\n    let nom = product[2]\r\n    let price = product[5]\r\n    let en_stock = product[5]\r\n\r\n    let productDiv = document.createElement(\"div\")\r\n    productDiv.setAttribute('id', 'productContainerInCart')\r\n\r\n    let infosDiv = document.createElement(\"div\")\r\n    infosDiv.setAttribute('id', 'infoDiv')\r\n\r\n\r\n\r\n    let title = document.createElement(\"h1\")\r\n    title.innerText=nom\r\n\r\n\r\n    let prix = document.createElement(\"h3\")\r\n    prix.innerText= \"prix : \" + price\r\n\r\n    infosDiv.appendChild(title);\r\n    infosDiv.appendChild(prix);\r\n\r\n\r\n    productContainer.appendChild(infosDiv)\r\n}\r\n\r\nasync function displayProduct(product) {\r\n    let productContainer = document.getElementById(\"ProductContainer\")\r\n\r\n    let id = product[0]\r\n    let image = product[1]\r\n    let nom = product[2]\r\n    let couleur = product[3]\r\n    let price = product[4]\r\n    let en_stock = product[5]\r\n\r\n    let productDiv = document.createElement(\"div\")\r\n    productDiv.classList.add(\"card\")\r\n    productDiv.setAttribute('name','carte')\r\n    productDiv.setAttribute('id',`${id}`)\r\n\r\n    let img = document.createElement('img')\r\n    img.setAttribute('src', image)\r\n    // card-body\r\n    let div = document.createElement('div')\r\n    div.classList.add(\"card-body\")\r\n    // card-title\r\n    let h5 = document.createElement('h1')\r\n    h5.classList.add(\"card-title\")\r\n    h5.innerText = nom;\r\n    div.appendChild(h5)\r\n\r\n    //price\r\n    let p1 = document.createElement('h5')\r\n    h5.classList.add(\"card-text\")\r\n    p1.innerText = \"Prix : \" + price;\r\n    div.appendChild(p1)\r\n    // color\r\n    let p2 = document.createElement('h5')\r\n    p2.innerText = \"Couleur : \" + couleur;\r\n    div.appendChild(p2)\r\n\r\n    //taille\r\n    // let p3 = document.createElement('h5')\r\n    // p3.innerText = \"Taille : \" + taille;\r\n    // div.appendChild(p3)\r\n\r\n    let button = document.createElement('button')\r\n    button.innerText = \"ajouter au panier\";\r\n    button.addEventListener('click', ()=>{ajouterProduitAuPanier(id)})\r\n    div.appendChild(button)\r\n\r\n    productDiv.appendChild(img)\r\n    productDiv.appendChild(div)\r\n\r\n\r\n\r\n\r\n    productContainer.appendChild(productDiv)\r\n\r\n\r\n\r\n}\r\nfunction goPanier(){\r\n    window.location.href = \"http://127.0.0.1:5000/Panier\"\r\n}\r\n\r\nasync function goProductPage(id) {\r\n    window.location.href = `http://127.0.0.1:5000/productPage?id=${id}`\r\n}\r\n\r\nasync function getProduct(id){\r\n    const res = await fetch(\"http://127.0.0.1:5000/getProduct\", {\r\n        method: \"GET\",\r\n        headers: {\r\n            \"Content-Type\": \"application/json\",\r\n        },\r\n        body: JSON.stringify({\r\n            id: id,\r\n        })\r\n    })\r\n    return (await res.json())\r\n}\r\n\r\n\r\nasync function ajouterProduitAuPanier(){\r\n    debugger\r\n    let selectionMenu = document.getElementById('tailles')\r\n    const id = selectionMenu.value\r\n    try {\r\n        const res = await fetch(\"http://127.0.0.1:5000/addProductToCart\", {\r\n            method: \"POST\",\r\n            headers: {\r\n                \"Content-Type\": \"application/json\",\r\n            },\r\n            body: JSON.stringify({\r\n                email : localStorage.getItem(\"email\"),\r\n                id: id,\r\n            })\r\n        })\r\n\r\n        const div = document.getElementById('message')\r\n        const infosDajout = document.createElement('div')\r\n        infosDajout.innerText = \"produit ajouté\"\r\n        div.appendChild(infosDajout)\r\n    } catch (e){\r\n        console.log(e.message)\r\n    }\r\n}\r\n\r\nasync function getTailleOfModel(id) {\r\n    const res = await fetch(`http://127.0.0.1:5000/product?id=${id}`)\r\n    response = await res.json()\r\n\r\n    debugger;\r\n    let div = document.getElementById('tailles')\r\n    response.forEach(product => {\r\n        let option = document.createElement('option')\r\n        option.setAttribute('value',product[0])\r\n        option.innerText = product[1]\r\n        div.appendChild(option)\r\n    })\r\n    return response;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Alibabance/static/MonFichierCode.js b/Alibabance/static/MonFichierCode.js
+--- a/Alibabance/static/MonFichierCode.js	(revision 6d08057cbdecea7ebc355c8f31e8d83c4341fad0)
++++ b/Alibabance/static/MonFichierCode.js	(date 1681533291936)
+@@ -29,20 +29,23 @@
+     let newClientPrenom = document.getElementById("newClientPrenom-input").value
+     let newClientAge = document.getElementById("newClientAge-input").value
+     let newClientTelephone = document.getElementById("newClientTelephone-input").value
+-    let newClientMail = document.getElementById("newClientMail-input").value
++    let newClientEmail = document.getElementById("newClientMail-input").value
+     let newClientPassword = document.getElementById("newClientPassword-input").value
+-    let newClientPassword2 = document.getElementById("newClientPassword2-input").value
+ 
+     console.log(newClientNom, newClientPrenom, newClientAge, newClientEmail, newClientPassword);
+     try {
+         const res = await fetch("http://127.0.0.1:5000/inscription", {
+             method: "POST",
+             headers: {
++
+                 "Content-Type": "application/json",
+             },
+             body: JSON.stringify({
+                 nom : newClientNom,
+-                email: newClientMail,
++                prenom : newClientPrenom,
++                email: newClientEmail,
++                age: newClientAge,
++                telephone: newClientTelephone,
+                 password: newClientPassword
+             })
+         })
+@@ -54,7 +57,9 @@
+         } else{
+             document.createElement("div".innerText())
+         }
+-    }//add catch or finally
++    } catch(err){
++        console.log('Erreur');
++    }
+ }
+ 
+ async function login() {
+@@ -84,7 +89,7 @@
+ 
+         } else {
+             let erreurConnexion = document.createElement('div')
+-            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte"
++            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas le bon, réessayez"
+             let container = document.getElementById("container")
+             container.appendChild(erreurConnexion)
+         }
+@@ -215,9 +220,6 @@
+     productDiv.appendChild(img)
+     productDiv.appendChild(div)
+ 
+-
+-
+-
+     productContainer.appendChild(productDiv)
+ 
+ 
+Index: Alibabance/serveur.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask, render_template, request, jsonify\r\nfrom database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \\\r\n    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel\r\n\r\napp = Flask(__name__)\r\n\r\n\r\n@app.route(\"/\")\r\ndef main():\r\n    return render_template(\"login.html\")\r\n\r\n\r\n@app.route(\"/home\", methods=[\"GET\"])\r\ndef home():\r\n    return render_template(\"bienvenu.html\", )\r\n\r\n\r\n@app.route(\"/panier\", methods=[\"GET\"])\r\ndef Panier():\r\n    return render_template(\"Panier.html\")\r\n\r\n@app.route(\"/inscription\", methods=[\"GET\"])\r\ndef inscription():\r\n    return render_template(\"inscription.html\")\r\n\r\n@app.route(\"/productPage\", methods=[\"GET\"])\r\ndef ProductPage():\r\n    id = request.args.get('id')\r\n    infos = getInfoOfModel(id)\r\n    return render_template(\"productPage.html\", infos=infos)\r\n\r\n@app.route(\"/getProduct\", methods=[\"GET\"])\r\ndef ProductInfo():\r\n    data = request.json\r\n    id = data['id']\r\n    infos = []\r\n    for i in getInfoOfProduct(id):\r\n        infos.append(i)\r\n\r\n    response = {\r\n        \"infos\": infos\r\n    }\r\n    return jsonify(infos)\r\n\r\n\r\n@app.route(\"/inscription\", methods=[\"GET\"])\r\ndef takeEmail():\r\n    return\r\ndef takePassword():\r\n    return\r\n\r\n@app.route(\"/ajoutUser\", methods=[\"POST\"])\r\ndef addUserEmail():\r\n    return\r\ndef addUserPassword():\r\n    return\r\n\r\n\r\n@app.route(\"/connection\", methods=[\"POST\"])\r\ndef connection():\r\n    data = request.json\r\n\r\n    email = data[\"email\"]\r\n    password = data[\"motDePasse\"]\r\n\r\n    presentInDb = isItInDb(email, password)\r\n\r\n    if (presentInDb):\r\n        response = {\r\n            \"status\": 200\r\n        }\r\n    else:\r\n        response = {\r\n            \"status\": 403,\r\n            \"reason\": \"L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte\"\r\n        }\r\n\r\n    return jsonify(response)\r\n\r\n\r\n@app.route(\"/product\", methods=[\"GET\"])\r\ndef getProduct():\r\n    id = request.args.get('id')\r\n    return jsonify(getAvailableTailleOfSepeceficModel(id))\r\n\r\n@app.route(\"/products\", methods=[\"GET\"])\r\ndef getProducts():\r\n    products = getProductsFromDataBase()\r\n\r\n    return products\r\n\r\n\r\n@app.route(\"/produitsDuPanier\", methods=[\"POST\"])\r\ndef getProductsFromPanier():\r\n    data = request.json\r\n    email = data[\"email\"]\r\n    products = getProductsInPanierFromDataBase(email)\r\n\r\n    return products\r\n\r\n\r\n@app.route(\"/test\", methods=[\"GET\"])\r\ndef get_test():\r\n    response = {\r\n        \"wesh\": 300,\r\n        \"oll\": \"caca\"\r\n    }\r\n\r\n    zebi = jsonify(response)\r\n    return zebi\r\n\r\n\r\n@app.route(\"/addProductToCart\", methods=[\"POST\"])\r\ndef addProductToCart():\r\n    data = request.json\r\n\r\n    email = data[\"email\"]\r\n    id = data[\"id\"]\r\n\r\n    addProductToCartInDataBase(id,email)\r\n\r\n    response = {\r\n        \"status\": 200\r\n    }\r\n    return jsonify(response)\r\n\r\n\r\n\r\n\r\n\r\nif __name__ == '__main__':\r\n    app.run()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Alibabance/serveur.py b/Alibabance/serveur.py
+--- a/Alibabance/serveur.py	(revision 6d08057cbdecea7ebc355c8f31e8d83c4341fad0)
++++ b/Alibabance/serveur.py	(date 1681531572239)
+@@ -45,13 +45,13 @@
+ 
+ @app.route("/inscription", methods=["GET"])
+ def takeEmail():
+-    return
++    pass
+ def takePassword():
+-    return
++    pass
+ 
+ @app.route("/ajoutUser", methods=["POST"])
+ def addUserEmail():
+-    return
++    pass
+ def addUserPassword():
+     return
+ 
