@@ -6,20 +6,20 @@
     <link rel="stylesheet" type="text/css" href="../static/MonFichierStyle.css">
     <script type="text/javascript" src="../static/MonFichierCode.js"></script>
 </head>
-<body onload=SupprimerContenu()>
+<body onload = SupprimerContenu()>
     <h1>
         Inscription
     </h1>
-    <form action="inscription.html" method="post">
-        <input type="text" id="newClientNom-input" placeholder="Entrez votre nom"/>
-        <input type="text" id="newClientPrenom-input" placeholder="Entrez votre prenom"/><br><br>
-        <input type="text" id="newClientAge-input" placeholder="Entrez votre age"/>
-        <input type="text" id="newClientTelephone-input" placeholder="Entrez votre telephone"/><br><br>
-        <input type="text" id="newClientEmail-input" placeholder="Entrez votre mail"/><br><br>
-        <input type="password" id="newClientPassword-input" placeholder="Entrez votre mot de passe"/>
-        <input type="password" id="newClientPassword2-input" placeholder="Confirmez votre mot de passe"><br>
-    </form>
-    <button type="button" onclick="inscriptionButton()">Créez votre compte</button>
+
+    <div id="newUserAccount">
+        <input type="text" id="Nom" placeholder="Entrez votre nom"/>
+        <input type="text" id="Prenom" placeholder="Entrez votre prenom"/>
+        <input type="text" id="Age" placeholder="Entrez votre age"/>
+        <input type="integer" id="Telephone" placeholder="Entrez votre telephone"/>
+        <input type="text" id="Email" placeholder="Entrez votre mail"/>
+        <input type="text" id="Password" placeholder="Entrez votre mot de passe"/>
+        <button type="button" onclick="inscriptionButton()">Créez votre compte</button>
+    </div>
 
     <div id="addUser-container">
 

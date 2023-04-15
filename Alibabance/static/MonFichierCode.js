@@ -1,9 +1,8 @@
 
-let user = ""
-function Fonction1()
+let user = {email:""}
+function updateUser(email)
 {
-	document.getElementsByName("ligne1")[0].style.color="red"
-	document.getElementsByName("ligne1")[0].innerHTML="Ligne <i>mise &agrave; jour</i> par fonction JavaScript."
+	user.email = email
 }
 
 function Fonction2()
@@ -80,12 +79,12 @@ async function login() {
 
         if (response.status === 200){
             debugger
-            user = email
+            localStorage.setItem("email", `${email}`)
             window.location.href = "http://127.0.0.1:5000/home"
 
         } else {
             let erreurConnexion = document.createElement('div')
-            erreurConnexion.innerText = "mot de passe ou email incorrect"
+            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte"
             let container = document.getElementById("container")
             container.appendChild(erreurConnexion)
         }
@@ -112,14 +111,70 @@ async function getProducts() {
 
 }
 
+async function chargerPanier() {
+    debugger
+    try {
+        const res = await fetch("http://127.0.0.1:5000/produitsDuPanier", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: localStorage.getItem("email"),
+            })
+        })
+         let response =  (await res.json())
+
+        const products = response.products
+
+        products.forEach(product => {
+            displayProductInPanier(product[0])
+        })
+    } catch (e) {
+        console.log(e.message)
+    }
+}
+
+function displayProductInPanier(product){
+    let productContainer = document.getElementById("containerInPanier")
+
+    let id = product[0]
+    let image = product[1]
+    let nom = product[2]
+    let price = product[5]
+    let en_stock = product[5]
+
+    let productDiv = document.createElement("div")
+    productDiv.setAttribute('id', 'productContainerInCart')
+
+    let infosDiv = document.createElement("div")
+    infosDiv.setAttribute('id', 'infoDiv')
+
+
+
+    let title = document.createElement("h1")
+    title.innerText=nom
+
+
+    let prix = document.createElement("h3")
+    prix.innerText= "prix : " + price
+
+    infosDiv.appendChild(title);
+    infosDiv.appendChild(prix);
+
+
+    productContainer.appendChild(infosDiv)
+}
+
 async function displayProduct(product) {
     let productContainer = document.getElementById("ProductContainer")
 
     let id = product[0]
-    let name = product[1]
-    let color = product[2]
-    let taille = product[3]
+    let image = product[1]
+    let nom = product[2]
+    let couleur = product[3]
     let price = product[4]
+    let en_stock = product[5]
 
     let productDiv = document.createElement("div")
     productDiv.classList.add("card")
@@ -127,14 +182,14 @@ async function displayProduct(product) {
     productDiv.setAttribute('id',`${id}`)
 
     let img = document.createElement('img')
-    img.setAttribute('src', "https://cdn.shopify.com/s/files/1/0257/5305/9400/products/adidas-Yeezy-Slide-Bone-2022-Product.webp?v=1679272266")
+    img.setAttribute('src', image)
     // card-body
     let div = document.createElement('div')
     div.classList.add("card-body")
     // card-title
-    let h5 = document.createElement('h5')
+    let h5 = document.createElement('h1')
     h5.classList.add("card-title")
-    h5.innerText = name;
+    h5.innerText = nom;
     div.appendChild(h5)
 
     //price
@@ -144,13 +199,13 @@ async function displayProduct(product) {
     div.appendChild(p1)
     // color
     let p2 = document.createElement('h5')
-    p2.innerText = "Couleur : " + color;
+    p2.innerText = "Couleur : " + couleur;
     div.appendChild(p2)
 
     //taille
-    let p3 = document.createElement('h5')
-    p3.innerText = "Taille : " + taille;
-    div.appendChild(p3)
+    // let p3 = document.createElement('h5')
+    // p3.innerText = "Taille : " + taille;
+    // div.appendChild(p3)
 
     let button = document.createElement('button')
     button.innerText = "ajouter au panier";
@@ -190,9 +245,10 @@ async function getProduct(id){
 }
 
 
-async function ajouterProduitAuPanier(id){
+async function ajouterProduitAuPanier(){
     debugger
-    console.log(user)
+    let selectionMenu = document.getElementById('tailles')
+    const id = selectionMenu.value
     try {
         const res = await fetch("http://127.0.0.1:5000/addProductToCart", {
             method: "POST",
@@ -200,21 +256,31 @@ async function ajouterProduitAuPanier(id){
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email : user,
+                email : localStorage.getItem("email"),
                 id: id,
             })
         })
 
-        response = await res.json()
+        const div = document.getElementById('message')
+        const infosDajout = document.createElement('div')
+        infosDajout.innerText = "produit ajouté"
+        div.appendChild(infosDajout)
     } catch (e){
         console.log(e.message)
     }
 }
-//
-// function inscriptionButton(){
-//     var newNom= document.getElementById("newClientNom-input")
-//     var newPrenom = document.getElementById("newClientPrenom-input").value
-//     var newAge = document.getElementById("newClientAge-input").value
-//     var newTelephone = document.getElementById()
-//
-// }
+
+async function getTailleOfModel(id) {
+    const res = await fetch(`http://127.0.0.1:5000/product?id=${id}`)
+    response = await res.json()
+
+    debugger;
+    let div = document.getElementById('tailles')
+    response.forEach(product => {
+        let option = document.createElement('option')
+        option.setAttribute('value',product[0])
+        option.innerText = product[1]
+        div.appendChild(option)
+    })
+    return response;
+}

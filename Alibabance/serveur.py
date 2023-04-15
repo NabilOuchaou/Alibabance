@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct
+from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
+    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel
 
 app = Flask(__name__)
 
@@ -18,11 +19,14 @@ def home():
 def Panier():
     return render_template("Panier.html")
 
+@app.route("/inscription", methods=["GET"])
+def inscription():
+    return render_template("inscription.html")
 
 @app.route("/productPage", methods=["GET"])
 def ProductPage():
     id = request.args.get('id')
-    infos = getInfoOfProduct(id)
+    infos = getInfoOfModel(id)
     return render_template("productPage.html", infos=infos)
 
 @app.route("/getProduct", methods=["GET"])
@@ -67,13 +71,17 @@ def connection():
         }
     else:
         response = {
-            "status": 404,
+            "status": 403,
             "reason": "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte"
         }
 
     return jsonify(response)
 
 
+@app.route("/product", methods=["GET"])
+def getProduct():
+    id = request.args.get('id')
+    return jsonify(getAvailableTailleOfSepeceficModel(id))
 
 @app.route("/products", methods=["GET"])
 def getProducts():
@@ -82,6 +90,13 @@ def getProducts():
     return products
 
 
+@app.route("/produitsDuPanier", methods=["POST"])
+def getProductsFromPanier():
+    data = request.json
+    email = data["email"]
+    products = getProductsInPanierFromDataBase(email)
+
+    return products
 
 
 @app.route("/test", methods=["GET"])
