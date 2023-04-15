@@ -202,20 +202,22 @@ INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String12
 
 #Declencheur qui s'assure qu'un user n'a pas le meme email dans Utilisateurs avant de l'add dans la bd.#
 DELIMITER //
-Drop trigger if exists IsUserAlreadyInDb;
+DROP TRIGGER IF EXISTS IsUserAlreadyInDb;
 //
 CREATE TRIGGER IsUserAlreadyInDb BEFORE INSERT ON Utilisateurs
 FOR EACH ROW
 BEGIN
-    DECLARE email_exists INT;
+    DECLARE email_exists INT DEFAULT 0;
 
-    SELECT email INTO email_exists FROM Utilisateurs WHERE email = NEW.email;
+    SELECT COUNT(email) INTO email_exists FROM Utilisateurs WHERE email = NEW.email;
 
-    IF email_exists IN (SELECT email FROM Utilisateurs) THEN
+    IF email_exists > 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Un utilisateur existe deja avec cet email';
     END IF;
 END;
+//
 DELIMITER ;
+
 
 
 
