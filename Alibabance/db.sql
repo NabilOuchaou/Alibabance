@@ -14,7 +14,7 @@ drop table if exists Inventaire;
 CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone varchar(11),age integer(2));
 CREATE TABLE if not exists Inventaire (id_produit integer PRIMARY KEY,id_modele integer, nom char(60),stock integer,taille double, cout_produit double);
 CREATE TABLE IF NOT EXISTS Produits(id_modele integer PRIMARY KEY AUTO_INCREMENT, image varchar(10000), nom_produit varchar (45),couleur varchar(30), prix_produit double, en_stock integer (1));
-create table if not exists Passwords(email varchar (40),mot_de_passe varchar (50), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
+create table if not exists Passwords(email varchar (40),mot_de_passe varchar (255), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
 
 
 CREATE TABLE IF NOT EXISTS Paniers(id_panier integer PRIMARY KEY NOT NULL AUTO_INCREMENT, quantite integer DEFAULT 1, id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Produits(id_modele));
@@ -189,13 +189,16 @@ SELECT * FROM Utilisateurs;
 # INSERT INTO Utilisateurs(email, nom, prenom, telephone, age) VALUES ("hamid21@gmail.com", "Lihwak", "Hamid", "418569293", 20);
 
 # INSERT INTO Paniers (id_panier, quantite, id_Produit, email) VALUE (2, 14, "hamid21@gmail.com");
+
+INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
+
 INSERT INTO Paniers (quantite, id_Produit, email) VALUES (4, 22, "janesmith2@email.com");
 
 SELECT * FROM Paniers;
 
 
 
-insert into Passwords(email, mot_de_passe) value ("hamid@gmail.com", "String123");
+INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
 
 #Declencheur qui s'assure qu'un user n'a pas le meme email dans Utilisateurs avant de l'add dans la bd.#
 DELIMITER //
