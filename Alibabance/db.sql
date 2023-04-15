@@ -200,7 +200,7 @@ DELIMITER ;
 
 
 
-INSERT INTO Utilisateurs (email, nom, prenom, telephone, age)
+INSERT INTO Utilisateurs(email, nom, prenom, telephone, age)
 VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
        ("janesmith2@email.com", "Smith", "Jane", "234567890", 25),
        ("davidbrown3@email.com", "Brown", "David", "345678901", 28),
@@ -236,4 +236,3 @@ INSERT INTO Paniers (quantite, id_Produit, email) VALUES (2, 14, 'hamid@gmail.co
 INSERT INTO Paniers (quantite, id_Produit, email) VALUES (4, 22, 'janesmith2@email.com');
 
 SELECT * FROM Paniers;
-#Invalid use in group function problem#
