@@ -90,12 +90,12 @@ async function login() {
 
         } else {
             let erreurConnexion = document.createElement('div')
-            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas le bon, réessayez"
+            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi n’est pas le bon, réessayez"
             let container = document.getElementById("container")
             container.appendChild(erreurConnexion)
         }
     } catch (err){
-        console.log("erreur")
+        console.log("Erreur de connexion de l'utilisateur")
     }
 }
 
