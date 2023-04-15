@@ -54,7 +54,9 @@ async function inscriptionButton(){
         } else{
             document.createElement("div".innerText())
         }
-    }//add catch or finally
+    } catch (err){
+        console.log("erreur")
+    } //add catch or finally
 }
 
 async function login() {

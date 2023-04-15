@@ -2,12 +2,16 @@ CREATE DATABASE IF NOT EXISTS glo_2005_webapp_2023;
 use glo_2005_webapp_2023;
 
 
-drop table if exists Favoris;
+
+drop table if exists Passwords;
 drop table if exists Livraisons;
 DROP TABLE if exists Commandes;
 DROP TABLE if exists Paniers;
-DROP TABLE if exists Produits;
+drop table if exists Utilisateurs;
+drop table if exists Favoris;
 drop table if exists Inventaire;
+drop table if exists Produits;
+
 
 
 
@@ -186,19 +190,20 @@ SELECT * FROM Paniers;
 select * from Inventaire;
 SELECT * FROM Utilisateurs;
 
-# INSERT INTO Utilisateurs(email, nom, prenom, telephone, age) VALUES ("hamid21@gmail.com", "Lihwak", "Hamid", "418569293", 20);
+delete from Utilisateurs where email = "hamid21@gmail.com";
+INSERT INTO Utilisateurs(email, nom, prenom, telephone, age) VALUES ("hamid@gmail.com", "Lihwak", "Hamid", "418569293", 20);
 
 # INSERT INTO Paniers (id_panier, quantite, id_Produit, email) VALUE (2, 14, "hamid21@gmail.com");
 
-INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
+# INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
 
-INSERT INTO Paniers (quantite, id_Produit, email) VALUES (4, 22, "janesmith2@email.com");
+INSERT INTO Paniers (quantite, id_Produit, email) VALUES (1,22, "janesmith2@email.com");
 
 SELECT * FROM Paniers;
 
 
 
-INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
+# INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
 
 #Declencheur qui s'assure qu'un user n'a pas le meme email dans Utilisateurs avant de l'add dans la bd.#
 DELIMITER //
@@ -331,17 +336,14 @@ END;
 DELIMITER ;
 
 
-
-
-
-
+insert into Passwords value ("hamid@gmail.com", "String123");
 
 
 # Insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
 # Insert into Passwords value ("hamid@gmail.com","String123")
 
 
-DESCRIBE Paniers;
+
 SELECT * FROM Paniers;
 select * from Inventaire;
 SELECT * FROM Utilisateurs;
