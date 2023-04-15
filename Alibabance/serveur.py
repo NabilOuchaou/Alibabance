@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from database import isItInDb, getProductsFromDataBase, addNewClientToDB
+from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct
 
 app = Flask(__name__)
 
@@ -13,11 +13,44 @@ def main():
 def home():
     return render_template("bienvenu.html", )
 
+
+@app.route("/panier", methods=["GET"])
+def Panier():
+    return render_template("Panier.html")
+
+
+@app.route("/productPage", methods=["GET"])
+def ProductPage():
+    id = request.args.get('id')
+    infos = getInfoOfProduct(id)
+    return render_template("productPage.html", infos=infos)
+
+@app.route("/getProduct", methods=["GET"])
+def ProductInfo():
+    data = request.json
+    id = data['id']
+    infos = []
+    for i in getInfoOfProduct(id):
+        infos.append(i)
+
+    response = {
+        "infos": infos
+    }
+    return jsonify(infos)
+
+
+@app.route("/inscription", methods=["GET"])
+def takeEmail():
+    return
+def takePassword():
+    return
+
 @app.route("/ajoutUser", methods=["POST"])
 def addUserEmail():
-    pass
+    return
 def addUserPassword():
-    pass
+    return
+
 
 @app.route("/connection", methods=["POST"])
 def connection():
@@ -48,53 +81,6 @@ def getProducts():
 
     return products
 
-@app.route("/inscription", methods=["GET"])
-def inscription():
-    data = request.json
-
-    nom = data["nom"]
-    email = data["email"]
-    password = data["password"]
-    age = data["age"]
-    telephone = data["telephone"]
-    prenom = data["prenom"]
-
-
-
-    # newClientNom = request.form.get("newClientNom-input")
-    # newClientPrenom = request.form.get("newClientPrenom-input")
-    # newClientAge = request.form.get("newClientAge-input")
-    # newClientTelephone = request.form.get("newClientTelephone-input")
-    # newClientEmail = request.form.get("newClientEmail-input")
-    # newClientPassword = request.form.get("newClientPassword-input")
-    # newClientPassword2 = request.form.get("newClientPassword2-input")
-
-# get    data = request.json
-#
-#     email = data["email"]
-#     password = data["motDePasse"]
-#     alreadyInDb = isItInDb(newClientEmail, newClientPassword)
-#
-#     if (alreadyInDb):
-#         response = {
-#             "status": 404,
-#             "reason": "Cet email est déjà associé à un compte, essayez de récupérer votre mot de passe."
-#         }
-#     else:
-
-
-    addNewClientToDB(email, nom, prenom, telephone, age)
-
-
-
-    response = {
-            "status": 200,
-            "nom": nom,
-        "email" : email,
-        "password" : password
-
-        }
-    return jsonify(response)
 
 
 
@@ -107,6 +93,24 @@ def get_test():
 
     zebi = jsonify(response)
     return zebi
+
+
+@app.route("/addProductToCart", methods=["POST"])
+def addProductToCart():
+    data = request.json
+
+    email = data["email"]
+    id = data["id"]
+
+    addProductToCartInDataBase(id,email)
+
+    response = {
+        "status": 200
+    }
+    return jsonify(response)
+
+
+
 
 
 if __name__ == '__main__':

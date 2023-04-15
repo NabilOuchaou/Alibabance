@@ -117,7 +117,5 @@ def addNewClientToDB(Email, Nom, Prenom, Telephone, Age):
 
     cursor.execute(request)
 
-
-
 if __name__ == '__main__':
-    print("Welcome")
+    print("we")
