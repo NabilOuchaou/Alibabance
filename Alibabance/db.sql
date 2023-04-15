@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Produits(id_modele integer PRIMARY KEY AUTO_INCREMENT
 create table if not exists Passwords(email varchar (40),mot_de_passe varchar (255), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
 
 
-CREATE TABLE IF NOT EXISTS Paniers(id_panier integer PRIMARY KEY NOT NULL AUTO_INCREMENT, id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Produits(id_modele));
+CREATE TABLE IF NOT EXISTS Paniers(id_panier integer PRIMARY KEY NOT NULL AUTO_INCREMENT, id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Inventaire(id_produit));
 CREATE TABLE IF NOT EXISTS Commandes(id_commande integer PRIMARY KEY NOT NULL AUTO_INCREMENT,adresse CHAR(20), email varchar (40), prix_totalCommande double, FOREIGN KEY (email) REFERENCES utilisateurs (email));
 CREATE TABLE IF NOT EXISTS Livraisons(id_commande integer, adresse CHAR(30), jour char(20), FOREIGN KEY (id_commande) REFERENCES Commandes(id_commande));
 create table if not exists Favoris(id_Produit integer, id_utilisateur integer);
@@ -242,26 +242,26 @@ end;
 DELIMITER ;
 
 
-
+############################# POSSIBLE SUPPRESSION DE CE TRIGGER SI PAGE HOME = PAGE DE CONNEXION #################################
 #Declencheur permettant de verifier si un utilisateur possede un mail inclus dans Utilisateurs avant de rajouter quelquechose dans son panier#
-DELIMITER //
-DROP TRIGGER IF EXISTS verficationExistenceUserInPanier;
-//
-CREATE TRIGGER verficationExistenceUserInPanier BEFORE INSERT ON Paniers
-FOR EACH ROW
-BEGIN
-    DECLARE emailDuClient VARCHAR(255);
-    DECLARE emailCorrespondantDsUtilisateurs VARCHAR(255);
-
-    SELECT email INTO emailDuClient FROM Paniers;
-    SELECT email INTO emailCorrespondantDsUtilisateurs FROM Utilisateurs;
-
-    IF emailDuClient NOT IN (SELECT emailCorrespondantDsUtilisateurs FROM Utilisateurs) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Vous devez vous creer un compte avant de rajouter un produit dans votre panier.';
-    end if;
-end;
-DELIMITER ;
+# DELIMITER //
+# DROP TRIGGER IF EXISTS verficationExistenceUserInPanier;
+# //
+# CREATE TRIGGER verficationExistenceUserInPanier BEFORE INSERT ON Paniers
+# FOR EACH ROW
+# BEGIN
+#     DECLARE emailDuClient VARCHAR(255);
+#     DECLARE emailCorrespondantDsUtilisateurs VARCHAR(255);
+#
+#     SELECT email INTO emailDuClient FROM Paniers;
+#     SELECT email INTO emailCorrespondantDsUtilisateurs FROM Utilisateurs;
+#
+#     IF emailDuClient NOT IN (SELECT emailCorrespondantDsUtilisateurs FROM Utilisateurs) THEN
+#         SIGNAL SQLSTATE '45000'
+#         SET MESSAGE_TEXT = 'Vous devez vous creer un compte avant de rajouter un produit dans votre panier.';
+#     end if;
+# end;
+# DELIMITER ;
 
 
 
@@ -269,7 +269,7 @@ DELIMITER ;
 DELIMITER //
 DROP PROCEDURE IF EXISTS CalculerCoutTotalPanier;
 //
-CREATE PROCEDURE CalculerCoutTotalPanier(IN p_email VARCHAR(255), OUT p_totalPrice DECIMAL(10, 2))
+CREATE PROCEDURE CalculerCoutTotalPanier(IN p_email VARCHAR(255), OUT p_totalPrice INTEGER)
 BEGIN
     DECLARE v_finished INTEGER DEFAULT 0;
     DECLARE v_idProduit INTEGER;
@@ -292,15 +292,19 @@ BEGIN
         SELECT cout_Produit INTO v_coutProduit
         FROM Inventaire WHERE id_produit = v_idProduit;
 
+        SELECT cout_Produit INTO v_coutProduit
+        FROM Inventaire WHERE id_produit = v_idProduit;
+
         SET v_coutPanier = v_coutPanier + (v_coutProduit);
     END LOOP;
     CLOSE panier_cursor;
+
+
 
     SET p_totalPrice = v_coutPanier;
 end;
 //
 DELIMITER ;
-
 
 
 #Declencheur permettant d'utiliser la procedure CalculerCoutTotalPanier#
@@ -321,6 +325,9 @@ DELIMITER ;
 
 
 
+
+
+
 # Insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
 # Insert into Passwords value ("hamid@gmail.com","String123")
 
@@ -330,3 +337,7 @@ select * from Inventaire;
 SELECT * FROM Utilisateurs;
 
 SELECT * FROM Paniers;
+
+UPDATE Inventaire SET stock = 1 WHERE id_produit = 154;
+
+INSERT INTO Paniers(id_produit, email) VALUES (145, "michaelj6@email.com");
