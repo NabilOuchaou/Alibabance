@@ -45,13 +45,13 @@ def ProductInfo():
 
 @app.route("/inscription", methods=["GET"])
 def takeEmail():
-    return
+    pass
 def takePassword():
-    return
+    pass
 
 @app.route("/ajoutUser", methods=["POST"])
 def addUserEmail():
-    return
+    pass
 def addUserPassword():
     return
 

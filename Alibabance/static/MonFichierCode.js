@@ -29,20 +29,23 @@ async function inscriptionButton(){
     let newClientPrenom = document.getElementById("newClientPrenom-input").value
     let newClientAge = document.getElementById("newClientAge-input").value
     let newClientTelephone = document.getElementById("newClientTelephone-input").value
-    let newClientMail = document.getElementById("newClientMail-input").value
+    let newClientEmail = document.getElementById("newClientMail-input").value
     let newClientPassword = document.getElementById("newClientPassword-input").value
-    let newClientPassword2 = document.getElementById("newClientPassword2-input").value
 
     console.log(newClientNom, newClientPrenom, newClientAge, newClientEmail, newClientPassword);
     try {
         const res = await fetch("http://127.0.0.1:5000/inscription", {
             method: "POST",
             headers: {
+
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 nom : newClientNom,
-                email: newClientMail,
+                prenom : newClientPrenom,
+                email: newClientEmail,
+                age: newClientAge,
+                telephone: newClientTelephone,
                 password: newClientPassword
             })
         })
@@ -54,7 +57,9 @@ async function inscriptionButton(){
         } else{
             document.createElement("div".innerText())
         }
-    }//add catch or finally
+    } catch(err){
+        console.log('Erreur');
+    }
 }
 
 async function login() {
@@ -84,7 +89,7 @@ async function login() {
 
         } else {
             let erreurConnexion = document.createElement('div')
-            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte"
+            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas le bon, réessayez"
             let container = document.getElementById("container")
             container.appendChild(erreurConnexion)
         }
@@ -214,9 +219,6 @@ async function displayProduct(product) {
 
     productDiv.appendChild(img)
     productDiv.appendChild(div)
-
-
-
 
     productContainer.appendChild(productDiv)
 
