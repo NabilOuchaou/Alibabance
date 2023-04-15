@@ -99,8 +99,13 @@ def getProductsInPanierFromDataBase(email):
 
 
 
-def addNewClientToDB():
-    request = f'''INSERT INTO Utilisateurs VALUES ()'''
+def addNewClientToDB(prenom, nom, age, telephone, mail, motDePasse):
+
+    request = f'''INSERT INTO Utilisateurs VALUES ('{mail}', '{nom}','{prenom}','{telephone}','{age}')'''
+
+    cursor.execute(request)
+
+    request = f'''INSERT INTO Passwords VALUES ('{mail}','{motDePasse}')'''
 
     cursor.execute(request)
 

@@ -1,6 +1,8 @@
+import hashlib
+
 from flask import Flask, render_template, request, jsonify
 from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
-    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel
+    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, addNewClientToDB
 
 app = Flask(__name__)
 
@@ -63,7 +65,11 @@ def connection():
     email = data["email"]
     password = data["motDePasse"]
 
-    presentInDb = isItInDb(email, password)
+    hasher = hashlib.sha3_224()
+    hasher.update(password.encode('utf-8'))
+    hashedPassword = hasher.hexdigest()
+
+    presentInDb = isItInDb(email, hashedPassword)
 
     if (presentInDb):
         response = {
@@ -125,7 +131,21 @@ def addProductToCart():
     return jsonify(response)
 
 
+@app.route("/inscription", methods=["POST"])
+def addUser():
+    data = request.json
 
+    telephone = data['telephone']
+    prenom = data['prenom']
+    nom = data["nom"]
+    email = data["email"]
+    password = data["password"]
+    age = data["age"]
+
+    hasher = hashlib.sha3_224()
+    hasher.update(password.encode('utf-8'))
+    hashedPassword = hasher.hexdigest()
+    addNewClientToDB(prenom,nom,age,telephone,email,hashedPassword)
 
 
 if __name__ == '__main__':

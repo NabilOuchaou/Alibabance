@@ -104,9 +104,9 @@ async function chargerPanier() {
 
 function displayProductInPanier(product){
     let productContainer = document.getElementById("containerInPanier")
-
+    debugger
     let id = product[0]
-    let image = product[1]
+    let taille = product[4]
     let nom = product[2]
     let price = product[5]
     let en_stock = product[5]
@@ -120,7 +120,7 @@ function displayProductInPanier(product){
 
 
     let title = document.createElement("h1")
-    title.innerText=nom
+    title.innerText=nom + ", taille : " + taille
 
 
     let prix = document.createElement("h3")
@@ -251,4 +251,8 @@ async function getTailleOfModel(id) {
         div.appendChild(option)
     })
     return response;
+}
+
+function inscription(){
+    document.getElementById("")
 }
