@@ -116,10 +116,12 @@ def CommanderDataBase(email):
     cursor.execute(request)
 
 
-def addNewClientToDB():
-    request = f'''INSERT INTO Utilisateurs VALUES ('{email}', '{nom}', '{prenom}', '{telephone}', '{age}')'''
+def addNewClientToDB(prenom, nom, email, telephone, age):
+    request = f'''INSERT INTO Utilisateurs VALUES ('{email}', '{nom}', '{prenom}', '{telephone}', '{age}');'''
 
     cursor.execute(request)
+    connection.commit()
+    connection.close()
 
 if __name__ == '__main__':
     print("we")

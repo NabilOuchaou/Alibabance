@@ -51,11 +51,33 @@ def ProductInfo():
     return jsonify(infos)
 
 
-@app.route("/inscription", methods=["GET"])
-def takeEmail():
-    pass
-def takePassword():
-    pass
+@app.route("/inscription", methods=["POST"])
+
+def createNewUsers():
+    try:
+        data = request.json
+
+        prenom = data["prenom"]
+        nom = data["nom"]
+        email = data["email"]
+        telephone = data["telephone"]
+        age = data["age"]
+
+        addNewClientToDb(prenom, nom, email, telephone, age)
+        response = {
+            "status": 200
+        }
+        return jsonify(response)
+    except Exception as e:
+        print("Error", e)
+        reponse = {
+            "status": 500,
+            "message": "erreur pendant requete"
+        }
+        return jsonify(reponse), 500
+
+
+
 
 @app.route("/ajoutUser", methods=["POST"])
 def addUserEmail():
