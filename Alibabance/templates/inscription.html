@@ -3,8 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Alibabance</title>
+    <link rel="icon" type="image/png" href="https://dynamic.brandcrowd.com/preview/logodraft/e57a4df1-4c96-4f64-adb4-5253f32efeed/image/large.png   "/>
     <link rel="stylesheet" type="text/css" href="../static/MonFichierStyle.css">
     <script type="text/javascript" src="../static/MonFichierCode.js"></script>
+    <style>
+    .custom-button.button {
+        border-radius: 4px;
+        background-color: #f4a61e;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 12px;
+        padding: 18px;
+        width: 200px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    .custom-button.button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+
+    .custom-button.button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+    }
+
+    .custom-button.button:hover span {
+        padding-right: 25px;
+    }
+
+    .custom-button.button:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+    </style>
 </head>
 <body onload="SupprimerContenu()">
     <h1>
@@ -18,7 +59,7 @@
         <input type="text" id="Telephone" placeholder="Entrez votre telephone"/></br>
         <input type="text" id="Email" placeholder="Entrez votre mail"/>
         <input type="text" id="Password" placeholder="Entrez votre mot de passe"/></br>
-        <button type="button" onclick="inscriptionButton()">Créez votre compte</button>
+        <button class="button custom-button" onclick="inscriptionButton()"><span>Créez votre compte</span></button>
     </div>
 
     <div id="addUser-container">

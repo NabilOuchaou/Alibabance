@@ -388,3 +388,5 @@ INSERT INTO Paniers (id_Produit, email) VALUES (22, "janesmith2@email.com");
 
 INSERT INTO Commandes(email) VALUES ("michaelj6@email.com");
 INSERT INTO Commandes(email) VALUES ("janesmith2@email.com");
+
+s

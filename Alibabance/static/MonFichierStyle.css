@@ -369,8 +369,6 @@
 
 
 
-
-/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -534,4 +532,8 @@ main {
 
 .product-info {
     flex: 1;
-    margin-bottom: 2
+    margin-bottom: 2;
+
+
+
+
