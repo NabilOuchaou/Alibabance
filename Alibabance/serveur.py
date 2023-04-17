@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request, jsonify
 from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
-    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase
-
+    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase, getCommandesFromDataBase
 app = Flask(__name__)
 
 
 @app.route("/")
 def main():
     return render_template("login.html")
+
+@app.route("/commandes", methods=["GET"])
+def commandes():
+    return render_template("commades.html", )
 
 
 @app.route("/home", methods=["GET"])
@@ -89,6 +92,13 @@ def getProducts():
 
     return products
 
+@app.route("/getCommandes", methods=["POST"])
+def getCommandes():
+    data = request.json
+    email = data["email"]
+    commandes = getCommandesFromDataBase(email)
+
+    return commandes
 
 @app.route("/produitsDuPanier", methods=["POST"])
 def getProductsFromPanier():

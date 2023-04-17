@@ -100,8 +100,16 @@ def getProductsInPanierFromDataBase(email):
     return jsonify(response)
 
 
+def getCommandesFromDataBase(email):
+    request = f""" SELECT * FROM Commandes where email= '{email}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
 
+    response = {
+        "elements": element
+    }
 
+    return response
 
 def addNewClientToDB():
     request = f'''INSERT INTO Utilisateurs VALUES ()'''

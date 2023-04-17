@@ -60,6 +60,7 @@ header li a {
 header li a:hover{
     color: gray;
     text-decoration: none;
+    cursor: pointer;
 }
 
 #titleInCart{
@@ -191,6 +192,10 @@ main {
 
 .product-info button:hover {
    background-color: #444;
+}
+
+a : hover{
+
 }
 
 /* Panier */

@@ -1,4 +1,7 @@
 
+// if (localStorage.getItem('email') === ""){
+//     window.location.href= "http://127.0.0.1:5000";
+// }
 let user = {email:""}
 function updateUser(email)
 {
@@ -221,10 +224,10 @@ async function displayProduct(product) {
     // p3.innerText = "Taille : " + taille;
     // div.appendChild(p3)
 
-    let button = document.createElement('button')
-    button.innerText = "ajouter au panier";
-    button.addEventListener('click', ()=>{ajouterProduitAuPanier(id)})
-    div.appendChild(button)
+    // let button = document.createElement('button')
+    // button.innerText = "ajouter au panier";
+    // button.addEventListener('click', ()=>{ajouterProduitAuPanier(id)})
+    // div.appendChild(button)
 
     productDiv.appendChild(img)
     productDiv.appendChild(div)
@@ -281,6 +284,29 @@ async function ajouterProduitAuPanier(){
     }
 }
 
+
+function displayCommande(commande) {
+
+}
+
+async function getCommandes(){
+    const res = await fetch(`http://127.0.0.1:5000/getCommandes`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email : localStorage.getItem("email")
+            })
+        })
+
+    response = await res.json()
+
+    response.elements.forEach(commande => {
+        displayCommande(commande)
+    })
+}
+
 async function ViderPanier() {
     debugger;
     const res = await fetch(`http://127.0.0.1:5000/viderPanier`, {
@@ -297,6 +323,11 @@ async function ViderPanier() {
     const total = document.getElementById("priceTotal")
     total.innerHTML = "0 $"
 
+}
+
+async function deconexion(){
+    localStorage.setItem("email", '')
+    window.location.href = "http://127.0.0.1:5000"
 }
 
 async function getTailleOfModel(id) {
