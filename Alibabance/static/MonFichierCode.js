@@ -1,7 +1,4 @@
 
-// if (localStorage.getItem('email') === ""){
-//     window.location.href= "http://127.0.0.1:5000";
-// }
 let user = {email:""}
 function updateUser(email)
 {
@@ -103,146 +100,170 @@ async function login() {
 }
 
 async function getProducts() {
-    let url = "http://127.0.0.1:5000/"
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+    } else {
+        let url = "http://127.0.0.1:5000/"
 
-    const res = await fetch("http://127.0.0.1:5000/products")
-    response = await res.json()
+        const res = await fetch("http://127.0.0.1:5000/products")
+        response = await res.json()
 
-    const products = response.products
-    products.forEach( product => {
-        displayProduct(product);
-        document.getElementsByName("wesh")
-    })
+        const products = response.products
+        products.forEach(product => {
+            displayProduct(product);
+            document.getElementsByName("wesh")
+        })
 
-    document.getElementsByName("carte").forEach( carte => {
-        carte.addEventListener('click', () => {goProductPage(carte.id)} )})
+        document.getElementsByName("carte").forEach(carte => {
+            carte.addEventListener('click', () => {
+                goProductPage(carte.id)
+            })
+        })
 
-
+    }
 }
 
 async function chargerPanier() {
-    debugger
-    try {
-        const res = await fetch("http://127.0.0.1:5000/produitsDuPanier", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: localStorage.getItem("email"),
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+} else {
+        debugger
+        try {
+            const res = await fetch("http://127.0.0.1:5000/produitsDuPanier", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: localStorage.getItem("email"),
+                })
             })
-        })
-         let response =  (await res.json())
+            let response = (await res.json())
 
-        const products = response.products
+            const products = response.products
 
-        let prix= 0;
-        products.forEach(product => {
-            displayProductInPanier(product[0])
-            prix += product[0][5]
-        })
-        const total = document.createElement('h1')
-        total.setAttribute('id','priceTotal')
-        total.innerText = prix + " $";
-        const div = document.getElementById('total')
+            let prix = 0;
+            products.forEach(product => {
+                displayProductInPanier(product[0])
+                prix += product[0][5]
+            })
+            const total = document.createElement('h1')
+            total.setAttribute('id', 'priceTotal')
+            total.innerText = prix + " $";
+            const div = document.getElementById('total')
 
-        div.appendChild(total)
-    } catch (e) {
-        console.log(e.message)
+            div.appendChild(total)
+        } catch (e) {
+            console.log(e.message)
+        }
     }
 }
 
 function displayProductInPanier(product){
-    let productContainer = document.getElementById("containerInPanier")
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+    } else {
+        let productContainer = document.getElementById("containerInPanier")
 
-    let id = product[0]
-    let image = product[1]
-    let nom = product[2]
-    let price = product[5]
-    let en_stock = product[5]
+        let id = product[0]
+        let image = product[1]
+        let nom = product[2]
+        let price = product[5]
+        let en_stock = product[5]
 
-    let productDiv = document.createElement("div")
-    productDiv.setAttribute('id', 'productContainerInCart')
+        let productDiv = document.createElement("div")
+        productDiv.setAttribute('id', 'productContainerInCart')
 
-    let infosDiv = document.createElement("div")
-    infosDiv.setAttribute('id', 'infoDiv')
-
-
-
-    let title = document.createElement("h1")
-    title.innerText=nom
+        let infosDiv = document.createElement("div")
+        infosDiv.setAttribute('id', 'infoDiv')
 
 
-    let prix = document.createElement("h3")
-    prix.innerText=  price + " $"
-
-    infosDiv.appendChild(title);
-    infosDiv.appendChild(prix);
+        let title = document.createElement("h1")
+        title.innerText = nom
 
 
-    productContainer.appendChild(infosDiv)
+        let prix = document.createElement("h3")
+        prix.innerText = price + " $"
+
+        infosDiv.appendChild(title);
+        infosDiv.appendChild(prix);
+
+
+        productContainer.appendChild(infosDiv)
+    }
 }
 
 async function displayProduct(product) {
-    let productContainer = document.getElementById("ProductContainer")
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+} else {
+        let productContainer = document.getElementById("ProductContainer")
 
-    let id = product[0]
-    let image = product[1]
-    let nom = product[2]
-    let couleur = product[3]
-    let price = product[4]
-    let en_stock = product[5]
+        let id = product[0]
+        let image = product[1]
+        let nom = product[2]
+        let couleur = product[3]
+        let price = product[4]
+        let en_stock = product[5]
 
-    let productDiv = document.createElement("div")
-    productDiv.classList.add("card")
-    productDiv.setAttribute('name','carte')
-    productDiv.setAttribute('id',`${id}`)
+        let productDiv = document.createElement("div")
+        productDiv.classList.add("card")
+        productDiv.setAttribute('name', 'carte')
+        productDiv.setAttribute('id', `${id}`)
 
-    let img = document.createElement('img')
-    img.setAttribute('src', image)
-    // card-body
-    let div = document.createElement('div')
-    div.classList.add("card-body")
-    // card-title
-    let h5 = document.createElement('h1')
-    h5.classList.add("card-title")
-    h5.innerText = nom;
-    div.appendChild(h5)
+        let img = document.createElement('img')
+        img.setAttribute('src', image)
+        // card-body
+        let div = document.createElement('div')
+        div.classList.add("card-body")
+        // card-title
+        let h5 = document.createElement('h1')
+        h5.classList.add("card-title")
+        h5.innerText = nom;
+        div.appendChild(h5)
 
-    //price
-    let p1 = document.createElement('h5')
-    h5.classList.add("card-text")
-    p1.innerText = "Prix : " + price;
-    div.appendChild(p1)
-    // color
-    let p2 = document.createElement('h5')
-    p2.innerText = "Couleur : " + couleur;
-    div.appendChild(p2)
+        //price
+        let p1 = document.createElement('h5')
+        h5.classList.add("card-text")
+        p1.innerText = "Prix : " + price;
+        div.appendChild(p1)
+        // color
+        let p2 = document.createElement('h5')
+        p2.innerText = "Couleur : " + couleur;
+        div.appendChild(p2)
 
-    //taille
-    // let p3 = document.createElement('h5')
-    // p3.innerText = "Taille : " + taille;
-    // div.appendChild(p3)
+        //taille
+        // let p3 = document.createElement('h5')
+        // p3.innerText = "Taille : " + taille;
+        // div.appendChild(p3)
 
-    // let button = document.createElement('button')
-    // button.innerText = "ajouter au panier";
-    // button.addEventListener('click', ()=>{ajouterProduitAuPanier(id)})
-    // div.appendChild(button)
+        // let button = document.createElement('button')
+        // button.innerText = "ajouter au panier";
+        // button.addEventListener('click', ()=>{ajouterProduitAuPanier(id)})
+        // div.appendChild(button)
 
-    productDiv.appendChild(img)
-    productDiv.appendChild(div)
+        productDiv.appendChild(img)
+        productDiv.appendChild(div)
 
-    productContainer.appendChild(productDiv)
-
+        productContainer.appendChild(productDiv)
+    }
 
 
 }
 function goPanier(){
-    window.location.href = "http://127.0.0.1:5000/Panier"
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+} else {
+        window.location.href = "http://127.0.0.1:5000/Panier"
+    }
 }
 
 async function goProductPage(id) {
-    window.location.href = `http://127.0.0.1:5000/productPage?id=${id}`
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+} else {
+        window.location.href = `http://127.0.0.1:5000/productPage?id=${id}`
+    }
 }
 
 async function getProduct(id){
@@ -260,69 +281,97 @@ async function getProduct(id){
 
 
 async function ajouterProduitAuPanier(){
-    debugger
-    let selectionMenu = document.getElementById('tailles')
-    const id = selectionMenu.value
-    try {
-        const res = await fetch("http://127.0.0.1:5000/addProductToCart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email : localStorage.getItem("email"),
-                id: id,
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+} else {
+        debugger
+        let selectionMenu = document.getElementById('tailles')
+        const id = selectionMenu.value
+        try {
+            const res = await fetch("http://127.0.0.1:5000/addProductToCart", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: localStorage.getItem("email"),
+                    id: id,
+                })
             })
-        })
 
-        const div = document.getElementById('message')
-        const infosDajout = document.createElement('div')
-        infosDajout.innerText = "produit ajouté"
-        div.appendChild(infosDajout)
-    } catch (e){
-        console.log(e.message)
+            const div = document.getElementById('message')
+            const infosDajout = document.createElement('div')
+            infosDajout.innerText = "produit ajouté"
+            div.appendChild(infosDajout)
+        } catch (e) {
+            console.log(e.message)
+        }
     }
 }
 
 
 function displayCommande(commande) {
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+} else {
+        divContainer = document.getElementById('commandeContainer')
 
+        commandeDiv = document.createElement('div')
+        commandeDiv.setAttribute('id', 'commande')
+
+        numeroDeCommande = document.createElement('h3')
+        numeroDeCommande.innerHTML = " Commande " + commande[0]
+
+        prixDeCommande = document.createElement('h3')
+        prixDeCommande.innerHTML = "Prix : " + commande[2]
+
+        commandeDiv.appendChild(numeroDeCommande)
+        commandeDiv.appendChild(prixDeCommande)
+
+        divContainer.appendChild(commandeDiv)
+    }
 }
 
 async function getCommandes(){
-    const res = await fetch(`http://127.0.0.1:5000/getCommandes`, {
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+} else {
+        const res = await fetch(`http://127.0.0.1:5000/getCommandes`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email : localStorage.getItem("email")
+                email: localStorage.getItem("email")
             })
         })
 
-    response = await res.json()
+        response = await res.json()
 
-    response.elements.forEach(commande => {
-        displayCommande(commande)
-    })
+        response.forEach(commande => {
+            displayCommande(commande)
+        })
+    }
 }
 
 async function ViderPanier() {
-    debugger;
-    const res = await fetch(`http://127.0.0.1:5000/viderPanier`, {
+    if (localStorage.getItem('email') === ""){
+    window.location.href= "http://127.0.0.1:5000";
+} else {
+        const res = await fetch(`http://127.0.0.1:5000/viderPanier`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email : localStorage.getItem("email")
+                email: localStorage.getItem("email")
             })
         })
-    const divOfProduct = document.getElementById("containerInPanier")
-    divOfProduct.innerText = "";
-    const total = document.getElementById("priceTotal")
-    total.innerHTML = "0 $"
-
+        const divOfProduct = document.getElementById("containerInPanier")
+        divOfProduct.innerText = "";
+        const total = document.getElementById("priceTotal")
+        total.innerHTML = "0 $"
+    }
 }
 
 async function deconexion(){
@@ -358,4 +407,14 @@ async function getTailleOfModel(id) {
         div.appendChild(option)
     })
     return response;
+}
+
+async function getPrixOfTaille(){
+    let selectionMenu = document.getElementById('tailles')
+    const id = selectionMenu.value
+    const res = await fetch(`http://127.0.0.1:5000/prix?id=${id}`)
+    response = await res.json()
+
+    let Price = document.getElementById('prix')
+    Price.innerText = "Prix: " + response +" $"
 }

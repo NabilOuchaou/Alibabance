@@ -25,12 +25,12 @@
       <section class="product">
          <div class="product-info">
             <h1>{{ infos[0][2] }}</h1>
-             <img src="{{ infos[0][1] }}">
+             <img id="ProductPageImg" src="{{ infos[0][1] }}">
             <p>Couleur: {{ infos[0][3] }}</p>
-            <p>Prix: {{ infos[0][4] }}</p>
-             <form action="/action_page.php">
+            <p id="prix">Prix: {{infos[0][4] }} $</p>
+             <form id="form" action="/action_page.php">
                  <p >Taille :</p>
-                <select name="tailles" id="tailles">
+                <select onchange="getPrixOfTaille()" name="tailles" id="tailles">
               </select>
 </form>
              <div id="message"></div>

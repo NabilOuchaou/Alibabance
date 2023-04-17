@@ -122,8 +122,15 @@ header li a:hover{
 #container{
     color: purple;
 }
-
 /*productpage*/
+#ProductPageImg{
+    size: A3;
+    justify-self: center;
+    object-fit: contain;
+}
+form {
+    display: flex;
+}
 * {
    box-sizing: border-box;
    margin: 0;
@@ -212,6 +219,21 @@ main {
 }
 
 #infoDiv {
+    display: flex;
+    justify-content: space-between;
+}
+
+/*pagecommandes*/
+
+/*#commandeContainer {*/
+/*    display: flex;*/
+/*}*/
+
+#espace{
+    height: 70px;
+}
+#commande {
+    width: auto;
     display: flex;
     justify-content: space-between;
 }

@@ -181,6 +181,7 @@ ALTER TABLE Paniers
 ADD COLUMN coutPanier DECIMAL(10, 2);
 
 
+
 DESCRIBE Paniers;
 SELECT * FROM Paniers;
 select * from Inventaire;
@@ -190,9 +191,9 @@ SELECT * FROM Utilisateurs;
 
 # INSERT INTO Paniers (id_panier, quantite, id_Produit, email) VALUE (2, 14, "hamid21@gmail.com");
 
-INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
-
-INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
+# INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
+#
+# INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
 
 
 
@@ -312,10 +313,10 @@ CREATE TRIGGER updatePanier
 BEFORE INSERT ON Paniers
 FOR EACH ROW
 BEGIN
-    DECLARE v_prixTotal DECIMAL(10, 2);
+    DECLARE v_prix DECIMAL(10, 2);
 
-    CALL CalculerCoutTotalPanier(NEW.email, v_prixTotal);
-        SET New.coutPanier = v_prixTotal;
+    select cout_produit into v_prix from Inventaire where Inventaire.id_produit = NEW.id_Produit;
+        SET NEW.coutPanier = v_prix;
 END;
 //
 DELIMITER ;
@@ -375,6 +376,9 @@ END;
 DELIMITER ;
 
 
+
+
+
 # Insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
 # Insert into Passwords value ("hamid@gmail.com","String123")
 
@@ -382,9 +386,9 @@ SELECT * FROM Paniers;
 
 UPDATE Inventaire SET stock = 1 WHERE id_produit = 154;
 
-INSERT INTO Paniers(id_produit, email) VALUES (145, "michaelj6@email.com");
-INSERT INTO Paniers(id_produit, email) VALUES (48, "gracec17@email.com");
-INSERT INTO Paniers (id_Produit, email) VALUES (22, "janesmith2@email.com");
 
-INSERT INTO Commandes(email) VALUES ("michaelj6@email.com");
-INSERT INTO Commandes(email) VALUES ("janesmith2@email.com");
+
+INSERT INTO Paniers(id_Produit, email) VALUES (4, "hamid@gmail.com");
+
+
+INSERT INTO Commandes(email) VALUES ("hamid@gmail.com");

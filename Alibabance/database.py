@@ -105,11 +105,15 @@ def getCommandesFromDataBase(email):
     cursor.execute(request)
     element = cursor.fetchall()
 
-    response = {
-        "elements": element
-    }
 
-    return response
+
+    return element
+
+def getPriceFromDataBase(id):
+    request = f""" SELECT cout_produit FROM Inventaire where id_produit= '{id}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    return element[0][0]
 
 def CommanderDataBase(email):
     request = f""" Insert into  Commandes(email) value ('{email}')"""
