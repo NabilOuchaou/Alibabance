@@ -111,8 +111,13 @@ def getCommandesFromDataBase(email):
 
     return response
 
+def CommanderDataBase(email):
+    request = f""" Insert into  Commandes(email) value ('{email}')"""
+    cursor.execute(request)
+
+
 def addNewClientToDB():
-    request = f'''INSERT INTO Utilisateurs VALUES ()'''
+    request = f'''INSERT INTO Utilisateurs VALUES ('{email}', '{nom}', '{prenom}', '{telephone}', '{age}')'''
 
     cursor.execute(request)
 

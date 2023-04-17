@@ -22,11 +22,11 @@ function Fonction3()
 	document.getElementById("ligne2").align="right";
 }
 
-function SupprimerContenu()
-{
-	document.getElementById("email").value="";
-	document.getElementById("password").value="";
-}
+// function SupprimerContenu()
+// {
+// 	document.getElementById("email").value="";
+// 	document.getElementById("password").value="";
+// }
 async function inscriptionButton(){
     let newClientNom = document.getElementById("newClientNom-input")
     let newClientPrenom = document.getElementById("newClientPrenom-input").value
@@ -328,6 +328,20 @@ async function ViderPanier() {
 async function deconexion(){
     localStorage.setItem("email", '')
     window.location.href = "http://127.0.0.1:5000"
+}
+
+async function commander(){
+    const res = await fetch(`http://127.0.0.1:5000/Commander`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email : localStorage.getItem("email")
+            })
+        })
+
+    window.location.href= `http://127.0.0.1:5000/Confirmation`
 }
 
 async function getTailleOfModel(id) {
