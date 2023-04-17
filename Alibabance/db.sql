@@ -18,7 +18,7 @@ create table if not exists Passwords(email varchar (40),mot_de_passe varchar (25
 
 
 CREATE TABLE IF NOT EXISTS Paniers(id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Inventaire(id_produit));
-CREATE TABLE IF NOT EXISTS Commandes(id_commande integer PRIMARY KEY NOT NULL AUTO_INCREMENT, email varchar (40), prix_totalCommande double, FOREIGN KEY (email) REFERENCES utilisateurs (email));
+CREATE TABLE IF NOT EXISTS Commandes(id_commande integer PRIMARY KEY NOT NULL AUTO_INCREMENT, email varchar (40), prix_totalCommande DECIMAL(10, 2), FOREIGN KEY (email) REFERENCES utilisateurs (email));
 CREATE TABLE IF NOT EXISTS Livraisons(id_commande integer, adresse CHAR(30), jour char(20), FOREIGN KEY (id_commande) REFERENCES Commandes(id_commande));
 create table if not exists Favoris(id_Produit integer, id_utilisateur integer);
 
@@ -324,39 +324,39 @@ DELIMITER ;
 
 
 
-DELIMITER //
-DROP PROCEDURE IF EXISTS calculPrixTotal;
-//
-CREATE PROCEDURE calculPrixTotal(IN p_email VARCHAR(225), OUT p_coutTotal DECIMAL(10, 2))
-BEGIN
-    DECLARE v_finished INT DEFAULT 0;
-    DECLARE v_coutduPanier DECIMAL(10, 2);
-    DECLARE v_coutdelaCommande DECIMAL(10, 2);
-
-    DECLARE commande_cursor CURSOR FOR
-        SELECT email FROM Paniers WHERE email = p_email;
-
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_finished = 1;
-
-    OPEN commande_cursor;
-    read_loop: LOOP
-        FETCH commande_cursor INTO p_email;
-
-        IF v_finished = 1 THEN
-            LEAVE read_loop;
-        END IF;
-
-        SELECT coutPanier INTO v_coutduPanier
-        FROM Paniers WHERE email = p_email;
-
-
-        SET v_coutdelaCommande = v_coutduPanier;
-    END LOOP;
-    CLOSE commande_cursor;
-
-    SET p_coutTotal = v_coutdelaCommande;
-end;
-DELIMITER ;
+# DELIMITER //
+# DROP PROCEDURE IF EXISTS calculPrixTotal;
+# //
+# CREATE PROCEDURE calculPrixTotal(IN p_email VARCHAR(225), OUT p_coutTotal DECIMAL(10, 2))
+# BEGIN
+#     DECLARE v_finished INT DEFAULT 0;
+#     DECLARE v_coutduPanier DECIMAL(10, 2);
+#     DECLARE v_coutdelaCommande DECIMAL(10, 2);
+#
+#     DECLARE commande_cursor CURSOR FOR
+#         SELECT email FROM Paniers WHERE email = p_email;
+#
+#     DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_finished = 1;
+#
+#     OPEN commande_cursor;
+#     read_loop: LOOP
+#         FETCH commande_cursor INTO p_email;
+#
+#         IF v_finished = 1 THEN
+#             LEAVE read_loop;
+#         END IF;
+#
+#         SELECT coutPanier INTO v_coutduPanier
+#         FROM Paniers WHERE email = p_email;
+#
+#
+#         SET v_coutdelaCommande = v_coutduPanier;
+#     END LOOP;
+#     CLOSE commande_cursor;
+#
+#     SET p_coutTotal = v_coutdelaCommande;
+# end;
+# DELIMITER ;
 
 
 DELIMITER //
@@ -368,8 +368,8 @@ FOR EACH ROW
 BEGIN
     DECLARE v_totalPanier DECIMAL(10, 2) DEFAULT 0;
 
-    CALL calculPrixTotal(new.email, v_totalPanier);
-        SET New.prix_totalCommande = v_totalPanier;
+    SELECT SUM(coutPanier) INTO v_totalPanier FROM Paniers WHERE email = new.email;
+    SET New.prix_totalCommande = v_totalPanier;
 END;
 //
 DELIMITER ;
@@ -378,11 +378,6 @@ DELIMITER ;
 # Insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
 # Insert into Passwords value ("hamid@gmail.com","String123")
 
-DESCRIBE Paniers;
-SELECT * FROM Paniers;
-select * from Inventaire;
-SELECT * FROM Utilisateurs;
-
 SELECT * FROM Paniers;
 
 UPDATE Inventaire SET stock = 1 WHERE id_produit = 154;
@@ -390,3 +385,6 @@ UPDATE Inventaire SET stock = 1 WHERE id_produit = 154;
 INSERT INTO Paniers(id_produit, email) VALUES (145, "michaelj6@email.com");
 INSERT INTO Paniers(id_produit, email) VALUES (48, "gracec17@email.com");
 INSERT INTO Paniers (id_Produit, email) VALUES (22, "janesmith2@email.com");
+
+INSERT INTO Commandes(email) VALUES ("michaelj6@email.com");
+INSERT INTO Commandes(email) VALUES ("janesmith2@email.com");
