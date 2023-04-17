@@ -22,11 +22,11 @@ function Fonction3()
 	document.getElementById("ligne2").align="right";
 }
 
-// function SupprimerContenu()
-// {
-// 	document.getElementById("email").value="";
-// 	document.getElementById("password").value="";
-// }
+function SupprimerContenu()
+{
+	document.getElementById("email").value="";
+	document.getElementById("password").value="";
+}
 async function inscriptionButton(){
     let newClientNom = document.getElementById("newClientNom-input")
     let newClientPrenom = document.getElementById("newClientPrenom-input").value

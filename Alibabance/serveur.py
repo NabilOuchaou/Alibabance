@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
     getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase, getCommandesFromDataBase, CommanderDataBase
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route("/")
 def main():
@@ -164,4 +165,4 @@ def addProductToCart():
 
 
 if __name__ == '__main__':
-    app.run(port=5001)
+    app.run(port=5000)
