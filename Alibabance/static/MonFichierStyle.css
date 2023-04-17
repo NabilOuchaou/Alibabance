@@ -52,10 +52,6 @@ header li {
     margin: 20px;
 }
 
-#infoDiv {
-    display: flex;
-    justify-content: space-between;
-}
 header li a {
     color: black;
     text-decoration: none;
@@ -195,4 +191,26 @@ main {
 
 .product-info button:hover {
    background-color: #444;
+}
+
+/* Panier */
+#commandButton{
+    width: 100%;
+    justify-content: center;
+}
+
+#total {
+    display: flex;
+    justify-content: center;
+
+
+}
+
+#productContainerInCart {
+    width: 50%;
+}
+
+#infoDiv {
+    display: flex;
+    justify-content: space-between;
 }

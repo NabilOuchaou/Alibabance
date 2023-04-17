@@ -29,20 +29,23 @@ async function inscriptionButton(){
     let newClientPrenom = document.getElementById("newClientPrenom-input").value
     let newClientAge = document.getElementById("newClientAge-input").value
     let newClientTelephone = document.getElementById("newClientTelephone-input").value
-    let newClientMail = document.getElementById("newClientMail-input").value
+    let newClientEmail = document.getElementById("newClientMail-input").value
     let newClientPassword = document.getElementById("newClientPassword-input").value
-    let newClientPassword2 = document.getElementById("newClientPassword2-input").value
 
     console.log(newClientNom, newClientPrenom, newClientAge, newClientEmail, newClientPassword);
     try {
         const res = await fetch("http://127.0.0.1:5000/inscription", {
             method: "POST",
             headers: {
+
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 nom : newClientNom,
-                email: newClientMail,
+                prenom : newClientPrenom,
+                email: newClientEmail,
+                age: newClientAge,
+                telephone: newClientTelephone,
                 password: newClientPassword
             })
         })
@@ -51,6 +54,7 @@ async function inscriptionButton(){
 
         if(response.status === 200){
             window.location.href = "http://127.0.0.1:5000/home"
+
         } else{
             document.createElement("div".innerText())
         }
@@ -86,12 +90,12 @@ async function login() {
 
         } else {
             let erreurConnexion = document.createElement('div')
-            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte"
+            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi n’est pas le bon, réessayez"
             let container = document.getElementById("container")
             container.appendChild(erreurConnexion)
         }
     } catch (err){
-        console.log("erreur")
+        console.log("Erreur de connexion de l'utilisateur")
     }
 }
 
@@ -129,9 +133,17 @@ async function chargerPanier() {
 
         const products = response.products
 
+        let prix= 0;
         products.forEach(product => {
             displayProductInPanier(product[0])
+            prix += product[0][5]
         })
+        const total = document.createElement('h1')
+        total.setAttribute('id','priceTotal')
+        total.innerText = prix + " $";
+        const div = document.getElementById('total')
+
+        div.appendChild(total)
     } catch (e) {
         console.log(e.message)
     }
@@ -159,7 +171,7 @@ function displayProductInPanier(product){
 
 
     let prix = document.createElement("h3")
-    prix.innerText= "prix : " + price
+    prix.innerText=  price + " $"
 
     infosDiv.appendChild(title);
     infosDiv.appendChild(prix);
@@ -217,9 +229,6 @@ async function displayProduct(product) {
     productDiv.appendChild(img)
     productDiv.appendChild(div)
 
-
-
-
     productContainer.appendChild(productDiv)
 
 
@@ -272,7 +281,26 @@ async function ajouterProduitAuPanier(){
     }
 }
 
+async function ViderPanier() {
+    debugger;
+    const res = await fetch(`http://127.0.0.1:5000/viderPanier`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email : localStorage.getItem("email")
+            })
+        })
+    const divOfProduct = document.getElementById("containerInPanier")
+    divOfProduct.innerText = "";
+    const total = document.getElementById("priceTotal")
+    total.innerHTML = "0 $"
+
+}
+
 async function getTailleOfModel(id) {
+    debugger
     const res = await fetch(`http://127.0.0.1:5000/product?id=${id}`)
     response = await res.json()
 

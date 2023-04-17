@@ -14,14 +14,13 @@ drop table if exists Produits;
 
 
 
-
 CREATE TABLE if not exists Utilisateurs (email varchar (40) PRIMARY KEY, nom varchar (20), prenom varchar (20), telephone varchar(11),age integer(2));
 CREATE TABLE if not exists Inventaire (id_produit integer PRIMARY KEY,id_modele integer, nom char(60),stock integer,taille double, cout_produit double);
 CREATE TABLE IF NOT EXISTS Produits(id_modele integer PRIMARY KEY AUTO_INCREMENT, image varchar(10000), nom_produit varchar (45),couleur varchar(30), prix_produit double, en_stock integer (1));
 create table if not exists Passwords(email varchar (40),mot_de_passe varchar (255), FOREIGN KEY (email) REFERENCES Utilisateurs(email));
 
 
-CREATE TABLE IF NOT EXISTS Paniers(id_panier integer PRIMARY KEY NOT NULL AUTO_INCREMENT, quantite integer DEFAULT 1, id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Produits(id_modele));
+CREATE TABLE IF NOT EXISTS Paniers(id_Produit integer, email varchar (40), FOREIGN KEY (email) REFERENCES utilisateurs (email), FOREIGN KEY (id_Produit) REFERENCES Inventaire(id_produit));
 CREATE TABLE IF NOT EXISTS Commandes(id_commande integer PRIMARY KEY NOT NULL AUTO_INCREMENT,adresse CHAR(20), email varchar (40), prix_totalCommande double, FOREIGN KEY (email) REFERENCES utilisateurs (email));
 CREATE TABLE IF NOT EXISTS Livraisons(id_commande integer, adresse CHAR(30), jour char(20), FOREIGN KEY (id_commande) REFERENCES Commandes(id_commande));
 create table if not exists Favoris(id_Produit integer, id_utilisateur integer);
@@ -159,26 +158,26 @@ INSERT INTO Produits VALUES (83,'https://lp2.hm.com/hmgoepprod?set=quality%5B79%
 
 
 
-INSERT INTO Utilisateurs(email, nom, prenom, telephone, age)
-VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
-       ("janesmith2@email.com", "Smith", "Jane", "234567890", 25),
-       ("davidbrown3@email.com", "Brown", "David", "345678901", 28),
-       ("emma4johnson@email.com", "Johnson", "Emma", "456789012", 22),
-       ("oliviaw5@email.com", "Williams", "Olivia", "567890123", 35),
-       ("michaelj6@email.com", "Jackson", "Michael", "678901234", 40),
-       ("williamd8@email.com", "Davis", "William", "890123456", 55),
-       ("emilyt9@email.com", "Taylor", "Emily", "901234567", 24),
-       ("jamesw10@email.com", "Wilson", "James", "012345678", 37),
-       ("elizabethl11@email.com", "Lee", "Elizabeth", "123450987", 46),
-       ("benjaminm12@email.com", "Martin", "Benjamin", "234561098", 31),
-       ("victoriag13@email.com", "Garcia", "Victoria", "345672109", 28),
-       ("josephr14@email.com", "Rodriguez", "Joseph", "456783210", 50),
-       ("sarahp15@email.com", "Perez", "Sarah", "567894321", 19),
-       ("samuelh16@email.com", "Hernandez", "Samuel", "678905432", 33),
-       ("gracec17@email.com", "Clark", "Grace", "789016543", 41),
-       ("zacharyl18@email.com", "Lewis", "Zachary", "890127654", 38),
-       ("madisone19@email.com", "Edwards", "Madison", "901238765", 26),
-       ("noahp20@email.com", "Phillips", "Noah", "012349876", 29);
+# INSERT INTO Utilisateurs(email, nom, prenom, telephone, age)
+# VALUES ("johndoe1@email.com", "Doe", "John", "123456789", 30),
+#        ("janesmith2@email.com", "Smith", "Jane", "234567890", 25),
+#        ("davidbrown3@email.com", "Brown", "David", "345678901", 28),
+#        ("emma4johnson@email.com", "Johnson", "Emma", "456789012", 22),
+#        ("oliviaw5@email.com", "Williams", "Olivia", "567890123", 35),
+#        ("michaelj6@email.com", "Jackson", "Michael", "678901234", 40),
+#        ("williamd8@email.com", "Davis", "William", "890123456", 55),
+#        ("emilyt9@email.com", "Taylor", "Emily", "901234567", 24),
+#        ("jamesw10@email.com", "Wilson", "James", "012345678", 37),
+#        ("elizabethl11@email.com", "Lee", "Elizabeth", "123450987", 46),
+#        ("benjaminm12@email.com", "Martin", "Benjamin", "234561098", 31),
+#        ("victoriag13@email.com", "Garcia", "Victoria", "345672109", 28),
+#        ("josephr14@email.com", "Rodriguez", "Joseph", "456783210", 50),
+#        ("sarahp15@email.com", "Perez", "Sarah", "567894321", 19),
+#        ("samuelh16@email.com", "Hernandez", "Samuel", "678905432", 33),
+#        ("gracec17@email.com", "Clark", "Grace", "789016543", 41),
+#        ("zacharyl18@email.com", "Lewis", "Zachary", "890127654", 38),
+#        ("madisone19@email.com", "Edwards", "Madison", "901238765", 26),
+#        ("noahp20@email.com", "Phillips", "Noah", "012349876", 29);
 
 
 ALTER TABLE Paniers
@@ -197,35 +196,36 @@ INSERT INTO Utilisateurs(email, nom, prenom, telephone, age) VALUES ("hamid@gmai
 
 # INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
 
-INSERT INTO Paniers (quantite, id_Produit, email) VALUES (1,22, "janesmith2@email.com");
+
 
 SELECT * FROM Paniers;
 
 
-
 # INSERT INTO Passwords(email, mot_de_passe) value ("hamid21@gmail.com", "String123");
+
 
 #Declencheur qui s'assure qu'un user n'a pas le meme email dans Utilisateurs avant de l'add dans la bd.#
 DELIMITER //
-Drop trigger if exists IsUserAlreadyInDb;
+DROP TRIGGER IF EXISTS IsUserAlreadyInDb;
 //
 CREATE TRIGGER IsUserAlreadyInDb BEFORE INSERT ON Utilisateurs
 FOR EACH ROW
 BEGIN
-    DECLARE email_exists INT;
+    DECLARE email_exists INT DEFAULT 0;
 
-    SELECT email INTO email_exists FROM Utilisateurs WHERE email = NEW.email;
+    SELECT COUNT(email) INTO email_exists FROM Utilisateurs WHERE email = NEW.email;
 
-    IF email_exists IN (SELECT email FROM Utilisateurs) THEN
+    IF email_exists > 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Un utilisateur existe deja avec cet email';
     END IF;
 END;
+//
 DELIMITER ;
 
 
 
-
 #Declencheur qui s'assure que le stock de l'item qu'on met dans le panier est > 0 avant de mettre l'article dans le panier, sinon message d'erreur#
+#Si l'item a un stock > 0, alors le trigger diminue le stock de 1 pour chaque ajout du panier#
 DELIMITER //
 drop trigger IF EXISTS IsItemAvailable;
 //
@@ -233,75 +233,61 @@ CREATE TRIGGER IsItemAvailable BEFORE INSERT ON Paniers
 FOR EACH ROW
 BEGIN
     DECLARE QUANTITE_EN_STOCK INT;
+    DECLARE achat INT DEFAULT 1;
     SELECT stock INTO QUANTITE_EN_STOCK FROM Inventaire WHERE id_produit = NEW.id_Produit;
 
     IF QUANTITE_EN_STOCK <= 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Ce produit n'est malheureusement plus en stock";
 
-#     ELSE
-#         UPDATE Paniers SET
+    ELSE
+        UPDATE Inventaire SET stock = stock - achat WHERE id_produit = NEW.id_Produit;
     end if;
 end;
 DELIMITER ;
 
 
+############################# POSSIBLE SUPPRESSION DE CE TRIGGER SI PAGE HOME = PAGE DE CONNEXION #################################
 #Declencheur permettant de verifier si un utilisateur possede un mail inclus dans Utilisateurs avant de rajouter quelquechose dans son panier#
-DELIMITER //
-DROP TRIGGER IF EXISTS verficationExistenceUserInPanier;
-//
-CREATE TRIGGER verficationExistenceUserInPanier BEFORE INSERT ON Paniers
-FOR EACH ROW
-BEGIN
-    DECLARE emailDuClient VARCHAR(255);
-    DECLARE emailCorrespondantDsUtilisateurs VARCHAR(255);
-
-    SELECT email INTO emailDuClient FROM Paniers;
-    SELECT email INTO emailCorrespondantDsUtilisateurs FROM Utilisateurs;
-
-    IF emailDuClient NOT IN (SELECT emailCorrespondantDsUtilisateurs FROM Utilisateurs) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Vous devez vous creer un compte avant de rajouter un produit dans votre panier.';
-    end if;
-end;
-DELIMITER ;
-
-
-# DROP TRIGGER IF EXISTS autoIncrement;
 # DELIMITER //
-# CREATE TRIGGER autoIncrement AFTER INSERT ON Commandes
+# DROP TRIGGER IF EXISTS verficationExistenceUserInPanier;
+# //
+# CREATE TRIGGER verficationExistenceUserInPanier BEFORE INSERT ON Paniers
 # FOR EACH ROW
 # BEGIN
-#     DECLARE PRODUIT_ID INT;
-#     SELECT id_Produit INTO PRODUIT_ID FROM Paniers WHERE id_produit = NEW.id_Produit;
+#     DECLARE emailDuClient VARCHAR(255);
+#     DECLARE emailCorrespondantDsUtilisateurs VARCHAR(255);
 #
-#     IF COUNT(PRODUIT_ID) > 0 THEN
-#             UPDATE Paniers SET quantite =  quantite + 1 WHERE id_produit = New.id_Produit;
-#         #SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Ce produit n'est malheureusement plus en stock";
+#     SELECT email INTO emailDuClient FROM Paniers;
+#     SELECT email INTO emailCorrespondantDsUtilisateurs FROM Utilisateurs;
+#
+#     IF emailDuClient NOT IN (SELECT emailCorrespondantDsUtilisateurs FROM Utilisateurs) THEN
+#         SIGNAL SQLSTATE '45000'
+#         SET MESSAGE_TEXT = 'Vous devez vous creer un compte avant de rajouter un produit dans votre panier.';
 #     end if;
 # end;
 # DELIMITER ;
+
 
 
 #Procedure permettant de fetch le prix d'un item et sa quantite achetee par un user et creer une nouvelle colonne de coutTotal du panier et y inserer le resultat.#
 DELIMITER //
 DROP PROCEDURE IF EXISTS CalculerCoutTotalPanier;
 //
-CREATE PROCEDURE CalculerCoutTotalPanier(IN p_email VARCHAR(255), OUT p_totalPrice DECIMAL(10, 2))
+CREATE PROCEDURE CalculerCoutTotalPanier(IN p_email VARCHAR(255), OUT p_totalPrice INTEGER)
 BEGIN
     DECLARE v_finished INTEGER DEFAULT 0;
     DECLARE v_idProduit INTEGER;
-    DECLARE v_quantite INTEGER;
     DECLARE v_coutProduit DECIMAL(10, 2);
     DECLARE v_coutPanier DECIMAL(10, 2) DEFAULT 0;
 
     DECLARE panier_cursor CURSOR FOR
-        SELECT id_produit, quantite FROM Paniers WHERE email = p_email;
+        SELECT id_produit FROM Paniers WHERE email = p_email;
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_finished = 1;
 
     OPEN panier_cursor;
     read_loop: LOOP
-        FETCH panier_cursor INTO v_idProduit, v_quantite;
+        FETCH panier_cursor INTO v_idProduit;
 
         IF v_finished = 1 THEN
             LEAVE read_loop;
@@ -310,9 +296,14 @@ BEGIN
         SELECT cout_Produit INTO v_coutProduit
         FROM Inventaire WHERE id_produit = v_idProduit;
 
-        SET v_coutPanier = v_coutPanier + (v_coutProduit * v_quantite);
+        SELECT cout_Produit INTO v_coutProduit
+        FROM Inventaire WHERE id_produit = v_idProduit;
+
+        SET v_coutPanier = v_coutPanier + (v_coutProduit);
     END LOOP;
     CLOSE panier_cursor;
+
+
 
     SET p_totalPrice = v_coutPanier;
 end;
@@ -322,15 +313,16 @@ DELIMITER ;
 
 #Declencheur permettant d'utiliser la procedure CalculerCoutTotalPanier#
 DELIMITER //
-CREATE TRIGGER updateCommande
-BEFORE INSERT ON Commandes
+DROP TRIGGER IF EXISTS updatePanier;
+//
+CREATE TRIGGER updatePanier
+BEFORE INSERT ON Paniers
 FOR EACH ROW
 BEGIN
-    DECLARE v_prixTotal DECIMAL(10, 2);
+    DECLARE v_prixTotal INTEGER;
 
     CALL CalculerCoutTotalPanier(NEW.email, v_prixTotal);
-
-    SET New.prix_totalCommande = v_prixTotal;
+        SET New.coutPanier = v_prixTotal;
 END;
 //
 DELIMITER ;
@@ -339,14 +331,19 @@ DELIMITER ;
 insert into Passwords value ("hamid@gmail.com", "String123");
 
 
+
+
 # Insert into Utilisateurs value ("hamid@gmail.com","Lihwak","hamid",418569293,20);
 # Insert into Passwords value ("hamid@gmail.com","String123")
 
 
-
+DESCRIBE Paniers;
 SELECT * FROM Paniers;
 select * from Inventaire;
 SELECT * FROM Utilisateurs;
 
-
 SELECT * FROM Paniers;
+
+UPDATE Inventaire SET stock = 1 WHERE id_produit = 154;
+
+
