@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
-    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel
+    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase
 
 app = Flask(__name__)
 
@@ -109,6 +109,16 @@ def get_test():
     zebi = jsonify(response)
     return zebi
 
+@app.route("/viderPanier", methods=["POST"])
+def dropCart():
+    data = request.json
+
+    email = data["email"]
+    dropCartInDataBase(email)
+    response = {
+        "status": 200
+    }
+    return jsonify(response)
 
 @app.route("/addProductToCart", methods=["POST"])
 def addProductToCart():

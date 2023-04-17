@@ -39,7 +39,7 @@ def isItInDb(Vemail, Vpassword):
 
 
 def addProductToCartInDataBase(id, email):
-    request = f""" INSERT into Paniers value ('{id}','{email}')"""
+    request = f""" INSERT into Paniers(id_Produit, email) value ('{id}','{email}')"""
     cursor.execute(request)
 
 def getInfoOfProduct(id):
@@ -78,6 +78,10 @@ def getProductsFromDataBase():
     return jsonify(response)
 
 
+def dropCartInDataBase(email):
+    request = f""" delete FROM Paniers where email= '{email}'"""
+    cursor.execute(request)
+
 def getProductsInPanierFromDataBase(email):
     request = f""" SELECT * FROM Paniers where email= '{email}'"""
     cursor.execute(request)
@@ -86,7 +90,7 @@ def getProductsInPanierFromDataBase(email):
 
 
     for i in element:
-        produit = getInfoOfProduct(i[0])
+        produit = getInfoOfProduct(i[0]) # À changer
         tableOfTodos.append(produit)
 
     response = {

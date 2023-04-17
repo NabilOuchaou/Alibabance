@@ -58,9 +58,9 @@ async function inscriptionButton(){
         } else{
             document.createElement("div".innerText())
         }
-    } catch(err){
-        console.log('Erreur');
-    }
+    } catch (err){
+        console.log("erreur")
+    } //add catch or finally
 }
 
 async function login() {
@@ -133,9 +133,17 @@ async function chargerPanier() {
 
         const products = response.products
 
+        let prix= 0;
         products.forEach(product => {
             displayProductInPanier(product[0])
+            prix += product[0][5]
         })
+        const total = document.createElement('h1')
+        total.setAttribute('id','priceTotal')
+        total.innerText = prix + " $";
+        const div = document.getElementById('total')
+
+        div.appendChild(total)
     } catch (e) {
         console.log(e.message)
     }
@@ -163,7 +171,7 @@ function displayProductInPanier(product){
 
 
     let prix = document.createElement("h3")
-    prix.innerText= "prix : " + price
+    prix.innerText=  price + " $"
 
     infosDiv.appendChild(title);
     infosDiv.appendChild(prix);
@@ -273,7 +281,26 @@ async function ajouterProduitAuPanier(){
     }
 }
 
+async function ViderPanier() {
+    debugger;
+    const res = await fetch(`http://127.0.0.1:5000/viderPanier`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email : localStorage.getItem("email")
+            })
+        })
+    const divOfProduct = document.getElementById("containerInPanier")
+    divOfProduct.innerText = "";
+    const total = document.getElementById("priceTotal")
+    total.innerHTML = "0 $"
+
+}
+
 async function getTailleOfModel(id) {
+    debugger
     const res = await fetch(`http://127.0.0.1:5000/product?id=${id}`)
     response = await res.json()
 
