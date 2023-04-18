@@ -230,7 +230,7 @@ async function displayProduct(product) {
         //price
         let p1 = document.createElement('h5')
         h5.classList.add("card-text")
-        p1.innerText = "Prix : " + price;
+        p1.innerText = "Prix : " + price+ "$";
         div.appendChild(p1)
         // color
         let p2 = document.createElement('h5')
