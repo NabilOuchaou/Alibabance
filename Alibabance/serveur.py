@@ -1,7 +1,8 @@
+import traceback
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
-    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase, getCommandesFromDataBase, CommanderDataBase
+from database import isItInDb, addNewIdentifants, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
+    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase, getCommandesFromDataBase, CommanderDataBase, addNewClientToDB
 app = Flask(__name__)
 CORS(app)
 
@@ -50,9 +51,7 @@ def ProductInfo():
     }
     return jsonify(infos)
 
-
 @app.route("/inscription", methods=["POST"])
-
 def createNewUsers():
     try:
         data = request.json
@@ -63,7 +62,7 @@ def createNewUsers():
         telephone = data["telephone"]
         age = data["age"]
 
-        addNewClientToDb(prenom, nom, email, telephone, age)
+        addNewClientToDB(prenom, nom, email, telephone, age)
         response = {
             "status": 200
         }
@@ -75,6 +74,20 @@ def createNewUsers():
             "message": "erreur pendant requete"
         }
         return jsonify(reponse), 500
+
+def ajouterPasswords():
+    data = request.json()
+
+    password = data["passwords"]
+    email = data["email"]
+
+    addNewIdentifiants(email, password)
+    response = {
+        "status": 200
+    }
+    return jsonify(response)
+
+
 
 
 

@@ -117,11 +117,26 @@ def CommanderDataBase(email):
 
 
 def addNewClientToDB(prenom, nom, email, telephone, age):
-    request = f'''INSERT INTO Utilisateurs VALUES ('{email}', '{nom}', '{prenom}', '{telephone}', '{age}');'''
+    try:
+        request = f'''INSERT INTO Utilisateurs VALUES ('{email}', '{nom}', '{prenom}', '{telephone}', '{age}');'''
 
-    cursor.execute(request)
-    connection.commit()
-    connection.close()
+        cursor.execute(request)
+        connection.commit()
+        connection.close()
+    except Exception as e:
+        print("Error:", e)
+        traceback.print_exc()
+
+
+def addNewIdentifants(email, password):
+    try:
+        request = f'''INSERT INTO Passwords VALUES ('{email}', '{password}');'''
+        cursor.execute(request)
+        connection.commit()
+    except Exception as e:
+        print("Error:", e)
+        traceback.print_exc()
+
 
 if __name__ == '__main__':
     print("we")
