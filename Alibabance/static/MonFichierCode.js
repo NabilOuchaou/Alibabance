@@ -286,10 +286,10 @@ async function getProduct(id){
 
 
 async function ajouterProduitAuPanier(){
+    debugger
     if (localStorage.getItem('email') === ""){
     window.location.href= "http://127.0.0.1:5000";
 } else {
-        debugger
         let selectionMenu = document.getElementById('tailles')
         const id = selectionMenu.value
         try {
@@ -304,12 +304,17 @@ async function ajouterProduitAuPanier(){
                 })
             })
 
+            const response = await res.json()
             const div = document.getElementById('message')
             const infosDajout = document.createElement('div')
             infosDajout.innerText = "produit ajouté"
             div.appendChild(infosDajout)
+
         } catch (e) {
-            console.log(e.message)
+            const div = document.getElementById('message')
+                const infosDajout = document.createElement('div')
+                infosDajout.innerText = "plus de stock"
+                div.appendChild(infosDajout)
         }
     }
 }
@@ -422,4 +427,12 @@ async function getPrixOfTaille(){
 
     let Price = document.getElementById('prix')
     Price.innerText = "Prix: " + response +" $"
+}
+
+function validationEntree(){
+    var x = document.forms["myForm"]["fname"].value;
+    if(x == ""){
+        alert("Vous ne pouvez laisser le champ vide!");
+        return false;
+    }
 }

@@ -384,7 +384,5 @@ DELIMITER ;
 
 SELECT * FROM Paniers;
 
-UPDATE Inventaire SET stock = 1 WHERE id_produit = 154;
-
-
+UPDATE Inventaire SET stock = 3 WHERE id_produit = 154;
 

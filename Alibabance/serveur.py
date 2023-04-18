@@ -64,6 +64,12 @@ def createNewUsers():
         age = data["age"]
         password = data["password"]
 
+        if not email:
+            return jsonify({'error': 'Le champ email ne peut être laissé vide.'}), 400
+
+        if not password:
+            return jsonify({'error': 'Le mot de passe ne peut être laissé vide.'}), 400
+
         hasher = hashlib.sha3_224()
         hasher.update(password.encode('utf-8'))
 
@@ -100,6 +106,12 @@ def connection():
 
     email = data["email"]
     password = data["motDePasse"]
+
+    if not email:
+        return jsonify({'error': 'Le champ email ne peut être laissé vide.'}), 400
+
+    if not password:
+        return jsonify({'error': 'Le mot de passe ne peut être laissé vide.'}), 400
 
     hasher = hashlib.sha3_224()
     hasher.update(password.encode('utf-8'))

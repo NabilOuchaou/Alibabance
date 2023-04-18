@@ -47,11 +47,13 @@
 </head>
 <div id="espace"></div>
 <body id="login" onload="SupprimerContenu()">
+
     <p class="centre">Bonjour. Vous devez vous identifier.</p>
     <form id="login"action="login" method="post">
     <form action="login" method="post">
-    <p>Votre courriel: <input type="email" id="email" placeholder="example@example.com"><br>
-    Votre mot de passe: <input type="password" id="password">
+    <p>Votre courriel: <input type="email" id="email" placeholder="example@example.com" required><br>
+    Votre mot de passe: <input type="password" id="password" required>
+
         <div id="container"></div>
     </form>
     <button class="button custom-button" onclick="login()"><span>Identification</span></button>
