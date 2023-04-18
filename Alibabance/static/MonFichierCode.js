@@ -325,10 +325,10 @@ function displayCommande(commande) {
         commandeDiv.setAttribute('id', 'commande')
 
         numeroDeCommande = document.createElement('h3')
-        numeroDeCommande.innerHTML = " Commande " + commande[0]
+        numeroDeCommande.innerHTML = " IdCommande " + commande[0]
 
         prixDeCommande = document.createElement('h3')
-        prixDeCommande.innerHTML = "Prix : " + commande[2]
+        prixDeCommande.innerHTML = '&nbsp;' + '&nbsp;' + '&nbsp;'+ '&nbsp;' +'&nbsp;' + '&nbsp;' + '&nbsp;'+ '&nbsp;' + '&nbsp;' + '&nbsp;'+ '&nbsp;' +'&nbsp;' + '&nbsp;' + '&nbsp;'+ commande[2] + "$"
 
         commandeDiv.appendChild(numeroDeCommande)
         commandeDiv.appendChild(prixDeCommande)
@@ -396,6 +396,7 @@ async function commander(){
         })
 
     window.location.href= `http://127.0.0.1:5000/Confirmation`
+    ViderPanier();
 }
 
 async function getTailleOfModel(id) {
