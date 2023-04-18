@@ -442,7 +442,7 @@ main {
 
 /* Product Container */
 #espace{
-    height: 100px;
+    height: 200px;
 }
 #ProductContainer {
     display: grid;

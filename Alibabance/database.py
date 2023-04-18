@@ -1,3 +1,5 @@
+import traceback
+
 import pymysql
 from flask import jsonify
 
@@ -120,12 +122,20 @@ def CommanderDataBase(email):
     cursor.execute(request)
 
 
-def addNewClientToDB(prenom, nom, email, telephone, age):
-    request = f'''INSERT INTO Utilisateurs VALUES ('{email}', '{nom}', '{prenom}', '{telephone}', '{age}');'''
+def addNewClientToDB(prenom, nom, password, email, telephone, age):
+    try:
+        request = f'''INSERT INTO Utilisateurs VALUES ('{email}', '{nom}', '{prenom}', '{telephone}', '{age}');'''
+        cursor.execute(request)
 
-    cursor.execute(request)
-    connection.commit()
-    connection.close()
+        request = f'''INSERT INTO Passwords VALUES ('{email}', '{password}');'''
+        cursor.execute(request)
+
+    except Exception as e:
+        print("Error:", e)
+        traceback.print_exc()
+
+
+
 
 if __name__ == '__main__':
     print("we")

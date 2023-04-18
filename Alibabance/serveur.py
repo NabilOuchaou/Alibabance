@@ -1,7 +1,9 @@
+import hashlib
+import traceback
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
-    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase, getCommandesFromDataBase, CommanderDataBase, getPriceFromDataBase
+    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase, getCommandesFromDataBase, CommanderDataBase, addNewClientToDB,getPriceFromDataBase
 app = Flask(__name__)
 CORS(app)
 
@@ -50,9 +52,7 @@ def ProductInfo():
     }
     return jsonify(infos)
 
-
 @app.route("/inscription", methods=["POST"])
-
 def createNewUsers():
     try:
         data = request.json
@@ -62,8 +62,13 @@ def createNewUsers():
         email = data["email"]
         telephone = data["telephone"]
         age = data["age"]
+        password = data["password"]
 
-        addNewClientToDb(prenom, nom, email, telephone, age)
+        hasher = hashlib.sha3_224()
+        hasher.update(password.encode('utf-8'))
+
+
+        addNewClientToDB(prenom, nom, hasher.hexdigest(), email, telephone, age)
         response = {
             "status": 200
         }
@@ -75,6 +80,9 @@ def createNewUsers():
             "message": "erreur pendant requete"
         }
         return jsonify(reponse), 500
+
+
+
 
 
 
@@ -92,6 +100,10 @@ def connection():
 
     email = data["email"]
     password = data["motDePasse"]
+
+    hasher = hashlib.sha3_224()
+    hasher.update(password.encode('utf-8'))
+    password = hasher.hexdigest()
 
     presentInDb = isItInDb(email, password)
 

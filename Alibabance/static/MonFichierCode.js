@@ -48,11 +48,9 @@ async function inscriptionButton(){
                 telephone: newClientTelephone,
                 password: newClientPassword
             })
-        }).then(function(response){
-            return response.json();
         })
 
-        response = await res.json()
+        let response = await res.json()
 
         if(response.status === 200){
             window.location.href = "http://127.0.0.1:5000/home"
