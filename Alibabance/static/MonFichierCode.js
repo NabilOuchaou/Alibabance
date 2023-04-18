@@ -25,12 +25,12 @@ function SupprimerContenu()
 	document.getElementById("password").value="";
 }
 async function inscriptionButton(){
-    let newClientNom = document.getElementById("newClientNom-input")
-    let newClientPrenom = document.getElementById("newClientPrenom-input").value
-    let newClientAge = document.getElementById("newClientAge-input").value
-    let newClientTelephone = document.getElementById("newClientTelephone-input").value
-    let newClientEmail = document.getElementById("newClientMail-input").value
-    let newClientPassword = document.getElementById("newClientPassword-input").value
+    let newClientNom = document.getElementById("Nom").value
+    let newClientPrenom = document.getElementById("Prenom").value
+    let newClientAge = document.getElementById("Age").value
+    let newClientTelephone = document.getElementById("Telephone").value
+    let newClientEmail = document.getElementById("Email").value
+    let newClientPassword = document.getElementById("Password").value
 
     console.log(newClientNom, newClientPrenom, newClientAge, newClientEmail, newClientPassword);
     try {
@@ -48,6 +48,8 @@ async function inscriptionButton(){
                 telephone: newClientTelephone,
                 password: newClientPassword
             })
+        }).then(function(response){
+            return response.json();
         })
 
         response = await res.json()
@@ -56,11 +58,16 @@ async function inscriptionButton(){
             window.location.href = "http://127.0.0.1:5000/home"
 
         } else{
-            document.createElement("div".innerText())
+            let validation = document.createElement("div")
+            validation.innerText = "Le email que vous utilisez est dejà associé à un autre compte";
+            validation.innerText = "Essayez avec un autre email."
+
+            let container = document.getElementById("addUser-container");
+            container.appendChild(validation);
         }
     } catch (err){
-        console.log("erreur")
-    } //add catch or finally
+        console.log("La requête n'a pas été reçue.")
+    }
 }
 
 async function login() {

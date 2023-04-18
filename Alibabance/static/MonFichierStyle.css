@@ -200,13 +200,6 @@
 /*    justify-content: center;*/
 /*}*/
 
-#total {
-    display: flex;
-    justify-content: center;
-
-
-}
-
 /*#productContainerInCart {*/
 /*    width: 50%;*/
 /*}*/
@@ -369,6 +362,10 @@
 
 
 
+#total {
+    display: flex;
+    justify-content: center;
+}
 * {
     margin: 0;
     padding: 0;
@@ -476,13 +473,13 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 450px; /* Adjust this value according to your needs */
+    height: 450px;
 }
 
 .card img {
     width: 100%;
-    height: 200px; /* Set fixed height for product images */
-    object-fit: cover; /* Ensure the image covers the entire space without distortion */
+    height: 200px;
+    object-fit: cover;
 }
 
 /*productpage*/
@@ -549,7 +546,8 @@ form {
 
 .product-info {
     flex: 1;
-    margin-bottom: 2;
+    margin-bottom: 20px;
+}
 
 
 
