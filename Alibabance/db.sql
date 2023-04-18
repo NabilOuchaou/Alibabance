@@ -388,7 +388,3 @@ UPDATE Inventaire SET stock = 1 WHERE id_produit = 154;
 
 
 
-INSERT INTO Paniers(id_Produit, email) VALUES (4, "hamid@gmail.com");
-
-
-INSERT INTO Commandes(email) VALUES ("hamid@gmail.com");
