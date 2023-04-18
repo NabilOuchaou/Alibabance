@@ -51,7 +51,6 @@
     <h1>
         Inscription
     </h1>
-
     <div id="newUserAccount">
         <input type="text" id="Nom" placeholder="Entrez votre nom"/>
         <input type="text" id="Prenom" placeholder="Entrez votre prenom"/></br>
@@ -59,8 +58,10 @@
         <input type="text" id="Telephone" placeholder="Entrez votre telephone"/></br>
         <input type="email" id="Email" placeholder="Entrez votre mail" required/>
         <input type="password" id="Password" placeholder="Entrez votre mot de passe" required/></br>
-        <button class="button custom-button" onclick="inscriptionButton()"><span>Créez votre compte</span></button>
+        <button class="button custom-button" onclick="inscriptionButton(), validateForm()"><span>Créez votre compte</span></button>
     </div>
+
+    <div id="messages-container"></div>
 
     <div id="addUser-container">
 
