@@ -127,43 +127,43 @@ async function inscriptionButton() {
             console.log("La requête n'a pas été reçue.")
         }
     }
+}
 
-    async function login() {
-        debugger
-        let email = document.getElementById("email").value
-        let password = document.getElementById("password").value
+async function login() {
+    let email = document.getElementById("email").value
+    let password = document.getElementById("password").value
 
-        try {
-            const res = await fetch("http://127.0.0.1:5000/connection", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: email,
-                    motDePasse: password
-                })
+    try {
+        const res = await fetch("http://127.0.0.1:5000/connection", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                motDePasse: password
             })
+        })
 
-            response = await res.json()
+        response = await res.json()
 
 
-            if (response.status === 200) {
-                debugger
-                localStorage.setItem("email", `${email}`)
-                window.location.href = "http://127.0.0.1:5000/home"
+        if (response.status === 200) {
+            debugger
+            localStorage.setItem("email", `${email}`)
+            window.location.href = "http://127.0.0.1:5000/home"
 
-            } else {
-                let erreurConnexion = document.createElement('div')
-                erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi n’est pas le bon, réessayez"
-                let container = document.getElementById("container")
-                container.appendChild(erreurConnexion)
-            }
-        } catch (err) {
-            console.log("Erreur de connexion de l'utilisateur")
+        } else {
+            let erreurConnexion = document.createElement('div')
+            erreurConnexion.innerText = "L’adresse e-mail ou le mot de passe que vous avez saisi n’est pas le bon, réessayez"
+            let container = document.getElementById("container")
+            container.appendChild(erreurConnexion)
         }
+    } catch (err) {
+        console.log("Erreur de connexion de l'utilisateur")
     }
 }
+
 
 async function getProducts() {
     if (localStorage.getItem('email') === ""){
@@ -489,12 +489,4 @@ async function getPrixOfTaille(){
 
     let Price = document.getElementById('prix')
     Price.innerText = "Prix: " + response +" $"
-}
-
-function validationEntree(){
-    var x = document.forms["myForm"]["fname"].value;
-    if(x == ""){
-        alert("Vous ne pouvez laisser le champ vide!");
-        return false;
-    }
 }

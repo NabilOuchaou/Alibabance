@@ -68,6 +68,7 @@ header a {
 
 header a:hover {
     color: #666;
+    cursor: pointer;
 }
 
 /* Main Content */
