@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<link rel="stylesheet" type="text/css" href="../static/MonFichierStyle.css">
-<script type="text/javascript" src="../static/MonFichierCode.js"></script>
+<html>
 <head>
+<title>Alibabance</title>
     <link rel="icon" type="image/png" href="https://dynamic.brandcrowd.com/preview/logodraft/e57a4df1-4c96-4f64-adb4-5253f32efeed/image/large.png"/>
-    <meta charset="UTF-8">
-    <title>Panier</title>
+    <link rel="stylesheet" type="text/css" href="../static/MonFichierStyle.css">
 </head>
-<body onload="chargerPanier()">
+<script type="text/javascript" src="../static/MonFichierCode.js"></script>
+<body>
+
+
 <header>
            <img src="https://dynamic.brandcrowd.com/preview/logodraft/e57a4df1-4c96-4f64-adb4-5253f32efeed/image/large.png">
             <nav>
@@ -20,19 +20,13 @@
             </nav>
 </header>
 
-<div id="espace1"> </div>
+<div id="espacePanier"></div>
 
-<div id="titleInCart">
-    <h1>Produits</h1>
+<div id="ProductContainer">
+<h1>la commande a été effectué avec succès</h1>
 
 </div>
-<div id="containerInPanier"></div>
-<div id="total">
-    <h1> Total : &nbsp; </h1>
-</div>
-<div id="commandButton">
-    <button onclick="ViderPanier()"> Vider </button>
-    <button onclick="commander()"> commander </button>
-</div>
+
+
 </body>
 </html>

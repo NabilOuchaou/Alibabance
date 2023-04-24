@@ -1,30 +1,73 @@
 <html>
 <head>
-<title>Alibabance</title>
-<link rel="stylesheet" type="text/css" href="../static/MonFichierStyle.css">
-<script type="text/javascript" src="../static/MonFichierCode.js"></script>
+    <title>Alibabance</title>
+    <link rel="icon" type="image/png" href="https://dynamic.brandcrowd.com/preview/logodraft/e57a4df1-4c96-4f64-adb4-5253f32efeed/image/large.png"/>
+    <link rel="stylesheet" type="text/css" href="../static/MonFichierStyle.css">
+    <style>
+        .custom-button.button {
+            border-radius: 4px;
+            background-color: #f4a61e;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 12px;
+            padding: 18px;
+            width: 150px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .custom-button.button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .custom-button.button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .custom-button.button:hover span {
+            padding-right: 25px;
+        }
+
+        .custom-button.button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+    </style>
 </head>
-<body onload="SupprimerContenu()"> 
+<script type="text/javascript" src="../static/MonFichierCode.js"></script>
+<div id="espace"></div>
+<body id="login" onload="SupprimerContenu()">
 
-<p class="centre">Bonjour. Vous devez vous identifier.</p>
+    <p class="centre">Bonjour. Vous devez vous identifier.</p>
+    <form id="login"action="login" method="post">
+    <form action="login" method="post">
+    <p>Votre courriel: <input type="email" id="email" placeholder="example@example.com" required><br>
+    Votre mot de passe: <input type="password" id="password" required>
 
-<form action="login" method="post">
-<p>
-    Votre courriel: <input type="text" id="email"><br>
-    Votre mot de passe: <input type="password" id="password">
-</form>
-<button onclick="login()">Identification</button>
-
-<a href="inscription">
-    <button type="button">Vous n'avez pas de compte?</button>
-</a>
-
+        <div id="container"></div>
+    </form>
+    <button class="button custom-button" onclick="login()"><span>Identification</span></button>
+    <a href="inscription">
+        <button class="button custom-button" type="button"><span>Pas de compte?</span></button>
+    </a>
 </body>
 </html>
 
 <script>
-    let email = document.getElementById("email").value
-    let password = document.getElementById("password").value
+
+
+
+
 </script>
 
 

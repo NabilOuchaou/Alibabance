@@ -1,14 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" type="text/css" href="../static/MonFichierStyle.css">
 <head>
+    <link rel="icon" type="image/png" href="https://dynamic.brandcrowd.com/preview/logodraft/e57a4df1-4c96-4f64-adb4-5253f32efeed/image/large.png"/>
+    <style>
+        .custom-button.button {
+            border-radius: 4px;
+            background-color: #f4a61e;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 12px;
+            padding: 18px;
+            width: 150px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .custom-button.button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .custom-button.button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .custom-button.button:hover span {
+            padding-right: 25px;
+        }
+
+        .custom-button.button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+    </style>
     <meta charset="UTF-8">
-    <title>Product Page</title>
+    <title>Alibabance</title>
 </head>
-<body >
+<script type="text/javascript" src="../static/MonFichierCode.js"></script>
+<body onload="getTailleOfModel({{ infos[0][0] }})">
 
 <div>
-    {{ infos[0] }}
+    <header>
+           <img src="https://dynamic.brandcrowd.com/preview/logodraft/e57a4df1-4c96-4f64-adb4-5253f32efeed/image/large.png">
+            <nav>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/panier">Panier</a></li>
+                    <li><a href="/commandes">Commandes</a></li>
+                    <li><a onclick="deconexion()">Deconnexion</a></li>
+                </ul>
+            </nav>
+</header>
 </div>
+<main>
+      <section class="product">
+         <div class="product-info">
+            <h1>{{ infos[0][2] }}</h1>
+             <img id="ProductPageImg" src="{{ infos[0][1] }}">
+            <p>Couleur: {{ infos[0][3] }}</p>
+            <p id="prix">Prix: {{infos[0][4] }} $</p>
+             <form id="form" action="/action_page.php">
+                 <p >Taille :</p>
+                <select onchange="getPrixOfTaille()" name="tailles" id="tailles">
+              </select>
+</form>
+             <div id="message"></div>
+            <button class="button custom-button" onclick="ajouterProduitAuPanier()">Ajouter au panier</button>
+         </div>
+      </section>
+
+
+   </main>
+   <footer>
+      <p>Copyright © 2023 Alibabance.</p>
+   </footer>
 
 </body>
 </html>

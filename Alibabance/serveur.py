@@ -1,23 +1,98 @@
+import hashlib
+import traceback
 from flask import Flask, render_template, request, jsonify
-from database import isItInDb, getProductsFromDataBase, addNewClientToDB
-
+from flask_cors import CORS
+from database import isItInDb, getProductsFromDataBase, addProductToCartInDataBase, getInfoOfProduct, \
+    getProductsInPanierFromDataBase, getInfoOfModel, getAvailableTailleOfSepeceficModel, dropCartInDataBase, getCommandesFromDataBase, CommanderDataBase, addNewClientToDB,getPriceFromDataBase
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route("/")
 def main():
     return render_template("login.html")
+
+@app.route("/Confirmation")
+def confirmatin():
+    return render_template("confirmation.html")
+
+@app.route("/commandes", methods=["GET"])
+def commandes():
+    return render_template("commades.html", )
 
 
 @app.route("/home", methods=["GET"])
 def home():
     return render_template("bienvenu.html", )
 
+
+@app.route("/panier", methods=["GET"])
+def Panier():
+    return render_template("Panier.html")
+
+@app.route("/inscription", methods=["GET"])
+def inscription():
+    return render_template("inscription.html")
+
+@app.route("/productPage", methods=["GET"])
+def ProductPage():
+    id = request.args.get('id')
+    infos = getInfoOfModel(id)
+    return render_template("productPage.html", infos=infos)
+
+@app.route("/getProduct", methods=["GET"])
+def ProductInfo():
+    data = request.json
+    id = data['id']
+    infos = []
+    for i in getInfoOfProduct(id):
+        infos.append(i)
+
+    response = {
+        "infos": infos
+    }
+    return jsonify(infos)
+
+@app.route("/inscription", methods=["POST"])
+def createNewUsers():
+    try:
+        data = request.json
+
+        prenom = data["prenom"]
+        nom = data["nom"]
+        email = data["email"]
+        telephone = data["telephone"]
+        age = data["age"]
+        password = data["password"]
+
+        hasher = hashlib.sha3_224()
+        hasher.update(password.encode('utf-8'))
+
+
+        addNewClientToDB(prenom, nom, hasher.hexdigest(), email, telephone, age)
+        response = {
+            "status": 200
+        }
+        return jsonify(response)
+    except Exception as e:
+        print("Error", e)
+        reponse = {
+            "status": 500,
+            "message": "erreur pendant requete"
+        }
+        return jsonify(reponse), 500
+
+
+
+
+
+
+
 @app.route("/ajoutUser", methods=["POST"])
 def addUserEmail():
     pass
 def addUserPassword():
-    pass
+    return
+
 
 @app.route("/connection", methods=["POST"])
 def connection():
@@ -25,6 +100,10 @@ def connection():
 
     email = data["email"]
     password = data["motDePasse"]
+
+    hasher = hashlib.sha3_224()
+    hasher.update(password.encode('utf-8'))
+    password = hasher.hexdigest()
 
     presentInDb = isItInDb(email, password)
 
@@ -34,13 +113,17 @@ def connection():
         }
     else:
         response = {
-            "status": 404,
+            "status": 403,
             "reason": "L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte"
         }
 
     return jsonify(response)
 
 
+@app.route("/product", methods=["GET"])
+def getProduct():
+    id = request.args.get('id')
+    return jsonify(getAvailableTailleOfSepeceficModel(id))
 
 @app.route("/products", methods=["GET"])
 def getProducts():
@@ -48,54 +131,32 @@ def getProducts():
 
     return products
 
-@app.route("/inscription", methods=["GET"])
-def inscription():
+@app.route("/getCommandes", methods=["POST"])
+def getCommandes():
     data = request.json
-
-    nom = data["nom"]
     email = data["email"]
-    password = data["password"]
-    age = data["age"]
-    telephone = data["telephone"]
-    prenom = data["prenom"]
+    commandes = getCommandesFromDataBase(email)
 
+    return jsonify(commandes)
 
-
-    # newClientNom = request.form.get("newClientNom-input")
-    # newClientPrenom = request.form.get("newClientPrenom-input")
-    # newClientAge = request.form.get("newClientAge-input")
-    # newClientTelephone = request.form.get("newClientTelephone-input")
-    # newClientEmail = request.form.get("newClientEmail-input")
-    # newClientPassword = request.form.get("newClientPassword-input")
-    # newClientPassword2 = request.form.get("newClientPassword2-input")
-
-# get    data = request.json
-#
-#     email = data["email"]
-#     password = data["motDePasse"]
-#     alreadyInDb = isItInDb(newClientEmail, newClientPassword)
-#
-#     if (alreadyInDb):
-#         response = {
-#             "status": 404,
-#             "reason": "Cet email est déjà associé à un compte, essayez de récupérer votre mot de passe."
-#         }
-#     else:
-
-
-    addNewClientToDB(email, nom, prenom, telephone, age)
-
-
-
+@app.route("/Commander", methods=["POST"])
+def Commander():
+    data = request.json
+    email = data["email"]
+    CommanderDataBase(email)
     response = {
-            "status": 200,
-            "nom": nom,
-        "email" : email,
-        "password" : password
-
-        }
+        "status": 200
+    }
     return jsonify(response)
 
+
+@app.route("/produitsDuPanier", methods=["POST"])
+def getProductsFromPanier():
+    data = request.json
+    email = data["email"]
+    products = getProductsInPanierFromDataBase(email)
+
+    return products
 
 
 @app.route("/test", methods=["GET"])
@@ -108,6 +169,39 @@ def get_test():
     zebi = jsonify(response)
     return zebi
 
+@app.route("/viderPanier", methods=["POST"])
+def dropCart():
+    data = request.json
+
+    email = data["email"]
+    dropCartInDataBase(email)
+    response = {
+        "status": 200
+    }
+    return jsonify(response)
+
+@app.route("/addProductToCart", methods=["POST"])
+def addProductToCart():
+    data = request.json
+
+    email = data["email"]
+    id = data["id"]
+
+    addProductToCartInDataBase(id,email)
+
+    response = {
+        "status": 200
+    }
+    return jsonify(response)
+
+
+@app.route("/prix", methods=["GET"])
+def getPrix():
+    id = request.args.get('id')
+
+    response = getPriceFromDataBase(id)
+
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run()

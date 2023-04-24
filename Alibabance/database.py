@@ -1,10 +1,12 @@
+import traceback
+
 import pymysql
 from flask import jsonify
 
 connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="passworddatabases",
+    password="String123",
     db="glo_2005_webapp_2023",
     autocommit=True
 )
@@ -39,7 +41,7 @@ def isItInDb(Vemail, Vpassword):
 
 
 def addProductToCartInDataBase(id, email):
-    request = f""" INSERT into Paniers value ('{id}','{email}')"""
+    request = f""" INSERT into Paniers(id_Produit, email) value ('{id}','{email}')"""
     cursor.execute(request)
 
 def getInfoOfProduct(id):
@@ -47,77 +49,93 @@ def getInfoOfProduct(id):
     cursor.execute(request)
     element = cursor.fetchall()
     return element
+
+def getAvailableTailleOfSepeceficModel(id):
+    request = f""" SELECT id_produit, taille FROM Inventaire where id_modele= '{id}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    return element
+
+def getInfoOfModel(id):
+    request = f""" SELECT * FROM Produits where id_modele = '{id}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    return element
+
 def getProductsFromDataBase():
-    request = f""" SELECT * FROM Inventaire"""
+    request = f""" SELECT * FROM Produits"""
 
     cursor.execute(request)
     element = cursor.fetchall()
-    tableOfProducts =[]
+    tableOfTodos =[]
 
     for i in element:
-        tableOfProducts.append(i)
+        tableOfTodos.append(i)
 
     response = {
         "status": 200,
-        "products": tableOfProducts
+        "products": tableOfTodos
     }
 
     return jsonify(response)
 
-def addNewClientToDB(Email, Nom, Prenom, Telephone, Age):
 
-    # request = f'''CREATE TRIGGER IsUserAlreadyInDb BEFORE INSERT ON Utilisateurs FOR EACH ROW BEGIN IF (select * FROM Utilisateurs WHERE email='newClientEmail') >= 1 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Un utilisateur existe deja avec cet email'; ELSE INSERT INTO Utilisateurs VALUES (newClientEmail, newClientNom, newClientPrenom, newClientTelephone, newClientAge); END IF; END'''
-
-    # cursor.execute(request)
-
-    # trigger_sql = """
-    #     CREATE TRIGGER IsUserAlreadyInDb BEFORE INSERT ON Utilisateurs
-    #     FOR EACH ROW
-    #     BEGIN
-    #       DECLARE email_exists INT;
-    #
-    #       SELECT COUNT(*) INTO email_exists FROM Utilisateurs WHERE email = NEW.email;
-    #
-    #       IF email_exists >= 1 THEN
-    #         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Un utilisateur existe deja avec cet email';
-    #       END IF;
-    #     END;
-    #     """
-    #
-    # insert_sql = """
-    # INSERT INTO Utilisateurs (email, nom, prenom, telephone, age)
-    # VALUES (newClientEmail, newClientNom, newClientPrenom, newClientTelephone, newClientAge);
-    # """
-    #
-    # try:
-    #     with connection.cursor() as cursor:
-    #         # Create the trigger
-    #         cursor.execute(trigger_sql)
-    #         connection.commit()
-    #
-    #         # Insert the new client
-    #         cursor.execute(insert_sql, (new_client['email'], new_client['nom'], new_client['prenom'], new_client['telephone'], new_client['age']))
-    #         connection.commit()
-    #
-    # except pymysql.err.InternalError as e:
-    #     print(f"Error: {e}")
-    # finally:
-    #     connection.close()
-    #
-    # new_client = {
-    #     "email": newClientEmail,
-    #     "nom": newClientNom,
-    #     "prenom": newClientPrenom,
-    #     "telephone": newClientTelephone,
-    #     "age": newClientAge
-    # }
-    request = f"""
-        INSERT INTO Utilisateurs VALUE ('{Email}', '{Nom}', '{Prenom}', '{Telephone}', '{Age}');
-        """
-
+def dropCartInDataBase(email):
+    request = f""" delete FROM Paniers where email= '{email}'"""
     cursor.execute(request)
+
+def getProductsInPanierFromDataBase(email):
+    request = f""" SELECT * FROM Paniers where email= '{email}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    tableOfTodos = []
+
+
+    for i in element:
+        produit = getInfoOfProduct(i[0]) # À changer
+        tableOfTodos.append(produit)
+
+    response = {
+        "products": tableOfTodos
+    }
+
+    return jsonify(response)
+
+
+def getCommandesFromDataBase(email):
+    request = f""" SELECT * FROM Commandes where email= '{email}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+
+
+
+    return element
+
+def getPriceFromDataBase(id):
+    request = f""" SELECT cout_produit FROM Inventaire where id_produit= '{id}'"""
+    cursor.execute(request)
+    element = cursor.fetchall()
+    return element[0][0]
+
+def CommanderDataBase(email):
+    request = f""" Insert into  Commandes(email) value ('{email}')"""
+    cursor.execute(request)
+
+
+def addNewClientToDB(prenom, nom, password, email, telephone, age):
+    try:
+        request = f'''INSERT INTO Utilisateurs VALUES ('{email}', '{nom}', '{prenom}', '{telephone}', '{age}');'''
+        cursor.execute(request)
+
+        request = f'''INSERT INTO Passwords VALUES ('{email}', '{password}');'''
+        cursor.execute(request)
+
+    except Exception as e:
+        print("Error:", e)
+        traceback.print_exc()
+
 
 
 
 if __name__ == '__main__':
-    print("Welcome")
+    print("we")
